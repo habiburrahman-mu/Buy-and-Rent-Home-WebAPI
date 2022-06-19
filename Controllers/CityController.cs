@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BuyandRentHomeWebAPI.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -8,10 +10,17 @@ namespace BuyandRentHomeWebAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly DataContext _dataContext;
+
+        public CityController(DataContext dataContext)
         {
-            return new string[] { "Atlanta", "New York", "Chicago", "Boston"};
+            this._dataContext = dataContext;
+        }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var cities = _dataContext.Cities.ToList();
+            return Ok(cities);
         }
     }
 }
