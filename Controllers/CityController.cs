@@ -28,15 +28,26 @@ namespace BuyandRentHomeWebAPI.Controllers
             return Ok(cities);
         }
 
-        //Post api/city/add?cityName = Miami
-        [HttpPost("add")]
-        public async Task<IActionResult> AddCity(string cityName)
+        //Post api/city/
+        // give city data in body
+        [HttpPost]
+        public async Task<IActionResult> AddCity(City city)
         {
-            City city = new City();
-            city.Name = cityName;
-            await _dataContext.AddAsync(city);
+            await _dataContext.Cities.AddAsync(city);
             await _dataContext.SaveChangesAsync();
             return Ok(city);
         }
+
+        //Post api/city/{id}
+        // give city data in body
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCity(int id)
+        {
+            var city = await _dataContext.Cities.FindAsync(id);
+            _dataContext.Remove(city);
+            await _dataContext.SaveChangesAsync();
+            return Ok(id);
+        }
+
     }
 }
