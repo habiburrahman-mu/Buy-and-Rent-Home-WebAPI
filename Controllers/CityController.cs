@@ -1,8 +1,10 @@
 ﻿using BuyandRentHomeWebAPI.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -16,10 +18,11 @@ namespace BuyandRentHomeWebAPI.Controllers
         {
             this._dataContext = dataContext;
         }
+
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var cities = _dataContext.Cities.ToList();
+            var cities = await _dataContext.Cities.ToListAsync();
             return Ok(cities);
         }
     }
