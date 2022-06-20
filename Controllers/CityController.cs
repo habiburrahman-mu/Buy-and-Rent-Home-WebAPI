@@ -1,10 +1,6 @@
-﻿using BuyandRentHomeWebAPI.Data;
+﻿using BuyandRentHomeWebAPI.Data.Repo;
 using BuyandRentHomeWebAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
@@ -13,18 +9,18 @@ namespace BuyandRentHomeWebAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+        private readonly ICityRepository _cityRepository;
 
-        public CityController(DataContext dataContext)
+        public CityController(ICityRepository cityRepository)
         {
-            this._dataContext = dataContext;
+            this._cityRepository = cityRepository;
         }
 
         // Get api/city
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var cities = await _dataContext.Cities.ToListAsync();
+            var cities = await _cityRepository.GetCitiesAsync();
             return Ok(cities);
         }
 
@@ -33,19 +29,18 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCity(City city)
         {
-            await _dataContext.Cities.AddAsync(city);
-            await _dataContext.SaveChangesAsync();
-            return Ok(city);
+            _cityRepository.AddCity(city);
+            await _cityRepository.SaveAsync();
+            return StatusCode(201);
         }
 
-        //Post api/city/{id}
-        // give city data in body
+        //Delete api/city/{id}
+        // delete city data in body
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(int id)
         {
-            var city = await _dataContext.Cities.FindAsync(id);
-            _dataContext.Remove(city);
-            await _dataContext.SaveChangesAsync();
+            _cityRepository.DeleteCity(id);
+            await _cityRepository.SaveAsync();
             return Ok(id);
         }
 
