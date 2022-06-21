@@ -1,5 +1,4 @@
 using BuyandRentHomeWebAPI.Data;
-using BuyandRentHomeWebAPI.Data.Repo;
 using BuyandRentHomeWebAPI.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +25,7 @@ namespace BuyandRentHomeWebAPI
             services.AddControllers();
             services.AddCors();
 
-            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

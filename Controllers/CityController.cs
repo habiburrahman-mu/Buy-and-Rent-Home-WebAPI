@@ -9,18 +9,18 @@ namespace BuyandRentHomeWebAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly ICityRepository _cityRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CityController(ICityRepository cityRepository)
+        public CityController(IUnitOfWork unitOfWork)
         {
-            this._cityRepository = cityRepository;
+            this._unitOfWork = unitOfWork;
         }
 
         // Get api/city
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var cities = await _cityRepository.GetCitiesAsync();
+            var cities = await _unitOfWork.CityRepository.GetCitiesAsync();
             return Ok(cities);
         }
 
@@ -29,8 +29,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCity(City city)
         {
-            _cityRepository.AddCity(city);
-            await _cityRepository.SaveAsync();
+            _unitOfWork.CityRepository.AddCity(city);
+            await _unitOfWork.SaveAsync();
             return StatusCode(201);
         }
 
@@ -39,8 +39,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(int id)
         {
-            _cityRepository.DeleteCity(id);
-            await _cityRepository.SaveAsync();
+            _unitOfWork.CityRepository.DeleteCity(id);
+            await _unitOfWork.SaveAsync();
             return Ok(id);
         }
 

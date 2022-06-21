@@ -29,10 +29,5 @@ namespace BuyandRentHomeWebAPI.Data.Repo
         {
             return await _dataContext.Cities.ToListAsync();
         }
-
-        public async Task<bool> SaveAsync()
-        {
-            return await _dataContext.SaveChangesAsync() > 0;
-        }
     }
 }
