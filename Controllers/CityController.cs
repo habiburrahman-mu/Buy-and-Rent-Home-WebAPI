@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.Data.Repo;
+﻿using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
