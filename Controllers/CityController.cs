@@ -1,6 +1,9 @@
-﻿using BuyandRentHomeWebAPI.Interfaces;
+﻿using BuyandRentHomeWebAPI.Dtos;
+using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
@@ -21,14 +24,28 @@ namespace BuyandRentHomeWebAPI.Controllers
         public async Task<IActionResult> Get()
         {
             var cities = await _unitOfWork.CityRepository.GetCitiesAsync();
-            return Ok(cities);
+
+            var citiesDto = from city in cities
+                            select new CityDto()
+                            {
+                                Id = city.Id,
+                                Name = city.Name
+                            };
+
+            return Ok(citiesDto);
         }
 
         //Post api/city/
         // give city data in body
         [HttpPost]
-        public async Task<IActionResult> AddCity(City city)
+        public async Task<IActionResult> AddCity(CityDto cityDto)
         {
+            var city = new City
+            {
+                Name = cityDto.Name,
+                LastUpdateBy = 1,
+                LastUpdated = DateTime.Now
+            };
             _unitOfWork.CityRepository.AddCity(city);
             await _unitOfWork.SaveAsync();
             return StatusCode(201);
