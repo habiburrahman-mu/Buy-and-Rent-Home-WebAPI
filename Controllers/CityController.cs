@@ -1,8 +1,10 @@
-﻿using BuyandRentHomeWebAPI.Dtos;
+﻿using AutoMapper;
+using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,10 +15,12 @@ namespace BuyandRentHomeWebAPI.Controllers
     public class CityController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public CityController(IUnitOfWork unitOfWork)
+        public CityController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         // Get api/city
@@ -25,12 +29,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         {
             var cities = await _unitOfWork.CityRepository.GetCitiesAsync();
 
-            var citiesDto = from city in cities
-                            select new CityDto()
-                            {
-                                Id = city.Id,
-                                Name = city.Name
-                            };
+            var citiesDto = _mapper.Map<IEnumerable<CityDto>>(cities);
 
             return Ok(citiesDto);
         }
@@ -40,12 +39,9 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCity(CityDto cityDto)
         {
-            var city = new City
-            {
-                Name = cityDto.Name,
-                LastUpdateBy = 1,
-                LastUpdated = DateTime.Now
-            };
+            var city = _mapper.Map<City>(cityDto);
+            city.LastUpdated = DateTime.Now;
+            city.LastUpdateBy = 1;
             _unitOfWork.CityRepository.AddCity(city);
             await _unitOfWork.SaveAsync();
             return StatusCode(201);
