@@ -8,6 +8,7 @@ namespace BuyandRentHomeWebAPI.Interfaces
     {
         Task<IEnumerable<City>> GetCitiesAsync();
         void AddCity(City city);
+        Task<City> FindCity(int id);
         void DeleteCity(int cityId);
     }
 }

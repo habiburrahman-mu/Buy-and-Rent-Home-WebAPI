@@ -47,6 +47,18 @@ namespace BuyandRentHomeWebAPI.Controllers
             return StatusCode(201);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
+        {
+            var cityFromDb = await _unitOfWork.CityRepository.FindCity(id);
+            cityFromDb.LastUpdated = DateTime.Now;
+            cityFromDb.LastUpdateBy = 1;
+            _mapper.Map(cityDto, cityFromDb);
+            await _unitOfWork.SaveAsync();
+
+            return StatusCode(201);
+        }
+
         //Delete api/city/{id}
         // delete city data in body
         [HttpDelete("{id}")]
