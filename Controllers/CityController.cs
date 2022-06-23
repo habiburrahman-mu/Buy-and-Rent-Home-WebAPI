@@ -2,6 +2,7 @@
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace BuyandRentHomeWebAPI.Controllers
             city.LastUpdateBy = 1;
             _unitOfWork.CityRepository.AddCity(city);
             await _unitOfWork.SaveAsync();
-            return StatusCode(201);
+            return StatusCode(200);
         }
 
         [HttpPut("{id}")]
@@ -56,7 +57,32 @@ namespace BuyandRentHomeWebAPI.Controllers
             _mapper.Map(cityDto, cityFromDb);
             await _unitOfWork.SaveAsync();
 
-            return StatusCode(201);
+            return StatusCode(200);
+        }
+
+        [HttpPut("updateCityName/{id}")]
+        public async Task<IActionResult> UpdateCityName(int id, CityUpdateDto cityUpdateDto)
+        {
+            var cityFromDb = await _unitOfWork.CityRepository.FindCity(id);
+            cityFromDb.LastUpdated = DateTime.Now;
+            cityFromDb.LastUpdateBy = 1;
+            _mapper.Map(cityUpdateDto, cityFromDb);
+            await _unitOfWork.SaveAsync();
+
+            return StatusCode(200);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateCityPatch(int id, JsonPatchDocument<City> cityToPatch)
+        {
+            var cityFromDb = await _unitOfWork.CityRepository.FindCity(id);
+            cityFromDb.LastUpdated = DateTime.Now;
+            cityFromDb.LastUpdateBy = 1;
+
+            cityToPatch.ApplyTo(cityFromDb, ModelState);
+            await _unitOfWork.SaveAsync();
+
+            return StatusCode(200);
         }
 
         //Delete api/city/{id}
