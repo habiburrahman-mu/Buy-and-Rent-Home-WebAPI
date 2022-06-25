@@ -1,4 +1,5 @@
 using BuyandRentHomeWebAPI.Data;
+using BuyandRentHomeWebAPI.Extensions;
 using BuyandRentHomeWebAPI.Helper;
 using BuyandRentHomeWebAPI.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -35,25 +36,7 @@ namespace BuyandRentHomeWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler(options =>
-                {
-                    options.Run(async context =>
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        var ex = context.Features.Get<IExceptionHandlerFeature>();
-                        if (ex != null)
-                        {
-                            await context.Response.WriteAsync(ex.Error.Message);
-                        }
-                    });
-                });
-            }
+            app.ConfigureExceptionHandler(env);
 
             app.UseRouting();
 
