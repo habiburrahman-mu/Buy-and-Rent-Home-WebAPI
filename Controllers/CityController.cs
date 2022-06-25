@@ -51,30 +51,23 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
         {
-            try
-            {
-                if (id != cityDto.Id)
-                    return BadRequest("Update not allowed");
+            if (id != cityDto.Id)
+                return BadRequest("Update not allowed");
 
-                var cityFromDb = await _unitOfWork.CityRepository.FindCity(id);
+            var cityFromDb = await _unitOfWork.CityRepository.FindCity(id);
 
-                if (cityFromDb == null)
-                    return BadRequest("Update not allowed");
+            if (cityFromDb == null)
+                return BadRequest("Update not allowed");
 
-                cityFromDb.LastUpdated = DateTime.Now;
-                cityFromDb.LastUpdateBy = 1;
-                _mapper.Map(cityDto, cityFromDb);
+            cityFromDb.LastUpdated = DateTime.Now;
+            cityFromDb.LastUpdateBy = 1;
+            _mapper.Map(cityDto, cityFromDb);
 
-                throw new Exception("Some unknown error occured.");
+            throw new Exception("Some unknown error occured.");
 
-                await _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync();
 
-                return StatusCode(200);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return StatusCode(200);
         }
 
         [HttpPut("updateCityName/{id}")]
