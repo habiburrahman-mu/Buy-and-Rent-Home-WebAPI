@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BuyandRentHomeWebAPI.Errors;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Middlewares
@@ -9,11 +12,15 @@ namespace BuyandRentHomeWebAPI.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
+        private readonly IHostEnvironment _env;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next, 
+                                    ILogger<ExceptionMiddleware> logger, 
+                                    IHostEnvironment env)
         {
             _next = next;
             _logger = logger;
+            _env = env;
         }
 
         public async Task Invoke(HttpContext context)
@@ -24,9 +31,20 @@ namespace BuyandRentHomeWebAPI.Middlewares
             }
             catch (Exception ex)
             {
+                ApiError response;
+                HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
+                if(_env.IsDevelopment())
+                {
+                    response = new ApiError((int)statusCode, ex.Message, ex.StackTrace.ToString());
+                }
+                else
+                {
+                    response = new ApiError((int)statusCode, ex.Message);
+                }
                 _logger.LogError(ex, ex.Message);
-                context.Response.StatusCode = 500;
-                await context.Response.WriteAsync(ex.Message);
+                context.Response.StatusCode = (int)statusCode;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(response.ToString());
             }
         }
         
