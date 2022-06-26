@@ -26,7 +26,10 @@ namespace BuyandRentHomeWebAPI.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(user);
+            var loginResponse = new LoginResponseDto();
+            loginResponse.Username = user.Username;
+            loginResponse.Token = "Token to be generated";
+            return Ok(loginResponse);
         }
     }
 }
