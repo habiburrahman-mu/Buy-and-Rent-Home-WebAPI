@@ -11,9 +11,7 @@ using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class CityController : ControllerBase
+    public class CityController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
