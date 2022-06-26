@@ -28,6 +28,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            throw new UnauthorizedAccessException();
+
             var cities = await _unitOfWork.CityRepository.GetCitiesAsync();
 
             var citiesDto = _mapper.Map<IEnumerable<CityDto>>(cities);
