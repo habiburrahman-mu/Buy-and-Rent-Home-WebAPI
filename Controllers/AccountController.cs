@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Interfaces;
+using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
@@ -28,8 +34,31 @@ namespace BuyandRentHomeWebAPI.Controllers
             }
             var loginResponse = new LoginResponseDto();
             loginResponse.Username = user.Username;
-            loginResponse.Token = "Token to be generated";
+            loginResponse.Token = createJWT(user);
             return Ok(loginResponse);
+        }
+
+        private string createJWT(User user)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("shhh.. this is my top secret"));
+
+            var claims = new Claim[]
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddMinutes(1),
+                SigningCredentials = signingCredentials
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }
