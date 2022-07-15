@@ -65,8 +65,6 @@ namespace BuyandRentHomeWebAPI.Controllers
             cityFromDb.LastUpdateBy = 1;
             _mapper.Map(cityDto, cityFromDb);
 
-            throw new Exception("Some unknown error occured.");
-
             await _unitOfWork.SaveAsync();
 
             return StatusCode(200);
