@@ -3,6 +3,7 @@ using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,11 +17,13 @@ namespace BuyandRentHomeWebAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(IUnitOfWork unitOfWork, IMapper mapper)
+        public AccountController(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         //api/account/login
@@ -40,7 +43,8 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         private string createJWT(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("shhh.. this is my top secret"));
+            var secretKey = _configuration.GetSection("AppSettings:Key").Value;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
             var claims = new Claim[]
             {

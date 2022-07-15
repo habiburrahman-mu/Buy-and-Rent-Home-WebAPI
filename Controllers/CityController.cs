@@ -26,7 +26,7 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         // Get api/city
         [HttpGet]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
 
