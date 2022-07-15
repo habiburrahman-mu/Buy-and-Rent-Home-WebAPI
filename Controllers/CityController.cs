@@ -2,6 +2,7 @@
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
+    [Authorize]
     public class CityController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -24,9 +26,9 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         // Get api/city
         [HttpGet]
-        public async Task<IActionResult> Get()
+        //[AllowAnonymous]
+        public async Task<IActionResult> GetCities()
         {
-            throw new UnauthorizedAccessException();
 
             var cities = await _unitOfWork.CityRepository.GetCitiesAsync();
 
