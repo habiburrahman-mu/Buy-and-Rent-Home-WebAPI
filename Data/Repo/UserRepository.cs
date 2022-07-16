@@ -16,7 +16,9 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 
         public async Task<User> Authenticate(string userName, string password)
         {
-            return await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == userName && x.Password == password);
+            return await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == userName 
+            //&& x.Password == password
+            );
         }
     }
 }
