@@ -30,11 +30,17 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto loginRequest)
         {
+            if(loginRequest.Username == null || loginRequest.Password == null)
+            {
+                return BadRequest();
+            }
+
             var user = await _unitOfWork.UserRepository.Authenticate(loginRequest.Username, loginRequest.Password);
             if(user == null)
             {
                 return Unauthorized();
             }
+
             var loginResponse = new LoginResponseDto();
             loginResponse.Username = user.Username;
             loginResponse.Token = createJWT(user);

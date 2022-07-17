@@ -1,6 +1,7 @@
 ﻿using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,18 +17,39 @@ namespace BuyandRentHomeWebAPI.Data.Repo
             _dataContext = dataContext;
         }
 
-        public async Task<User> Authenticate(string userName, string password)
+        public async Task<User> Authenticate(string userName, string passwordText)
         {
-            return await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == userName 
-            //&& x.Password == password
-            );
+            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == userName);
+
+            if (user == null)
+                return null;
+
+            if (!MatchPasswordHash(passwordText, user.Password, user.PasswordKey))
+                return null;
+
+            return user;
+        }
+
+        private bool MatchPasswordHash(string passwordText, byte[] password, byte[] passwordKey)
+        {
+            using (var hmac = new HMACSHA512(passwordKey))
+            {
+                var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
+                for (int i = 0; i < passwordHash.Length; i++)
+                {
+                    if (passwordHash[i] != password[i])
+                        return false;
+                }
+
+                return true;
+            }
         }
 
         public void Register(string userName, string password)
         {
             byte[] passwordHash, passwordKey;
 
-            using(var hmac = new HMACSHA512())
+            using (var hmac = new HMACSHA512())
             {
                 passwordKey = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
