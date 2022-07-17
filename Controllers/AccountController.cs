@@ -41,7 +41,19 @@ namespace BuyandRentHomeWebAPI.Controllers
             return Ok(loginResponse);
         }
 
-        private string createJWT(User user)
+        // api/account/register
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(LoginRequestDto loginRequest)
+        {
+            if (await _unitOfWork.UserRepository.UserAlreadyExists(loginRequest.Username))
+                return BadRequest("User already exists, please try something else");
+
+            _unitOfWork.UserRepository.Register(loginRequest.Username, loginRequest.Password);
+            await _unitOfWork.SaveAsync();
+            return StatusCode(201);
+        }
+
+            private string createJWT(User user)
         {
             var secretKey = _configuration.GetSection("AppSettings:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
