@@ -21,7 +21,7 @@ namespace BuyandRentHomeWebAPI.Data.Repo
         {
             var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == userName);
 
-            if (user == null)
+            if (user == null || user.PasswordKey == null)
                 return null;
 
             if (!MatchPasswordHash(passwordText, user.Password, user.PasswordKey))
