@@ -30,19 +30,19 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto loginRequest)
         {
-            if(loginRequest.Username == null || loginRequest.Password == null)
+            if(loginRequest.UserName == null || loginRequest.Password == null)
             {
                 return BadRequest();
             }
 
-            var user = await _unitOfWork.UserRepository.Authenticate(loginRequest.Username, loginRequest.Password);
+            var user = await _unitOfWork.UserRepository.Authenticate(loginRequest.UserName, loginRequest.Password);
             if(user == null)
             {
                 return Unauthorized();
             }
 
             var loginResponse = new LoginResponseDto();
-            loginResponse.Username = user.Username;
+            loginResponse.UserName = user.Username;
             loginResponse.Token = createJWT(user);
             return Ok(loginResponse);
         }
@@ -51,10 +51,10 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(LoginRequestDto loginRequest)
         {
-            if (await _unitOfWork.UserRepository.UserAlreadyExists(loginRequest.Username))
+            if (await _unitOfWork.UserRepository.UserAlreadyExists(loginRequest.UserName))
                 return BadRequest("User already exists, please try something else");
 
-            _unitOfWork.UserRepository.Register(loginRequest.Username, loginRequest.Password);
+            _unitOfWork.UserRepository.Register(loginRequest.UserName, loginRequest.Password);
             await _unitOfWork.SaveAsync();
             return StatusCode(201);
         }
