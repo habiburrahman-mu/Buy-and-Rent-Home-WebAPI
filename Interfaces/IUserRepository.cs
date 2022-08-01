@@ -6,7 +6,7 @@ namespace BuyandRentHomeWebAPI.Interfaces
     public interface IUserRepository
     {
         Task<User> Authenticate(string userName, string password);
-        void Register(string userName, string password);
+        void Register(string userName, string email, string password, string mobile);
         Task<bool> UserAlreadyExists(string userName);
     }
 }

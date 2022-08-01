@@ -45,7 +45,7 @@ namespace BuyandRentHomeWebAPI.Data.Repo
             }
         }
 
-        public void Register(string userName, string password)
+        public void Register(string userName, string email, string password, string mobile)
         {
             byte[] passwordHash, passwordKey;
 
@@ -57,8 +57,10 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 
             User user = new User();
             user.Username = userName;
+            user.Email = email;
             user.Password = passwordHash;
             user.PasswordKey = passwordKey;
+            user.Mobile = mobile;
 
             _dataContext.Users.Add(user);
         }

@@ -38,7 +38,7 @@ namespace BuyandRentHomeWebAPI.Controllers
             var user = await _unitOfWork.UserRepository.Authenticate(loginRequest.UserName, loginRequest.Password);
             if(user == null)
             {
-                return Unauthorized();
+                return Unauthorized("Invalid User ID or Password");
             }
 
             var loginResponse = new LoginResponseDto();
@@ -49,12 +49,15 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         // api/account/register
         [HttpPost("register")]
-        public async Task<IActionResult> Register(LoginRequestDto loginRequest)
+        public async Task<IActionResult> Register(RegisterDto register)
         {
-            if (await _unitOfWork.UserRepository.UserAlreadyExists(loginRequest.UserName))
+            if (register.UserName == null || register.Email == null || register.Password == null)
+                return BadRequest("Please provide mandatory informations");
+
+            if (await _unitOfWork.UserRepository.UserAlreadyExists(register.UserName))
                 return BadRequest("User already exists, please try something else");
 
-            _unitOfWork.UserRepository.Register(loginRequest.UserName, loginRequest.Password);
+            _unitOfWork.UserRepository.Register(register.UserName, register.Email, register.Password, register.Mobile);
             await _unitOfWork.SaveAsync();
             return StatusCode(201);
         }
