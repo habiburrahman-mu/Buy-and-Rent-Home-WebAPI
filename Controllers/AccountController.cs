@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BuyandRentHomeWebAPI.Dtos;
+using BuyandRentHomeWebAPI.Errors;
 using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -30,15 +31,22 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto loginRequest)
         {
+            ApiError apiError = new ApiError();
             if(loginRequest.UserName == null || loginRequest.Password == null)
             {
-                return BadRequest();
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "Provide mandatory informations";
+                apiError.ErrorDetails = "This error appears when Username or Password is missing in request.";
+                return BadRequest(apiError);
             }
 
             var user = await _unitOfWork.UserRepository.Authenticate(loginRequest.UserName, loginRequest.Password);
             if(user == null)
             {
-                return Unauthorized("Invalid User ID or Password");
+                apiError.ErrorCode = Unauthorized().StatusCode;
+                apiError.ErrorMessage = "Invalid User ID or Password";
+                apiError.ErrorDetails = "This error appears when provided user id or password doesnot exist.";
+                return Unauthorized(apiError);
             }
 
             var loginResponse = new LoginResponseDto();
@@ -51,11 +59,23 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto register)
         {
-            if (register.UserName == null || register.Email == null || register.Password == null)
-                return BadRequest("Please provide mandatory informations");
+            ApiError apiError = new ApiError();
+
+            if (string.IsNullOrEmpty(register.UserName) || string.IsNullOrEmpty(register.Email) || string.IsNullOrEmpty(register.Password))
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "Provide mandatory informations";
+                apiError.ErrorDetails = "This error appears when necessary information is missing in request.";
+                return BadRequest(apiError);
+            }
 
             if (await _unitOfWork.UserRepository.UserAlreadyExists(register.UserName))
-                return BadRequest("User already exists, please try something else");
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "User already exists, please try something else";
+                apiError.ErrorDetails = "This error appears when username already exist in record.";
+                return BadRequest(apiError);
+            }
 
             _unitOfWork.UserRepository.Register(register.UserName, register.Email, register.Password, register.Mobile);
             await _unitOfWork.SaveAsync();
