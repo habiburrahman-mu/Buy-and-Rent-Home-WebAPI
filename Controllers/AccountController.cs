@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Errors;
+using BuyandRentHomeWebAPI.Extensions;
 using BuyandRentHomeWebAPI.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -61,9 +62,9 @@ namespace BuyandRentHomeWebAPI.Controllers
         {
             ApiError apiError = new ApiError();
 
-            if (string.IsNullOrEmpty(register.UserName.Trim()) || 
-                string.IsNullOrEmpty(register.Email.Trim()) || 
-                string.IsNullOrEmpty(register.Password))
+            if (register.UserName.IsEmpty() || 
+                register.Email.IsEmpty() || 
+                register.Password.IsEmpty())
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
                 apiError.ErrorMessage = "Provide mandatory informations";

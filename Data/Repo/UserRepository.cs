@@ -56,7 +56,7 @@ namespace BuyandRentHomeWebAPI.Data.Repo
             }
 
             User user = new User();
-            user.Username = userName;
+            user.Username = userName.Trim();
             user.Email = email;
             user.Password = passwordHash;
             user.PasswordKey = passwordKey;
@@ -67,7 +67,7 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 
         public async Task<bool> UserAlreadyExists(string userName)
         {
-            return await _dataContext.Users.AnyAsync(x => x.Username == userName);
+            return await _dataContext.Users.AnyAsync(x => x.Username == userName.Trim());
         }
     }
 }
