@@ -61,7 +61,9 @@ namespace BuyandRentHomeWebAPI.Controllers
         {
             ApiError apiError = new ApiError();
 
-            if (string.IsNullOrEmpty(register.UserName) || string.IsNullOrEmpty(register.Email) || string.IsNullOrEmpty(register.Password))
+            if (string.IsNullOrEmpty(register.UserName.Trim()) || 
+                string.IsNullOrEmpty(register.Email.Trim()) || 
+                string.IsNullOrEmpty(register.Password))
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
                 apiError.ErrorMessage = "Provide mandatory informations";
