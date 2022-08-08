@@ -43,8 +43,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         public async Task<IActionResult> AddCity(CityDto cityDto)
         {
             var city = _mapper.Map<City>(cityDto);
-            city.LastUpdated = DateTime.Now;
-            city.LastUpdateBy = 1;
+            city.LastUpdatedOn = DateTime.Now;
+            city.LastUpdatedBy = 1;
             _unitOfWork.CityRepository.AddCity(city);
             await _unitOfWork.SaveAsync();
             return StatusCode(200);
@@ -61,8 +61,8 @@ namespace BuyandRentHomeWebAPI.Controllers
             if (cityFromDb == null)
                 return BadRequest("Update not allowed");
 
-            cityFromDb.LastUpdated = DateTime.Now;
-            cityFromDb.LastUpdateBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            cityFromDb.LastUpdatedBy = 1;
             _mapper.Map(cityDto, cityFromDb);
 
             await _unitOfWork.SaveAsync();
@@ -74,8 +74,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         public async Task<IActionResult> UpdateCityName(int id, CityUpdateDto cityUpdateDto)
         {
             var cityFromDb = await _unitOfWork.CityRepository.FindCity(id);
-            cityFromDb.LastUpdated = DateTime.Now;
-            cityFromDb.LastUpdateBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            cityFromDb.LastUpdatedBy = 1;
             _mapper.Map(cityUpdateDto, cityFromDb);
             await _unitOfWork.SaveAsync();
 
@@ -86,8 +86,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         public async Task<IActionResult> UpdateCityPatch(int id, JsonPatchDocument<City> cityToPatch)
         {
             var cityFromDb = await _unitOfWork.CityRepository.FindCity(id);
-            cityFromDb.LastUpdated = DateTime.Now;
-            cityFromDb.LastUpdateBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            cityFromDb.LastUpdatedBy = 1;
 
             cityToPatch.ApplyTo(cityFromDb, ModelState);
             await _unitOfWork.SaveAsync();
