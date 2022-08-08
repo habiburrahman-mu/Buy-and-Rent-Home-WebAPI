@@ -12,6 +12,10 @@
     <Compile Remove="Migrations\20220807163137_RelationToPropertyWithUser.Designer.cs" />
     <Compile Remove="Migrations\20220807165006_AddingPropertyRelatedEntities.cs" />
     <Compile Remove="Migrations\20220807165006_AddingPropertyRelatedEntities.Designer.cs" />
+    <Compile Remove="Migrations\20220807165342_AddingPropertyRelatedEntities.cs" />
+    <Compile Remove="Migrations\20220807165342_AddingPropertyRelatedEntities.Designer.cs" />
+    <Compile Remove="Migrations\20220808031233_SeedDemoData.cs" />
+    <Compile Remove="Migrations\20220808031233_SeedDemoData.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
