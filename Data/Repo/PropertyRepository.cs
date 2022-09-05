@@ -2,6 +2,7 @@
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Data.Repo
@@ -26,8 +27,23 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 
         public async Task<IEnumerable<Property>> GetPropertiesAsync(int sellRent)
         {
-            var properties = await _dataContext.Properties.ToListAsync();
+            var properties = await _dataContext.Properties
+                .Include(p => p.PropertyType)
+                .Include(p => p.City)
+                .Include(p => p.FurnishingType)
+                .Where(p => p.SellRent == sellRent).ToListAsync();
             return properties;
+        }
+
+        public async Task<Property> GetPropertyDetailAsync(int id)
+        {
+            var propertyDetail = await _dataContext.Properties
+                .Include(p => p.PropertyType)
+                .Include(p => p.City)
+                .Include(p => p.FurnishingType)
+                .Where(p => p.Id == id)
+                .FirstAsync();
+            return propertyDetail;
         }
     }
 }
