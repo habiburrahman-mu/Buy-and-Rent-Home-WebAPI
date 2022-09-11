@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController : BaseController
     {
         private static readonly string[] Summaries = new[]
         {
