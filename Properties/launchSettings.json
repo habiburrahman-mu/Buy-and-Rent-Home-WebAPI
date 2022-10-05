@@ -11,11 +11,11 @@
     "BuyandRentHomeWebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/weatherforecast",
+      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000"
+      "applicationUrl": "http://localhost:33601"
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",

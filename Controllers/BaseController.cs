@@ -2,7 +2,7 @@
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BaseController : ControllerBase
     {
