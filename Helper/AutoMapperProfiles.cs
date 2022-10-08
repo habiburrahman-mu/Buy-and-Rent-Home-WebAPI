@@ -26,6 +26,7 @@ namespace BuyandRentHomeWebAPI.Helper
 
             CreateMap<PropertyType, KeyValuePairDto>().ReverseMap();
             CreateMap<FurnishingType, KeyValuePairDto>().ReverseMap();
+            CreateMap<Country, CountryDto>().ReverseMap();
         }
     }
 }

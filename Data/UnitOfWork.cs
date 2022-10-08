@@ -27,6 +27,9 @@ namespace BuyandRentHomeWebAPI.Data
         public IFurnishingTypeRepository FurnishingTypeRepository => 
             new FurnishingTypeRepository(_dataContext);
 
+        public ICountryRepository CountryRepository =>
+            new CountryRepository(_dataContext);
+
         public async Task<bool> SaveAsync()
         {
             return await _dataContext.SaveChangesAsync() > 0;
