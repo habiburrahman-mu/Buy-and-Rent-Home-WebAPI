@@ -8,9 +8,9 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 {
     public class FurnishingTypeRepository : IFurnishingTypeRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly BuyRentHomeDbContext _dataContext;
 
-        public FurnishingTypeRepository(DataContext dataContext)
+        public FurnishingTypeRepository(BuyRentHomeDbContext dataContext)
         {
             this._dataContext = dataContext;
         }

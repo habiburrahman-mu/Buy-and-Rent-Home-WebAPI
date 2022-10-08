@@ -8,9 +8,9 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 {
     public class CityRepository : ICityRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly BuyRentHomeDbContext _dataContext;
 
-        public CityRepository(DataContext dataContext)
+        public CityRepository(BuyRentHomeDbContext dataContext)
         {
             this._dataContext = dataContext;
         }

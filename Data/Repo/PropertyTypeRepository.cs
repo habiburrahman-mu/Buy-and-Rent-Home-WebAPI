@@ -8,9 +8,9 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 {
     public class PropertyTypeRepository : IPropertyTypeRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly BuyRentHomeDbContext _dataContext;
 
-        public PropertyTypeRepository(DataContext dataContext)
+        public PropertyTypeRepository(BuyRentHomeDbContext dataContext)
         {
             _dataContext = dataContext;
         }

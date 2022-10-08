@@ -6,19 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20220807162001_AddingPropertyRelatedEntities.cs" />
-    <Compile Remove="Migrations\20220807162001_AddingPropertyRelatedEntities.Designer.cs" />
-    <Compile Remove="Migrations\20220807163137_RelationToPropertyWithUser.cs" />
-    <Compile Remove="Migrations\20220807163137_RelationToPropertyWithUser.Designer.cs" />
-    <Compile Remove="Migrations\20220807165006_AddingPropertyRelatedEntities.cs" />
-    <Compile Remove="Migrations\20220807165006_AddingPropertyRelatedEntities.Designer.cs" />
-    <Compile Remove="Migrations\20220807165342_AddingPropertyRelatedEntities.cs" />
-    <Compile Remove="Migrations\20220807165342_AddingPropertyRelatedEntities.Designer.cs" />
-    <Compile Remove="Migrations\20220808031233_SeedDemoData.cs" />
-    <Compile Remove="Migrations\20220808031233_SeedDemoData.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />

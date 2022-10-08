@@ -1,15 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BuyandRentHomeWebAPI.Models
 {
-    [Table("Photos")]
-    public class Photo : BaseEntity
+    public partial class Photo
     {
-        [Required]
+        public int Id { get; set; }
         public string ImageUrl { get; set; }
         public bool IsPrimary { get; set; }
         public int PropertyId { get; set; }
-        public Property Property{ get; set; }
+        public DateTime LastUpdatedOn { get; set; }
+        public int LastUpdatedBy { get; set; }
+
+        public virtual Property Property { get; set; }
     }
 }
