@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CityController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -25,7 +25,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         }
 
         // Get api/city
-        [HttpGet]
+        [HttpGet("list")]
         [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
@@ -35,6 +35,15 @@ namespace BuyandRentHomeWebAPI.Controllers
             var citiesDto = _mapper.Map<IEnumerable<CityDto>>(cities);
 
             return Ok(citiesDto);
+        }
+
+        [HttpGet("list/{countryId}")]
+        public async Task<IActionResult> GetCityListByCountry(int countryId)
+        {
+            var cityList = await _unitOfWork.CityRepository.GetCitiesByCountryAsync(countryId);
+            var cityDto = _mapper.Map<IEnumerable<CityDto>>(cityList);
+            return Ok(cityDto);
+
         }
 
         //Post api/city/
