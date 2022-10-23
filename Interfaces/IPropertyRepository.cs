@@ -8,7 +8,7 @@ namespace BuyandRentHomeWebAPI.Interfaces
     {
         Task<IEnumerable<Property>> GetPropertiesAsync(int sellRent);
         Task<Property> GetPropertyDetailAsync(int id);
-        void AddProperty(Property property);
+        Task AddProperty(Property property);
         void DeleteProperty(int id);
     }
 }

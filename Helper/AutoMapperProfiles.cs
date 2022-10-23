@@ -24,6 +24,8 @@ namespace BuyandRentHomeWebAPI.Helper
                 .ForMember(d => d.PropertyType, opt => opt.MapFrom(src => src.PropertyType.Name))
                 .ForMember(d => d.FurnishingType, opt => opt.MapFrom(src => src.FurnishingType.Name));
 
+            CreateMap<PropertyCreateUpdateDto, Property>().ReverseMap();
+
             CreateMap<PropertyType, KeyValuePairDto>().ReverseMap();
             CreateMap<FurnishingType, KeyValuePairDto>().ReverseMap();
             CreateMap<Country, CountryDto>().ReverseMap();

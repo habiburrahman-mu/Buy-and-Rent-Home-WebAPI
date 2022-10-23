@@ -15,9 +15,9 @@ namespace BuyandRentHomeWebAPI.Data.Repo
         {
             _dataContext = dataContext;
         }
-        public void AddProperty(Property property)
+        public async Task AddProperty(Property property)
         {
-            throw new System.NotImplementedException();
+            await _dataContext.Properties.AddAsync(property);
         }
 
         public void DeleteProperty(int id)
