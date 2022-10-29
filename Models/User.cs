@@ -8,6 +8,7 @@ namespace BuyandRentHomeWebAPI.Models
         public User()
         {
             Countries = new HashSet<Country>();
+            Photos = new HashSet<Photo>();
             Properties = new HashSet<Property>();
         }
 
@@ -21,6 +22,7 @@ namespace BuyandRentHomeWebAPI.Models
         public DateTime LastUpdatedOn { get; set; }
 
         public virtual ICollection<Country> Countries { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
     }
 }

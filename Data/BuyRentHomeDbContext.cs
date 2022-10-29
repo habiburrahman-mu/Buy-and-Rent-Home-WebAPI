@@ -25,6 +25,15 @@ namespace BuyandRentHomeWebAPI.Data
         public virtual DbSet<PropertyType> PropertyTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost;Database=BuyRentHomeDb;Trusted_Connection=True;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<City>(entity =>
@@ -65,6 +74,11 @@ namespace BuyandRentHomeWebAPI.Data
                 entity.HasIndex(e => e.PropertyId, "IX_Photos_PropertyId");
 
                 entity.Property(e => e.ImageUrl).IsRequired();
+
+                entity.HasOne(d => d.LastUpdatedByNavigation)
+                    .WithMany(p => p.Photos)
+                    .HasForeignKey(d => d.LastUpdatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.Property)
                     .WithMany(p => p.Photos)

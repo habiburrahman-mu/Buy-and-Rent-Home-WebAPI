@@ -12,6 +12,7 @@ namespace BuyandRentHomeWebAPI.Models
         public DateTime LastUpdatedOn { get; set; }
         public int LastUpdatedBy { get; set; }
 
+        public virtual User LastUpdatedByNavigation { get; set; }
         public virtual Property Property { get; set; }
     }
 }

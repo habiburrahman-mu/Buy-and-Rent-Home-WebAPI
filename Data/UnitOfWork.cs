@@ -30,6 +30,9 @@ namespace BuyandRentHomeWebAPI.Data
         public ICountryRepository CountryRepository =>
             new CountryRepository(_dataContext);
 
+        public IPhotoRepository PhotoRepository=>
+            new PhotoRepository(_dataContext);
+
         public async Task<bool> SaveAsync()
         {
             return await _dataContext.SaveChangesAsync() > 0;

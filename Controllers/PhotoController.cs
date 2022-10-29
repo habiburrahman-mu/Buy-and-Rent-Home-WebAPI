@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using BuyandRentHomeWebAPI.Models;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -14,6 +15,8 @@ namespace BuyandRentHomeWebAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+
+        private string fileUploadDirectory = "Upload\\files";
 
         public PhotoController(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -31,6 +34,42 @@ namespace BuyandRentHomeWebAPI.Controllers
 
             result = await WriteFiles(files, listOfsavedFile);
 
+            try
+            {
+                if (result)
+                {
+                    result = false;
+                    var photos = new List<Photo>();
+
+                    foreach (string item in listOfsavedFile)
+                    {
+                        Photo photo = new Photo
+                        {
+                            ImageUrl = item,
+                            IsPrimary = false,
+                            PropertyId = propertyId,
+                            LastUpdatedOn = DateTime.Now,
+                            LastUpdatedBy = 4
+                        };
+
+                        photos.Add(photo);
+                    }
+
+                    await _unitOfWork.PhotoRepository.AddPhotos(photos);
+                    result = await _unitOfWork.SaveAsync();
+                }
+            }
+            catch (Exception exp)
+            {
+                result = false;
+
+                foreach (String item in listOfsavedFile)
+                {
+                    DeleteFile(item);
+                }
+            }
+
+
             return Ok(result);
         }
 
@@ -39,46 +78,37 @@ namespace BuyandRentHomeWebAPI.Controllers
             bool isSaveSuccess = false;
             //var listOfsavedFile = new List<string>();
 
-            try
+            foreach (IFormFile file in files)
             {
-                foreach (IFormFile file in files)
+                var fileName = file.FileName;
+                var extenstion = "." + fileName.Split('.')[fileName.Split('.').Length - 1];
+                var newFileName = DateTime.Now.Ticks + extenstion;
+
+                var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), fileUploadDirectory);
+
+                if (!Directory.Exists(pathBuilt))
                 {
-                    var fileName = file.FileName;
-                    var extenstion = "." + fileName.Split('.')[fileName.Split('.').Length - 1];
-                    var newFileName = DateTime.Now.Ticks + extenstion;
-
-                    var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\files");
-
-                    if (!Directory.Exists(pathBuilt))
-                    {
-                        Directory.CreateDirectory(pathBuilt);
-                    }
-
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\files", newFileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-
-                    listOfsavedFile.Add(newFileName);
+                    Directory.CreateDirectory(pathBuilt);
                 }
-                isSaveSuccess = true;
-            }
-            catch (Exception exp)
-            {
-                foreach (String item in listOfsavedFile)
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), fileUploadDirectory, newFileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    DeleteFile(item);
-                    listOfsavedFile.Remove(item);
+                    await file.CopyToAsync(stream);
                 }
-                return isSaveSuccess;
+
+                listOfsavedFile.Add(newFileName);
             }
+
+            isSaveSuccess = true;
+
             return isSaveSuccess;
         }
 
-        private void DeleteFile(String path)
+        private void DeleteFile(String fileName)
         {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), fileUploadDirectory, fileName);
             FileInfo file = new FileInfo(path);
             if (file.Exists)
             {
