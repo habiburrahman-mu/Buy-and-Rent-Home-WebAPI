@@ -1,7 +1,7 @@
 using BuyandRentHomeWebAPI.Data;
 using BuyandRentHomeWebAPI.Extensions;
 using BuyandRentHomeWebAPI.Helper;
-using BuyandRentHomeWebAPI.Interfaces;
+using BuyandRentHomeWebAPI.Data.Interfaces;
 using BuyandRentHomeWebAPI.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +31,9 @@ namespace BuyandRentHomeWebAPI
             services.AddCors();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // resolve services
+            
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));

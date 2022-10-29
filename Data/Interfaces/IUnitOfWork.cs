@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Interfaces
+namespace BuyandRentHomeWebAPI.Data.Interfaces
 {
     public interface IUnitOfWork
     {

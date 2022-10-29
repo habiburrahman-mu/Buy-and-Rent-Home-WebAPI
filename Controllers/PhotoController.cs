@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Interfaces;
+using BuyandRentHomeWebAPI.Data.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

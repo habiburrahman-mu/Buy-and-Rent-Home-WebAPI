@@ -1,7 +1,7 @@
 ﻿using BuyandRentHomeWebAPI.Models;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Interfaces
+namespace BuyandRentHomeWebAPI.Data.Interfaces
 {
     public interface IUserRepository
     {

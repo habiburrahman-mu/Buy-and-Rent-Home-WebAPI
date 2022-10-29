@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Interfaces;
+using BuyandRentHomeWebAPI.Data.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

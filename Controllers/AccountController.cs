@@ -2,7 +2,7 @@
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Errors;
 using BuyandRentHomeWebAPI.Extensions;
-using BuyandRentHomeWebAPI.Interfaces;
+using BuyandRentHomeWebAPI.Data.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

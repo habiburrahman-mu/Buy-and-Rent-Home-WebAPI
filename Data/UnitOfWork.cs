@@ -1,5 +1,5 @@
 ﻿using BuyandRentHomeWebAPI.Data.Repo;
-using BuyandRentHomeWebAPI.Interfaces;
+using BuyandRentHomeWebAPI.Data.Interfaces;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Data

@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.Interfaces;
+﻿using BuyandRentHomeWebAPI.Data.Interfaces;
 using BuyandRentHomeWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
