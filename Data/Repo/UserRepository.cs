@@ -17,32 +17,10 @@ namespace BuyandRentHomeWebAPI.Data.Repo
             _dataContext = dataContext;
         }
 
-        public async Task<User> Authenticate(string userName, string passwordText)
+        public async Task<User> GetUserByUserName(string userName)
         {
             var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == userName);
-
-            if (user == null || user.PasswordKey == null)
-                return null;
-
-            if (!MatchPasswordHash(passwordText, user.Password, user.PasswordKey))
-                return null;
-
             return user;
-        }
-
-        private bool MatchPasswordHash(string passwordText, byte[] password, byte[] passwordKey)
-        {
-            using (var hmac = new HMACSHA512(passwordKey))
-            {
-                var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
-                for (int i = 0; i < passwordHash.Length; i++)
-                {
-                    if (passwordHash[i] != password[i])
-                        return false;
-                }
-
-                return true;
-            }
         }
 
         public void Register(string userName, string email, string password, string mobile)

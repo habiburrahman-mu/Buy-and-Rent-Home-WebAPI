@@ -68,8 +68,6 @@ namespace BuyandRentHomeWebAPI.Controllers
                     DeleteFile(item);
                 }
             }
-
-
             return Ok(result);
         }
 

@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BuyandRentHomeWebAPI.Services.Interfaces;
+using BuyandRentHomeWebAPI.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace BuyandRentHomeWebAPI
 {
@@ -32,8 +35,10 @@ namespace BuyandRentHomeWebAPI
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             // resolve services
-            
+            services.AddScoped<IUserService, UserService>();
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));

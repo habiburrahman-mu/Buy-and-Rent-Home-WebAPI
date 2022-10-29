@@ -12,20 +12,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using BuyandRentHomeWebAPI.Services.Interfaces;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
 
-        public AccountController(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+        public AccountController(IUserService userService, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _userService = userService;
             _mapper = mapper;
-            _configuration = configuration;
         }
 
         //api/account/login
@@ -33,7 +32,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         public async Task<IActionResult> Login(LoginRequestDto loginRequest)
         {
             ApiError apiError = new ApiError();
-            if(loginRequest.UserName == null || loginRequest.Password == null)
+            if (loginRequest.UserName == null || loginRequest.Password == null)
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
                 apiError.ErrorMessage = "Provide mandatory informations";
@@ -41,8 +40,8 @@ namespace BuyandRentHomeWebAPI.Controllers
                 return BadRequest(apiError);
             }
 
-            var user = await _unitOfWork.UserRepository.Authenticate(loginRequest.UserName, loginRequest.Password);
-            if(user == null)
+            var user = await _userService.Authenticate(loginRequest);
+            if (user == null)
             {
                 apiError.ErrorCode = Unauthorized().StatusCode;
                 apiError.ErrorMessage = "Invalid User ID or Password";
@@ -50,9 +49,7 @@ namespace BuyandRentHomeWebAPI.Controllers
                 return Unauthorized(apiError);
             }
 
-            var loginResponse = new LoginResponseDto();
-            loginResponse.UserName = user.Username;
-            loginResponse.Token = createJWT(user);
+            var loginResponse = _userService.CreateLoginCredintials(user);
             return Ok(loginResponse);
         }
 
@@ -62,9 +59,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         {
             ApiError apiError = new ApiError();
 
-            if (register.UserName.IsEmpty() || 
-                register.Email.IsEmpty() || 
-                register.Password.IsEmpty())
+            if (register.UserName.IsEmpty() || register.Email.IsEmpty() || register.Password.IsEmpty())
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
                 apiError.ErrorMessage = "Provide mandatory informations";
@@ -72,7 +67,7 @@ namespace BuyandRentHomeWebAPI.Controllers
                 return BadRequest(apiError);
             }
 
-            if (await _unitOfWork.UserRepository.UserAlreadyExists(register.UserName))
+            if (await _userService.UserAlreadyExists(register.UserName))
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
                 apiError.ErrorMessage = "User already exists, please try something else";
@@ -80,33 +75,15 @@ namespace BuyandRentHomeWebAPI.Controllers
                 return BadRequest(apiError);
             }
 
-            _unitOfWork.UserRepository.Register(register.UserName, register.Email, register.Password, register.Mobile);
-            await _unitOfWork.SaveAsync();
-            return StatusCode(201);
-        }
-
-            private string createJWT(User user)
-        {
-            var secretKey = _configuration.GetSection("AppSettings:Key").Value;
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-
-            var claims = new Claim[]
+            var isRegistered = await _userService.Register(register);
+            if (isRegistered)
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
-            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+                return StatusCode(201);
+            }
+            else
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(1),
-                SigningCredentials = signingCredentials
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                return StatusCode(500);
+            }
         }
     }
 }
