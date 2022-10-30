@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BuyandRentHomeWebAPI.Services.Interfaces;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -14,11 +15,13 @@ namespace BuyandRentHomeWebAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public PropertyController(IUnitOfWork unitOfWork, IMapper mapper)
+        public PropertyController(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userService = userService;
         }
 
         // property/list/2
@@ -43,12 +46,11 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         // property/addNew/1
         [HttpPost("AddNew")]
-        [AllowAnonymous]
         public async Task<IActionResult> AddNewProperty([FromBody]PropertyCreateUpdateDto propertyCreateUpdateDto)
         {
             var property = _mapper.Map<Property>(propertyCreateUpdateDto);
-            property.PostedOn = new DateTime();
-            property.PostedBy = 4; // Admin - Todo -> dynamic
+            property.PostedOn = DateTime.Now;
+            property.PostedBy = _userService.GetUserId();
             property.LastUpdatedOn = property.PostedOn;
             property.LastUpdatedBy = property.PostedBy;
 

@@ -58,9 +58,14 @@ namespace BuyandRentHomeWebAPI.Services
             return await _unitOfWork.SaveAsync();
         }
 
-        public string GetUserId()
+        public int GetUserId()
         {
-            return _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(!String.IsNullOrEmpty(userId))
+            {
+                return Convert.ToInt32(userId);
+            }
+            return 0;
         }
 
         private bool MatchPasswordHash(string passwordText, byte[] password, byte[] passwordKey)
@@ -92,7 +97,7 @@ namespace BuyandRentHomeWebAPI.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = signingCredentials
             };
 

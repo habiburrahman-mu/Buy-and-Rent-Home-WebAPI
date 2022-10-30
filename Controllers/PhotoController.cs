@@ -8,6 +8,7 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 using BuyandRentHomeWebAPI.Models;
+using BuyandRentHomeWebAPI.Services.Interfaces;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -15,17 +16,17 @@ namespace BuyandRentHomeWebAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
+        private readonly IUserService _userService;
         private string fileUploadDirectory = "Upload\\files";
 
-        public PhotoController(IUnitOfWork unitOfWork, IMapper mapper)
+        public PhotoController(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userService = userService;
         }
 
         [HttpPost("Save/{propertyId}")]
-        [AllowAnonymous]
         public async Task<IActionResult> SavePhotos(int propertyId)
         {
             bool result = false;
@@ -49,7 +50,7 @@ namespace BuyandRentHomeWebAPI.Controllers
                             IsPrimary = false,
                             PropertyId = propertyId,
                             LastUpdatedOn = DateTime.Now,
-                            LastUpdatedBy = 4
+                            LastUpdatedBy = _userService.GetUserId()
                         };
 
                         photos.Add(photo);

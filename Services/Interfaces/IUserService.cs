@@ -10,5 +10,6 @@ namespace BuyandRentHomeWebAPI.Services.Interfaces
         LoginResponseDto CreateLoginCredintials(User user);
         Task<bool> UserAlreadyExists(string userName);
         Task<bool> Register(RegisterDto register);
+        int GetUserId();
     }
 }
