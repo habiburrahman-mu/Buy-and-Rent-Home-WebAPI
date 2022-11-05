@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Data.Repo
 {
-    public class PropertyRepository : IPropertyRepository
+    public class PropertyRepository : GenericRepository<Property>, IPropertyRepository
     {
         private readonly BuyRentHomeDbContext _dataContext;
 
-        public PropertyRepository(BuyRentHomeDbContext dataContext)
+        public PropertyRepository(BuyRentHomeDbContext dataContext) : base(dataContext)
         {
             _dataContext = dataContext;
         }

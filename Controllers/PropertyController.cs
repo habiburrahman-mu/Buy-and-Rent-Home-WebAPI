@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BuyandRentHomeWebAPI.Services.Interfaces;
+using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -29,7 +30,11 @@ namespace BuyandRentHomeWebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetPropertyList(int sellRent)
         {
-            var properties = await _unitOfWork.PropertyRepository.GetPropertiesAsync(sellRent);
+            var properties = await _unitOfWork.PropertyRepository.GetAll(
+                expression: q => q.SellRent == sellRent,
+                orderBy: x => x.OrderBy(q => q.PropertyTypeId),
+                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country"});
+            //var properties = await _unitOfWork.PropertyRepository.GetPropertiesAsync(sellRent);
             var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
             return Ok(propertyListDto);
         }

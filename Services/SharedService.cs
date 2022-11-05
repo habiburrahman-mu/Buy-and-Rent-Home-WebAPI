@@ -1,10 +1,11 @@
 ﻿using System.Security.Claims;
 using System;
 using Microsoft.AspNetCore.Http;
+using BuyandRentHomeWebAPI.Services.Interfaces;
 
 namespace BuyandRentHomeWebAPI.Services
 {
-    public class SharedService
+    public class SharedService : ISharedService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

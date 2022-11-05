@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Data.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         ICityRepository CityRepository { get; }
         IUserRepository UserRepository { get; }

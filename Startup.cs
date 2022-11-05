@@ -14,6 +14,7 @@ using System.Text;
 using BuyandRentHomeWebAPI.Services.Interfaces;
 using BuyandRentHomeWebAPI.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
 
 namespace BuyandRentHomeWebAPI
 {
@@ -30,6 +31,10 @@ namespace BuyandRentHomeWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BuyRentHomeDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Buy Rent Home Api", Version = "v1" });
+            });
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
@@ -38,6 +43,7 @@ namespace BuyandRentHomeWebAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // resolve services
+            services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IUserService, UserService>();
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
@@ -60,6 +66,9 @@ namespace BuyandRentHomeWebAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.ConfigureExceptionHandler(env);
+
+            app.UseSwagger();
+            //app.UseSwaggerUI();
 
             app.UseRouting();
 
