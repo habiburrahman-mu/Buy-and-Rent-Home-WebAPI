@@ -15,13 +15,13 @@ namespace BuyandRentHomeWebAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
+        private readonly ISharedService _sharedService;
 
-        public PropertyController(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+        public PropertyController(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _userService = userService;
+            _sharedService = sharedService;
         }
 
         // property/list/2
@@ -50,7 +50,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         {
             var property = _mapper.Map<Property>(propertyCreateUpdateDto);
             property.PostedOn = DateTime.Now;
-            property.PostedBy = _userService.GetUserId();
+            property.PostedBy = _sharedService.GetUserId();
             property.LastUpdatedOn = property.PostedOn;
             property.LastUpdatedBy = property.PostedBy;
 

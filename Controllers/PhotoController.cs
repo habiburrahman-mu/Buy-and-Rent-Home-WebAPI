@@ -16,14 +16,14 @@ namespace BuyandRentHomeWebAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
+        private readonly ISharedService _sharedService;
         private string fileUploadDirectory = "Upload\\files";
 
-        public PhotoController(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+        public PhotoController(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _userService = userService;
+            _sharedService = sharedService;
         }
 
         [HttpPost("Save/{propertyId}")]
@@ -50,7 +50,7 @@ namespace BuyandRentHomeWebAPI.Controllers
                             IsPrimary = false,
                             PropertyId = propertyId,
                             LastUpdatedOn = DateTime.Now,
-                            LastUpdatedBy = _userService.GetUserId()
+                            LastUpdatedBy = _sharedService.GetUserId()
                         };
 
                         photos.Add(photo);

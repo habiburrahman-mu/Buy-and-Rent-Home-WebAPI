@@ -58,15 +58,7 @@ namespace BuyandRentHomeWebAPI.Services
             return await _unitOfWork.SaveAsync();
         }
 
-        public int GetUserId()
-        {
-            string userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(!String.IsNullOrEmpty(userId))
-            {
-                return Convert.ToInt32(userId);
-            }
-            return 0;
-        }
+        
 
         private bool MatchPasswordHash(string passwordText, byte[] password, byte[] passwordKey)
         {
