@@ -15,24 +15,10 @@ namespace BuyandRentHomeWebAPI.Data.Repo
         {
             _dataContext = dataContext;
         }
-        public async Task AddProperty(Property property)
-        {
-            await _dataContext.Properties.AddAsync(property);
-        }
 
         public void DeleteProperty(int id)
         {
             throw new System.NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Property>> GetPropertiesAsync(int sellRent)
-        {
-            var properties = await _dataContext.Properties
-                .Include(p => p.PropertyType)
-                .Include(p => p.City)
-                .Include(p => p.FurnishingType)
-                .Where(p => p.SellRent == sellRent).ToListAsync();
-            return properties;
         }
 
         public async Task<Property> GetPropertyDetailAsync(int id)

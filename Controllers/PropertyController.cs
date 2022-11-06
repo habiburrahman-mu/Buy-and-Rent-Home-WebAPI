@@ -14,15 +14,13 @@ namespace BuyandRentHomeWebAPI.Controllers
 {
     public class PropertyController : BaseController
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly ISharedService _sharedService;
+        private readonly IPropertyService _propertyService;
 
-        public PropertyController(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
+        public PropertyController(ISharedService sharedService, IPropertyService propertyService)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _sharedService = sharedService;
+            _propertyService = propertyService;
         }
 
         // property/list/2
@@ -30,13 +28,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetPropertyList(int sellRent)
         {
-            var properties = await _unitOfWork.PropertyRepository.GetAll(
-                expression: q => q.SellRent == sellRent,
-                orderBy: x => x.OrderBy(q => q.PropertyTypeId),
-                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country"});
-            //var properties = await _unitOfWork.PropertyRepository.GetPropertiesAsync(sellRent);
-            var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
-            return Ok(propertyListDto);
+            var propertyList = await _propertyService.GetPropertyList(sellRent);
+            return Ok(propertyList);
         }
 
         // property/detail/1
@@ -44,25 +37,22 @@ namespace BuyandRentHomeWebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetPropertyDetail(int id)
         {
-            var property = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(id);
-            var propertyDto = _mapper.Map<PropertyDetailDto>(property);
+            var propertyDto = await _propertyService.GetPropertyDetail(id);
             return Ok(propertyDto);
         }
+
+        //[HttpGet("myProperty")]
+        //public async Task<IActionResult> GetMyProperty()
+        //{
+        //    return 
+        //}
 
         // property/addNew/1
         [HttpPost("AddNew")]
         public async Task<IActionResult> AddNewProperty([FromBody]PropertyCreateUpdateDto propertyCreateUpdateDto)
         {
-            var property = _mapper.Map<Property>(propertyCreateUpdateDto);
-            property.PostedOn = DateTime.Now;
-            property.PostedBy = _sharedService.GetUserId();
-            property.LastUpdatedOn = property.PostedOn;
-            property.LastUpdatedBy = property.PostedBy;
-
-            await _unitOfWork.PropertyRepository.AddProperty(property);
-            await _unitOfWork.SaveAsync();
-
-            return Ok(property.Id);
+            var propertyId = await _propertyService.AddNewProperty(propertyCreateUpdateDto);
+            return Ok(propertyId);
         }
     }
 }

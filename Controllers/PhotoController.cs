@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using BuyandRentHomeWebAPI.Models;
 using BuyandRentHomeWebAPI.Services.Interfaces;
+using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -32,6 +33,8 @@ namespace BuyandRentHomeWebAPI.Controllers
             bool result = false;
             var listOfsavedFile = new List<string>();
             var files = Request.Form.Files;
+            var primaryPhotoIndex = 
+                Convert.ToInt32(Request.Form["PrimaryPhotoIndex"].FirstOrDefault());
 
             result = await WriteFiles(files, listOfsavedFile);
 
@@ -42,12 +45,12 @@ namespace BuyandRentHomeWebAPI.Controllers
                     result = false;
                     var photos = new List<Photo>();
 
-                    foreach (string item in listOfsavedFile)
+                    foreach (var item in listOfsavedFile.Select((value, index) => (value, index)))
                     {
                         Photo photo = new Photo
                         {
-                            ImageUrl = item,
-                            IsPrimary = false,
+                            ImageUrl = item.value,
+                            IsPrimary = primaryPhotoIndex == item.index,
                             PropertyId = propertyId,
                             LastUpdatedOn = DateTime.Now,
                             LastUpdatedBy = _sharedService.GetUserId()

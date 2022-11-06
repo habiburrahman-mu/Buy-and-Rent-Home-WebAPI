@@ -45,6 +45,7 @@ namespace BuyandRentHomeWebAPI
             // resolve services
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPropertyService, PropertyService>();
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
