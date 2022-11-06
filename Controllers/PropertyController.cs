@@ -1,25 +1,17 @@
-﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Models;
+﻿using BuyandRentHomeWebAPI.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using BuyandRentHomeWebAPI.Services.Interfaces;
-using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
     public class PropertyController : BaseController
     {
-        private readonly ISharedService _sharedService;
         private readonly IPropertyService _propertyService;
 
-        public PropertyController(ISharedService sharedService, IPropertyService propertyService)
+        public PropertyController(IPropertyService propertyService)
         {
-            _sharedService = sharedService;
             _propertyService = propertyService;
         }
 
@@ -41,15 +33,17 @@ namespace BuyandRentHomeWebAPI.Controllers
             return Ok(propertyDto);
         }
 
-        //[HttpGet("myProperty")]
-        //public async Task<IActionResult> GetMyProperty()
-        //{
-        //    return 
-        //}
+        // property/myProperty
+        [HttpGet("myProperty")]
+        public async Task<IActionResult> GetMyProperty()
+        {
+            var propertyListDto = await _propertyService.GetMyPropertyList();
+            return Ok(propertyListDto);
+        }
 
         // property/addNew/1
         [HttpPost("AddNew")]
-        public async Task<IActionResult> AddNewProperty([FromBody]PropertyCreateUpdateDto propertyCreateUpdateDto)
+        public async Task<IActionResult> AddNewProperty([FromBody] PropertyCreateUpdateDto propertyCreateUpdateDto)
         {
             var propertyId = await _propertyService.AddNewProperty(propertyCreateUpdateDto);
             return Ok(propertyId);

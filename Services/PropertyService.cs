@@ -28,7 +28,17 @@ namespace BuyandRentHomeWebAPI.Services
         {
             var properties = await _unitOfWork.PropertyRepository.GetAll(
                 expression: q => q.SellRent == sellRent,
-                orderBy: x => x.OrderBy(q => q.PropertyTypeId),
+                orderBy: x => x.OrderBy(q => q.PostedOn),
+                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country" });
+            var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
+            return propertyListDto;
+        }
+
+        public async Task<IEnumerable<PropertyListDto>> GetMyPropertyList()
+        {
+            var myUserId = _sharedService.GetUserId();
+            var properties = await _unitOfWork.PropertyRepository.GetAll(
+                expression: q => q.PostedBy == myUserId,
                 includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country" });
             var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
             return propertyListDto;
