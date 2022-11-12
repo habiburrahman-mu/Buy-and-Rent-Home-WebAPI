@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Data.Interfaces
 {
-    public interface IPhotoRepository
+    public interface IPhotoRepository : IGenericRepository<Photo>
     {
         Task AddPhotos(List<Photo> photosList);
     }

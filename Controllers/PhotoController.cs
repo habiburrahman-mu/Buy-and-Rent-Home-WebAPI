@@ -16,15 +16,22 @@ namespace BuyandRentHomeWebAPI.Controllers
     public class PhotoController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly ISharedService _sharedService;
+        private readonly IPhotoService _photoService;
         private string fileUploadDirectory = "Upload\\files";
 
-        public PhotoController(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
+        public PhotoController(IUnitOfWork unitOfWork, ISharedService sharedService, IPhotoService photoService)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _sharedService = sharedService;
+            _photoService = photoService;
+        }
+
+        [HttpGet("Get/{propertyId}")]
+        public async Task<IActionResult> GetPhotoListByPropertyId(int propertyId)
+        {
+            var photoList = await _photoService.GetPhotoListByPropertyId(propertyId);
+            return Ok(photoList);
         }
 
         [HttpPost("Save/{propertyId}")]

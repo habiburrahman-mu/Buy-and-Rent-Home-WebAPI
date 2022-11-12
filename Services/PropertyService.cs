@@ -48,7 +48,7 @@ namespace BuyandRentHomeWebAPI.Services
         {
             var property = await _unitOfWork.PropertyRepository.Get(
                 expression: x => x.Id == id, 
-                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country" });
+                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country"});
             var propertyDto = _mapper.Map<PropertyDetailDto>(property);
             return propertyDto;
         }

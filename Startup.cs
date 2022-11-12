@@ -15,6 +15,8 @@ using BuyandRentHomeWebAPI.Services.Interfaces;
 using BuyandRentHomeWebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace BuyandRentHomeWebAPI
 {
@@ -45,6 +47,7 @@ namespace BuyandRentHomeWebAPI
             // resolve services
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IPropertyService, PropertyService>();
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
@@ -66,7 +69,15 @@ namespace BuyandRentHomeWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            string fileDirectory = "Upload\\files";
+
             app.ConfigureExceptionHandler(env);
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), fileDirectory)),
+                RequestPath = "/StaticFiles"
+            });
 
             app.UseSwagger();
             //app.UseSwaggerUI();

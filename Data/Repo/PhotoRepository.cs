@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Data.Repo
 {
-    public class PhotoRepository : IPhotoRepository
+    public class PhotoRepository : GenericRepository<Photo>, IPhotoRepository
     {
         private readonly BuyRentHomeDbContext _dataContext;
 
-        public PhotoRepository(BuyRentHomeDbContext dataContext)
+        public PhotoRepository(BuyRentHomeDbContext dataContext) : base(dataContext)
         {
             this._dataContext = dataContext;
         }
