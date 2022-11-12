@@ -5,17 +5,18 @@ namespace BuyandRentHomeWebAPI.Dtos
     public class PropertyDetailDto : PropertyListDto
     {
         public int SellRent { get; set; }
-        public int CarpetArea { get; set; }
-        public string Address { get; set; }
-        public string Address2 { get; set; }
-        public int FloorNo { get; set; }
-        public int TotalFloors { get; set; }
-        public string MainEntrance { get; set; }
-        public int Security { get; set; }
-        public bool Gated { get; set; }
-        public int Maintenance { get; set; }
-        public DateTime EstPossessionOn { get; set; }
-        public int Age { get; set; }
+        public int PropertyTypeId { get; set; }
+        public int FurnishingTypeId { get; set; }
+        public int CountryId { get; set; }
+        public int CityId { get; set; }
+        public string StreetAddress { get; set; }
+        public int TotalFloor { get; set; }
+        public int Floor { get; set; }
+        public string Landmark { get; set; }
+        public int? OtherCost { get; set; }
+        public bool Gym { get; set; }
+        public bool Parking { get; set; }
+        public bool SwimmingPool { get; set; }
         public string Description { get; set; }
     }
 }

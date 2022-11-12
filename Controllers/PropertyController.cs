@@ -26,7 +26,6 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         // property/detail/1
         [HttpGet("detail/{id}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetPropertyDetail(int id)
         {
             var propertyDto = await _propertyService.GetPropertyDetail(id);
