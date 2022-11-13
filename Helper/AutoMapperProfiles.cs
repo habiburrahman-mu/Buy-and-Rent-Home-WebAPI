@@ -20,6 +20,8 @@ namespace BuyandRentHomeWebAPI.Helper
 
             CreateMap<Property, PropertyDetailDto>()
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.City.Name))
+                .ForMember(d => d.CityLattitude, opt => opt.MapFrom(src => src.City.Lattitude))
+                .ForMember(d => d.CityLongitude, opt => opt.MapFrom(src => src.City.Longitude))
                 .ForMember(d => d.Country, opt => opt.MapFrom(src => src.Country.Name))
                 .ForMember(d => d.PropertyType, opt => opt.MapFrom(src => src.PropertyType.Name))
                 .ForMember(d => d.FurnishingType, opt => opt.MapFrom(src => src.FurnishingType.Name));
