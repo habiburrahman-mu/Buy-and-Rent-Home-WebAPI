@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using BuyandRentHomeWebAPI.Models;
 using BuyandRentHomeWebAPI.Services.Interfaces;
 using System.Linq;
+using BuyandRentHomeWebAPI.Extensions;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
@@ -40,8 +41,17 @@ namespace BuyandRentHomeWebAPI.Controllers
             bool result = false;
             var listOfsavedFile = new List<string>();
             var files = Request.Form.Files;
-            var primaryPhotoIndex = 
-                Convert.ToInt32(Request.Form["PrimaryPhotoIndex"].FirstOrDefault());
+            var isPrimaryPhotoFromExistingImages =
+                Convert.ToBoolean(Request.Form["IsPrimaryPhotoFromExistingImages"].FirstOrDefault());
+            var primaryPhotoIdOrIndex =
+                Convert.ToInt32(Request.Form["PrimaryPhotoIdOrIndex"].FirstOrDefault());
+            var deletedPhotosIdString = Request.Form["DeletedPhotosId"].FirstOrDefault();
+            var deletedPhotosIds = new List<int>();
+            if (!deletedPhotosIdString.IsEmpty())
+            {
+                deletedPhotosIds = (deletedPhotosIdString ?? "").Split(',').Select(int.Parse).ToList();
+            }
+
 
             result = await WriteFiles(files, listOfsavedFile);
 
@@ -50,14 +60,25 @@ namespace BuyandRentHomeWebAPI.Controllers
                 if (result)
                 {
                     result = false;
-                    var photos = new List<Photo>();
 
+                    var existingPhotos = await _unitOfWork.PhotoRepository.GetAll(x => x.PropertyId == propertyId);
+
+                    var upatePhotos = existingPhotos.Where(x => !deletedPhotosIds.Contains(x.Id));
+
+                    foreach (var photo in upatePhotos)
+                    {
+                        photo.IsPrimary = isPrimaryPhotoFromExistingImages && primaryPhotoIdOrIndex == photo.Id;
+                    }
+
+                    _unitOfWork.PhotoRepository.UpdateRange(upatePhotos);
+
+                    var photos = new List<Photo>();
                     foreach (var item in listOfsavedFile.Select((value, index) => (value, index)))
                     {
                         Photo photo = new Photo
                         {
                             ImageUrl = item.value,
-                            IsPrimary = primaryPhotoIndex == item.index,
+                            IsPrimary = !isPrimaryPhotoFromExistingImages && primaryPhotoIdOrIndex == item.index,
                             PropertyId = propertyId,
                             LastUpdatedOn = DateTime.Now,
                             LastUpdatedBy = _sharedService.GetUserId()
@@ -65,8 +86,11 @@ namespace BuyandRentHomeWebAPI.Controllers
 
                         photos.Add(photo);
                     }
+                    await _unitOfWork.PhotoRepository.InsertRange(photos);
 
-                    await _unitOfWork.PhotoRepository.AddPhotos(photos);
+                    var deletedPhotos = existingPhotos.Where(x => deletedPhotosIds.Contains(x.Id));
+                    deletePhotosFromDbAndPath(deletedPhotos);
+
                     result = await _unitOfWork.SaveAsync();
                 }
             }
@@ -76,7 +100,7 @@ namespace BuyandRentHomeWebAPI.Controllers
 
                 foreach (String item in listOfsavedFile)
                 {
-                    DeleteFile(item);
+                    DeleteFileFromPath(item);
                 }
             }
             return Ok(result);
@@ -115,7 +139,16 @@ namespace BuyandRentHomeWebAPI.Controllers
             return isSaveSuccess;
         }
 
-        private void DeleteFile(String fileName)
+        private void deletePhotosFromDbAndPath(IEnumerable<Photo> deletedPhotosList)
+        {
+            foreach (var photo in deletedPhotosList)
+            {
+                this.DeleteFileFromPath(photo.ImageUrl);
+            }
+            _unitOfWork.PhotoRepository.DeleteRange(deletedPhotosList);
+        }
+
+        private void DeleteFileFromPath(String fileName)
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), fileUploadDirectory, fileName);
             FileInfo file = new FileInfo(path);

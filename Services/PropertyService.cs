@@ -48,8 +48,8 @@ namespace BuyandRentHomeWebAPI.Services
         public async Task<PropertyDetailDto> GetPropertyDetail(int id)
         {
             var property = await _unitOfWork.PropertyRepository.Get(
-                expression: x => x.Id == id, 
-                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country"});
+                expression: x => x.Id == id,
+                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country", "Photos" });
             var propertyDto = _mapper.Map<PropertyDetailDto>(property);
             return propertyDto;
         }
@@ -57,12 +57,25 @@ namespace BuyandRentHomeWebAPI.Services
         public async Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto)
         {
             var property = _mapper.Map<Property>(propertyCreateUpdateDto);
-            property.PostedOn = DateTime.Now;
-            property.PostedBy = _sharedService.GetUserId();
-            property.LastUpdatedOn = property.PostedOn;
-            property.LastUpdatedBy = property.PostedBy;
 
-            await _unitOfWork.PropertyRepository.Insert(property);
+            if (propertyCreateUpdateDto.Id > 0)
+            {
+                property = await _unitOfWork.PropertyRepository.Get(x => x.Id == propertyCreateUpdateDto.Id);
+                _mapper.Map(propertyCreateUpdateDto, property);
+                property.LastUpdatedOn = DateTime.Now;
+                property.LastUpdatedBy = _sharedService.GetUserId();
+                _unitOfWork.PropertyRepository.Update(property);
+            }
+            else
+            {
+                property.PostedOn = DateTime.Now;
+                property.PostedBy = _sharedService.GetUserId();
+                property.LastUpdatedOn = DateTime.Now;
+                property.LastUpdatedBy = _sharedService.GetUserId();
+
+                await _unitOfWork.PropertyRepository.Insert(property);
+            }
+
             await _unitOfWork.SaveAsync();
 
             return property.Id;
