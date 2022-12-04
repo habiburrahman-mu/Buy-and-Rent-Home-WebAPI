@@ -109,7 +109,6 @@ namespace BuyandRentHomeWebAPI.Controllers
         private async Task<bool> WriteFiles(IFormFileCollection files, List<string> listOfsavedFile)
         {
             bool isSaveSuccess = false;
-            //var listOfsavedFile = new List<string>();
 
             foreach (IFormFile file in files)
             {
