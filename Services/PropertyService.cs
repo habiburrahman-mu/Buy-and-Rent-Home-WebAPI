@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Services
@@ -43,6 +44,37 @@ namespace BuyandRentHomeWebAPI.Services
                 includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country" });
             var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
             return propertyListDto;
+        }
+
+        public async Task<PageResult<PropertyListDto>> GetMyPropertyPaginatedList(PaginationParameter paginationParameter)
+        {
+            var myUserId = _sharedService.GetUserId();
+
+            var includeList = new Expression<Func<Property, object>>[]
+            {
+                x => x.PropertyType,
+                x => x.FurnishingType,
+                x => x.City,
+                x => x.Country,
+            };
+
+            var paginatedPropertyResult = await _unitOfWork.PropertyRepository.GetPaginateList(
+                paginationParameter.CurrentPageNo, paginationParameter.PageSize,
+                filter: q => q.PostedBy == myUserId,
+                orderBy: x => x.OrderByDescending(q => q.PostedOn),
+                includes: includeList
+                );
+            //var paginatedResult = _mapper.Map<PageResult<PropertyListDto>>(paginatedPropertyResult);
+            var paginatedResult = new PageResult<PropertyListDto>
+            {
+                PageNo = paginatedPropertyResult.PageNo,
+                PageSize = paginatedPropertyResult.PageSize,
+                TotalPages = paginatedPropertyResult.TotalPages,
+                TotalRecords = paginatedPropertyResult.TotalRecords,
+                ResultList = _mapper.Map<List<PropertyListDto>>(paginatedPropertyResult.ResultList)
+            };
+
+            return paginatedResult;
         }
 
         public async Task<PropertyDetailDto> GetPropertyDetail(int id)

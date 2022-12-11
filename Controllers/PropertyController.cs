@@ -34,10 +34,19 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         // property/myProperty
         [HttpGet("myProperty")]
+        [Authorize]
         public async Task<IActionResult> GetMyProperty()
         {
             var propertyListDto = await _propertyService.GetMyPropertyList();
             return Ok(propertyListDto);
+        }
+        
+        [HttpGet("myPropertyPaginatedList")]
+        [Authorize]
+        public async Task<IActionResult> GetMyPropertyPaginatedList([FromQuery] PaginationParameter paginationParameter)
+        {
+            var paginatedPropertyList = await _propertyService.GetMyPropertyPaginatedList(paginationParameter);
+            return Ok(paginatedPropertyList);
         }
 
         // property/addNew/1
