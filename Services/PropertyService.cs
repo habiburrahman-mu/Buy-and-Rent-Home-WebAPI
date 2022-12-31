@@ -113,5 +113,10 @@ namespace BuyandRentHomeWebAPI.Services
             return property.Id;
         }
 
+        public async Task<bool> DeleteProperty(int id)
+        {
+            await _unitOfWork.PropertyRepository.Delete(id);
+            return await _unitOfWork.SaveAsync();
+        }
     }
 }

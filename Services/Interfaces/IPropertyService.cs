@@ -11,5 +11,6 @@ namespace BuyandRentHomeWebAPI.Services.Interfaces
         Task<PageResult<PropertyListDto>> GetMyPropertyPaginatedList(PaginationParameter paginationParameter);
         Task<PropertyDetailDto> GetPropertyDetail(int id);
         Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto);
+        Task<bool> DeleteProperty(int id);
     }
 }

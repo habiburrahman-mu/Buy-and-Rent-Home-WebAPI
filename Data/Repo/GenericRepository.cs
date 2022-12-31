@@ -127,12 +127,21 @@ namespace BuyandRentHomeWebAPI.Data.Repo
         public async Task Delete(int id)
         {
             var entity = await _tableRef.FindAsync(id);
-            _tableRef.Remove(entity);
+            if(entity != null)
+            {
+                _tableRef.Remove(entity);
+            }
+
+            await Task.FromResult(0);
         }
 
-        public void DeleteRange(IEnumerable<T> entities)
+        public async void DeleteRange(IEnumerable<T> entities)
         {
-            _tableRef.RemoveRange(entities);
+            if(entities != null && entities.Any())
+            {
+                _tableRef.RemoveRange(entities);
+            }
+            await Task.FromResult(0);
         }
     }
 }

@@ -49,12 +49,22 @@ namespace BuyandRentHomeWebAPI.Controllers
             return Ok(paginatedPropertyList);
         }
 
-        // property/addNew/1
-        [HttpPost("AddNew")]
+        // property/addNew
+        [HttpPost("addNew")]
+        [Authorize]
         public async Task<IActionResult> AddNewProperty([FromBody] PropertyCreateUpdateDto propertyCreateUpdateDto)
         {
             var propertyId = await _propertyService.AddNewProperty(propertyCreateUpdateDto);
             return Ok(propertyId);
+        }
+
+        // property/delete/id
+        [HttpDelete("delete/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteProperty(int id)
+        {
+            var result = await _propertyService.DeleteProperty(id);
+            return Ok(result);
         }
     }
 }

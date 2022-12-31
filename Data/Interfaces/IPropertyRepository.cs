@@ -7,6 +7,5 @@ namespace BuyandRentHomeWebAPI.Data.Interfaces
     public interface IPropertyRepository : IGenericRepository<Property>
     {
         Task<Property> GetPropertyDetailAsync(int id);
-        void DeleteProperty(int id);
     }
 }
