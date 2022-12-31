@@ -1,4 +1,6 @@
-﻿namespace BuyandRentHomeWebAPI.Services.Interfaces
+﻿using System;
+
+namespace BuyandRentHomeWebAPI.Services.Interfaces
 {
     public interface ISharedService
     {

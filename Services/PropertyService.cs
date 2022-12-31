@@ -17,12 +17,14 @@ namespace BuyandRentHomeWebAPI.Services
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISharedService _sharedService;
+        private readonly IPhotoService _photoService;
 
-        public PropertyService(IMapper mapper, IUnitOfWork unitOfWork, ISharedService sharedService)
+        public PropertyService(IMapper mapper, IUnitOfWork unitOfWork, ISharedService sharedService, IPhotoService photoService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _sharedService = sharedService;
+            _photoService = photoService;
         }
 
         public async Task<IEnumerable<PropertyListDto>> GetPropertyList(int sellRent)
@@ -115,8 +117,17 @@ namespace BuyandRentHomeWebAPI.Services
 
         public async Task<bool> DeleteProperty(int id)
         {
+            var photoList = await _unitOfWork.PhotoRepository.GetAll(x => x.PropertyId == id);
             await _unitOfWork.PropertyRepository.Delete(id);
-            return await _unitOfWork.SaveAsync();
+            var result =  await _unitOfWork.SaveAsync();
+            if(result && photoList != null && photoList.Any())
+            {
+                foreach (var photo in photoList)
+                {
+                    _photoService.DeleteFileFromPath(photo.ImageUrl);
+                }
+            }
+            return result;
         }
     }
 }
