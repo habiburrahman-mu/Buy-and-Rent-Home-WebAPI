@@ -43,7 +43,7 @@ namespace BuyandRentHomeWebAPI.Services
             var properties = await _unitOfWork.PropertyRepository.GetAll(
                 expression: q => q.PostedBy == myUserId,
                 orderBy: x => x.OrderByDescending(q => q.PostedOn),
-                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country" });
+                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country", "Photo" });
             var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
             return propertyListDto;
         }
@@ -58,6 +58,7 @@ namespace BuyandRentHomeWebAPI.Services
                 x => x.FurnishingType,
                 x => x.City,
                 x => x.Country,
+                x => x.Photos
             };
 
             var paginatedPropertyResult = await _unitOfWork.PropertyRepository.GetPaginateList(

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Models;
+using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Helper
 {
@@ -16,7 +17,8 @@ namespace BuyandRentHomeWebAPI.Helper
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.City.Name))
                 .ForMember(d => d.Country, opt => opt.MapFrom(src => src.Country.Name))
                 .ForMember(d => d.PropertyType, opt => opt.MapFrom(src => src.PropertyType.Name))
-                .ForMember(d => d.FurnishingType, opt => opt.MapFrom(src => src.FurnishingType.Name));
+                .ForMember(d => d.FurnishingType, opt => opt.MapFrom(src => src.FurnishingType.Name))
+                .ForMember(d => d.PrimaryPhoto, opt => opt.MapFrom(src => src.Photos.Where(x => x.IsPrimary).FirstOrDefault().ImageUrl));
 
             CreateMap<Property, PropertyDetailDto>()
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.City.Name))

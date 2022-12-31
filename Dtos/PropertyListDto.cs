@@ -17,5 +17,6 @@ namespace BuyandRentHomeWebAPI.Dtos
         public string Country { get; set; }
         public bool ReadyToMove { get; set; }
         public DateTime PostedOn { get; set; }
+        public string PrimaryPhoto { get; set; }
     }
 }
