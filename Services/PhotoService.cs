@@ -21,7 +21,7 @@ namespace BuyandRentHomeWebAPI.Services
         private readonly IMapper _mapper;
         private readonly ISharedService _sharedService;
 
-        private string fileUploadDirectory = "Upload\\files";
+        private string fileUploadDirectory = "../Upload\\files";
 
         public PhotoService(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
         {
