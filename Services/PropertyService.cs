@@ -97,15 +97,15 @@ namespace BuyandRentHomeWebAPI.Services
             {
                 property = await _unitOfWork.PropertyRepository.Get(x => x.Id == propertyCreateUpdateDto.Id);
                 _mapper.Map(propertyCreateUpdateDto, property);
-                property.LastUpdatedOn = DateTime.Now;
+                property.LastUpdatedOn = DateTime.UtcNow;
                 property.LastUpdatedBy = _sharedService.GetUserId();
                 _unitOfWork.PropertyRepository.Update(property);
             }
             else
             {
-                property.PostedOn = DateTime.Now;
+                property.PostedOn = DateTime.UtcNow;
                 property.PostedBy = _sharedService.GetUserId();
-                property.LastUpdatedOn = DateTime.Now;
+                property.LastUpdatedOn = DateTime.UtcNow;
                 property.LastUpdatedBy = _sharedService.GetUserId();
 
                 await _unitOfWork.PropertyRepository.Insert(property);

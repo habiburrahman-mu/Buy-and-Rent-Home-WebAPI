@@ -78,7 +78,7 @@ namespace BuyandRentHomeWebAPI.Services
                             ImageUrl = item.value,
                             IsPrimary = !isPrimaryPhotoFromExistingImages && primaryPhotoIdOrIndex == item.index,
                             PropertyId = propertyId,
-                            LastUpdatedOn = DateTime.Now,
+                            LastUpdatedOn = DateTime.UtcNow,
                             LastUpdatedBy = _sharedService.GetUserId()
                         };
 
@@ -113,7 +113,7 @@ namespace BuyandRentHomeWebAPI.Services
             {
                 var fileName = file.FileName;
                 var extenstion = "." + fileName.Split('.')[fileName.Split('.').Length - 1];
-                var newFileName = DateTime.Now.Ticks + extenstion;
+                var newFileName = DateTime.UtcNow.Ticks + extenstion;
 
                 var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), fileUploadDirectory);
 
