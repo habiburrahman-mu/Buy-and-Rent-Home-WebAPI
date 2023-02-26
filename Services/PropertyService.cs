@@ -27,25 +27,55 @@ namespace BuyandRentHomeWebAPI.Services
             _photoService = photoService;
         }
 
-        public async Task<IEnumerable<PropertyListDto>> GetPropertyList(int sellRent)
+        public async Task<List<PropertyListDto>> GetPropertyList(int sellRent)
         {
             var properties = await _unitOfWork.PropertyRepository.GetAll(
                 expression: q => q.SellRent == sellRent,
                 orderBy: x => x.OrderBy(q => q.PostedOn),
-                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country" });
-            var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
+                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country", "Photo" });
+            var propertyListDto = _mapper.Map<List<PropertyListDto>>(properties);
             return propertyListDto;
         }
 
-        public async Task<IEnumerable<PropertyListDto>> GetMyPropertyList()
+        public async Task<List<PropertyListDto>> GetMyPropertyList()
         {
             var myUserId = _sharedService.GetUserId();
             var properties = await _unitOfWork.PropertyRepository.GetAll(
                 expression: q => q.PostedBy == myUserId,
                 orderBy: x => x.OrderByDescending(q => q.PostedOn),
                 includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country", "Photo" });
-            var propertyListDto = _mapper.Map<IEnumerable<PropertyListDto>>(properties);
+            var propertyListDto = _mapper.Map<List<PropertyListDto>>(properties);
             return propertyListDto;
+        }
+
+        public async Task<PageResult<PropertyListDto>> GetPropertyPaginatedList(PaginationParameter paginationParameter, int sellRent)
+        {
+            var includeList = new Expression<Func<Property, object>>[]
+            {
+                x => x.PropertyType,
+                x => x.FurnishingType,
+                x => x.City,
+                x => x.Country,
+                x => x.Photos
+            };
+
+            var paginatedPropertyResult = await _unitOfWork.PropertyRepository.GetPaginateList(
+                paginationParameter.CurrentPageNo, paginationParameter.PageSize,
+                filter: q => q.SellRent == sellRent,
+                orderBy: x => x.OrderByDescending(q => q.PostedOn),
+                includes: includeList
+                );
+            //var paginatedResult = _mapper.Map<PageResult<PropertyListDto>>(paginatedPropertyResult);
+            var paginatedResult = new PageResult<PropertyListDto>
+            {
+                PageNo = paginatedPropertyResult.PageNo,
+                PageSize = paginatedPropertyResult.PageSize,
+                TotalPages = paginatedPropertyResult.TotalPages,
+                TotalRecords = paginatedPropertyResult.TotalRecords,
+                ResultList = _mapper.Map<List<PropertyListDto>>(paginatedPropertyResult.ResultList)
+            };
+
+            return paginatedResult;
         }
 
         public async Task<PageResult<PropertyListDto>> GetMyPropertyPaginatedList(PaginationParameter paginationParameter)

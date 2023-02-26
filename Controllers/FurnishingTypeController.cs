@@ -19,6 +19,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         }
 
         [HttpGet("list")]
+        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> GetFurnishingType()
         {
             var furnishiningType = await _unitOfWork.FurnishingTypeRepository.GetFurnishingTypesAsync();

@@ -21,6 +21,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         }
 
         [HttpGet("list")]
+        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> GetPropertyType()
         {
             var propertyTypes = await _unitOfWork.PropertyTypeRepository.GetPropertyTypesAsync();

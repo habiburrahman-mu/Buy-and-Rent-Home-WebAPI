@@ -6,8 +6,9 @@ namespace BuyandRentHomeWebAPI.Services.Interfaces
 {
     public interface IPropertyService
     {
-        Task<IEnumerable<PropertyListDto>> GetPropertyList(int sellRent);
-        Task<IEnumerable<PropertyListDto>> GetMyPropertyList();
+        Task<List<PropertyListDto>> GetPropertyList(int sellRent);
+        Task<List<PropertyListDto>> GetMyPropertyList();
+        Task<PageResult<PropertyListDto>> GetPropertyPaginatedList(PaginationParameter paginationParameter, int sellRent);
         Task<PageResult<PropertyListDto>> GetMyPropertyPaginatedList(PaginationParameter paginationParameter);
         Task<PropertyDetailDto> GetPropertyDetail(int id);
         Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto);

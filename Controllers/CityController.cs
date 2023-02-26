@@ -38,6 +38,7 @@ namespace BuyandRentHomeWebAPI.Controllers
         }
 
         [HttpGet("list/{countryId}")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> GetCityListByCountry(int countryId)
         {
             var cityList = await _unitOfWork.CityRepository.GetCitiesByCountryAsync(countryId);

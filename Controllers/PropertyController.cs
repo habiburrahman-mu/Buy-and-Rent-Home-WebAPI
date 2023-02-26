@@ -16,12 +16,12 @@ namespace BuyandRentHomeWebAPI.Controllers
         }
 
         // property/list/2
-        [HttpGet("list/{sellRent}")]
+        [HttpGet("propertyPaginatedList/{sellRent}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetPropertyList(int sellRent)
+        public async Task<IActionResult> GetPropertyList(int sellRent, [FromQuery] PaginationParameter paginationParameter)
         {
-            var propertyList = await _propertyService.GetPropertyList(sellRent);
-            return Ok(propertyList);
+            var paginatedPropertyList = await _propertyService.GetPropertyPaginatedList(paginationParameter, sellRent);
+            return Ok(paginatedPropertyList);
         }
 
         // property/detail/1
