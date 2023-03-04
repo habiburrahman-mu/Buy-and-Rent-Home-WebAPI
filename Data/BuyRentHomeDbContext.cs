@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using BuyandRentHomeWebAPI.Models;
+using BuyandRentHomeWebAPI.Data.Entities;
 
 namespace BuyandRentHomeWebAPI.Data
 {

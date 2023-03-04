@@ -1,16 +1,9 @@
-﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Data.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using BuyandRentHomeWebAPI.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.IO;
 using System;
-using System.Collections.Generic;
-using BuyandRentHomeWebAPI.Models;
 using BuyandRentHomeWebAPI.Services.Interfaces;
 using System.Linq;
-using BuyandRentHomeWebAPI.Extensions;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {

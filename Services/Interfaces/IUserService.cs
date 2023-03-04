@@ -1,5 +1,5 @@
-﻿using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Models;
+﻿using BuyandRentHomeWebAPI.Data.Entities;
+using BuyandRentHomeWebAPI.Dtos;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Services.Interfaces

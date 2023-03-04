@@ -1,6 +1,5 @@
 ﻿using BuyandRentHomeWebAPI.Data.Interfaces;
 using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Models;
 using BuyandRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using BuyandRentHomeWebAPI.Data.Entities;
 
 namespace BuyandRentHomeWebAPI.Services
 {

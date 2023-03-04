@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BuyandRentHomeWebAPI.Models
+namespace BuyandRentHomeWebAPI.Data.Entities
 {
     public partial class Photo
     {

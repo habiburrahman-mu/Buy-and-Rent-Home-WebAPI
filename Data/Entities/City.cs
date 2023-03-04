@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BuyandRentHomeWebAPI.Models
+namespace BuyandRentHomeWebAPI.Data.Entities
 {
-    public partial class Country
+    public partial class City
     {
-        public Country()
+        public City()
         {
-            Cities = new HashSet<City>();
             Properties = new HashSet<Property>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public double Lattitude { get; set; }
+        public double Longitude { get; set; }
+        public int CountryId { get; set; }
         public int? LastUpdatedBy { get; set; }
         public DateTime? LastUpdatedOn { get; set; }
 
-        public virtual User LastUpdatedByNavigation { get; set; }
-        public virtual ICollection<City> Cities { get; set; }
+        public virtual Country Country { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using BuyandRentHomeWebAPI.Data.Entities;
 using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Models;
 using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Helper

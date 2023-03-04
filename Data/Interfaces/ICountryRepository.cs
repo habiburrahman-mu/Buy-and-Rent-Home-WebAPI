@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.Models;
+﻿using BuyandRentHomeWebAPI.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

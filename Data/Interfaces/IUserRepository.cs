@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.Models;
+﻿using BuyandRentHomeWebAPI.Data.Entities;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Data.Interfaces

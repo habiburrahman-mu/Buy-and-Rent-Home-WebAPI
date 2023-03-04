@@ -1,5 +1,5 @@
 ﻿using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Models;
+using BuyandRentHomeWebAPI.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using BuyandRentHomeWebAPI.Data;
 using BuyandRentHomeWebAPI.Data.Interfaces;
+using BuyandRentHomeWebAPI.Data.Entities;
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Extensions;
-using BuyandRentHomeWebAPI.Models;
 using BuyandRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

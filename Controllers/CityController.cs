@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BuyandRentHomeWebAPI.Data.Entities;
 
 namespace BuyandRentHomeWebAPI.Controllers
 {
