@@ -27,7 +27,7 @@ namespace BuyandRentHomeWebAPI.Data
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserPrivilege> UserPrivileges { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
@@ -132,11 +132,15 @@ namespace BuyandRentHomeWebAPI.Data
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
                 entity.Property(e => e.Description).HasMaxLength(200);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.RoleIdNavigation)

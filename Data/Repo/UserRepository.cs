@@ -5,6 +5,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Data.Repo
 {
@@ -19,7 +20,9 @@ namespace BuyandRentHomeWebAPI.Data.Repo
 
         public async Task<User> GetUserByUserName(string userName)
         {
-            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == userName);
+            var user = await _dataContext.Users
+                .Include(x => x.UserPrivileges).ThenInclude(x => x.Role)
+                .FirstOrDefaultAsync(x => x.Username == userName);
             return user;
         }
 

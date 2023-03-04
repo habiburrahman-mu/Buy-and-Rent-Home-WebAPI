@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using BuyandRentHomeWebAPI.Data.Entities;
+using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Services
 {
@@ -82,10 +83,14 @@ namespace BuyandRentHomeWebAPI.Services
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, "Admin"),
-                new Claim(ClaimTypes.Role, "Test")
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
+
+            foreach (var userPrivilege in user.UserPrivileges)
+            {
+                claims.Append(new Claim(ClaimTypes.Role, userPrivilege.Role.Name));
+            }
+
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
