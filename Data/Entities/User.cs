@@ -10,6 +10,8 @@ namespace BuyandRentHomeWebAPI.Data.Entities
             Countries = new HashSet<Country>();
             Photos = new HashSet<Photo>();
             Properties = new HashSet<Property>();
+            RoleUpdatedByNavigations = new HashSet<Role>();
+            UserPrivileges = new HashSet<UserPrivilege>();
         }
 
         public int Id { get; set; }
@@ -21,8 +23,11 @@ namespace BuyandRentHomeWebAPI.Data.Entities
         public int LastUpdatedBy { get; set; }
         public DateTime LastUpdatedOn { get; set; }
 
+        public virtual Role RoleIdNavigation { get; set; }
         public virtual ICollection<Country> Countries { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
+        public virtual ICollection<Role> RoleUpdatedByNavigations { get; set; }
+        public virtual ICollection<UserPrivilege> UserPrivileges { get; set; }
     }
 }

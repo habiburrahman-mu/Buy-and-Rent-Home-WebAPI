@@ -23,13 +23,15 @@ namespace BuyandRentHomeWebAPI.Data
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Property> Properties { get; set; }
         public virtual DbSet<PropertyType> PropertyTypes { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserPrivilege> UserPrivileges { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost;Database=BuyRentHomeDb;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Name=Default");
             }
         }
 
@@ -126,6 +128,28 @@ namespace BuyandRentHomeWebAPI.Data
                 entity.Property(e => e.Name).IsRequired();
             });
 
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Description).HasMaxLength(200);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.RoleIdNavigation)
+                    .HasForeignKey<Role>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Roles_Users_CreatedBy");
+
+                entity.HasOne(d => d.UpdatedByNavigation)
+                    .WithMany(p => p.RoleUpdatedByNavigations)
+                    .HasForeignKey(d => d.UpdatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.Email)
@@ -139,6 +163,19 @@ namespace BuyandRentHomeWebAPI.Data
                     .HasDefaultValueSql("(0x5061737340313233)");
 
                 entity.Property(e => e.Username).IsRequired();
+            });
+
+            modelBuilder.Entity<UserPrivilege>(entity =>
+            {
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserPrivileges)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserPrivileges)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             OnModelCreatingPartial(modelBuilder);
