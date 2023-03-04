@@ -82,7 +82,9 @@ namespace BuyandRentHomeWebAPI.Services
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Role, "Test")
             };
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
@@ -90,6 +92,7 @@ namespace BuyandRentHomeWebAPI.Services
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(60),
+                //Expires = DateTime.UtcNow.AddSeconds(20),
                 SigningCredentials = signingCredentials
             };
 
