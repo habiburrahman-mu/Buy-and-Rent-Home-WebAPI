@@ -27,7 +27,7 @@ namespace BuyandRentHomeWebAPI.Data
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserPrivilege> UserPrivileges { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
             if (!optionsBuilder.IsConfigured)
             {
