@@ -32,6 +32,8 @@ namespace BuyandRentHomeWebAPI.Data
 
         public IPhotoRepository PhotoRepository=>
             new PhotoRepository(_dbContext);
+        public IUserPrivilegeRepository UserPrivilegeRepository =>
+            new UserPrivilegeRepository(_dbContext);
 
         public void Dispose()
         {

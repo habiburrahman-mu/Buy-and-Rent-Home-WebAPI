@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Data.Repo
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         private readonly BuyRentHomeDbContext _dataContext;
 
-        public UserRepository(BuyRentHomeDbContext dataContext)
+        public UserRepository(BuyRentHomeDbContext dataContext) : base(dataContext)
         {
             _dataContext = dataContext;
         }

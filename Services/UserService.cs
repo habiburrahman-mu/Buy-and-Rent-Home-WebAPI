@@ -11,8 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using BuyandRentHomeWebAPI.Data.Entities;
-using System.Linq;
 using System.Collections.Generic;
+using AutoMapper;
+using BuyandRentHomeWebAPI.Specification.Constants;
 
 namespace BuyandRentHomeWebAPI.Services
 {
@@ -21,12 +22,14 @@ namespace BuyandRentHomeWebAPI.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly IMapper mapper;
 
-        public UserService(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IConfiguration configuration)
+        public UserService(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
         {
             this._httpContextAccessor = httpContextAccessor;
             this._unitOfWork = unitOfWork;
             this._configuration = configuration;
+            this.mapper = mapper;
         }
 
         public async Task<User> Authenticate(LoginRequestDto loginRequest)
@@ -56,7 +59,29 @@ namespace BuyandRentHomeWebAPI.Services
 
         public async Task<bool> Register(RegisterDto register)
         {
-            _unitOfWork.UserRepository.Register(register.UserName, register.Email, register.Password, register.Mobile);
+            byte[] passwordHash, passwordKey;
+
+            using (var hmac = new HMACSHA512())
+            {
+                passwordKey = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(register.Password));
+            }
+
+            User user = new();
+            user.Username = register.UserName.Trim();
+            user.Email = register.Email;
+            user.Password = passwordHash;
+            user.PasswordKey = passwordKey;
+            user.Mobile = register.Mobile;
+            user.LastUpdatedOn = DateTime.UtcNow;
+
+            UserPrivilege userPrivilege = new();
+            userPrivilege.User = user;
+            userPrivilege.RoleId = (int)UserRoles.User;
+
+            await _unitOfWork.UserPrivilegeRepository.Insert(userPrivilege);
+
+            //_unitOfWork.UserRepository.Register(register.UserName, register.Email, register.Password, register.Mobile);
             return await _unitOfWork.SaveAsync();
         }
 

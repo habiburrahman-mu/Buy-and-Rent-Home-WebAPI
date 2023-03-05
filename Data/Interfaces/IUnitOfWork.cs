@@ -12,6 +12,7 @@ namespace BuyandRentHomeWebAPI.Data.Interfaces
         IFurnishingTypeRepository FurnishingTypeRepository { get; }
         ICountryRepository CountryRepository { get; }
         IPhotoRepository PhotoRepository { get; }
+        IUserPrivilegeRepository UserPrivilegeRepository{ get; }
         Task<bool> SaveAsync();
     }
 }
