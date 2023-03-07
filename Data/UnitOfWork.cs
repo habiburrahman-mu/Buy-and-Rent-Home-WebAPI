@@ -35,6 +35,9 @@ namespace BuyandRentHomeWebAPI.Data
         public IUserPrivilegeRepository UserPrivilegeRepository =>
             new UserPrivilegeRepository(_dbContext);
 
+        public IRoleRepository RoleRepository =>
+            new RoleRepository(_dbContext);
+
         public void Dispose()
         {
             _dbContext.Dispose();

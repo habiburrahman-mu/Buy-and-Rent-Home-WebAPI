@@ -77,7 +77,7 @@ namespace BuyandRentHomeWebAPI.Services
 
             UserPrivilege userPrivilege = new();
             userPrivilege.User = user;
-            userPrivilege.RoleId = (int)UserRoles.User;
+            userPrivilege.RoleId = (int)UserRoleIds.User;
 
             await _unitOfWork.UserPrivilegeRepository.Insert(userPrivilege);
 
