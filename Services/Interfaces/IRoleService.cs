@@ -6,6 +6,6 @@ namespace BuyandRentHomeWebAPI.Services.Interfaces
 {
     public interface IRoleService
     {
-        Task<PageResult<Role>> GetRolePaginatedList(PaginationParameter paginationParameter);
+        Task<PageResult<RoleDto>> GetRolePaginatedList(PaginationParameter paginationParameter);
     }
 }

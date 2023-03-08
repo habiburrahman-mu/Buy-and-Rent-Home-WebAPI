@@ -1,4 +1,5 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
+﻿using AutoMapper;
+using BuyandRentHomeWebAPI.Data.Entities;
 using BuyandRentHomeWebAPI.Data.Interfaces;
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Services.Interfaces;
@@ -11,26 +12,30 @@ namespace BuyandRentHomeWebAPI.Services
     public class RoleService : IRoleService
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public RoleService(IUnitOfWork unitOfWork)
+        public RoleService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
-        public async Task<PageResult<Role>> GetRolePaginatedList(PaginationParameter paginationParameter)
+        public async Task<PageResult<RoleDto>> GetRolePaginatedList(PaginationParameter paginationParameter)
         {
             var paginatedRoleListResult = await unitOfWork.RoleRepository.GetPaginateList(
                 paginationParameter.CurrentPageNo, paginationParameter.PageSize);
 
-            var paginatedResult = new PageResult<Role>
+            var roleList = mapper.Map<List<RoleDto>>(paginatedRoleListResult.ResultList);
+
+            var paginatedResult = new PageResult<RoleDto>
             {
                 PageNo = paginatedRoleListResult.PageNo,
                 PageSize = paginatedRoleListResult.PageSize,
                 TotalPages = paginatedRoleListResult.TotalPages,
                 TotalRecords = paginatedRoleListResult.TotalRecords,
-                ResultList = paginatedRoleListResult.ResultList
+                ResultList = roleList
             };
-            return paginatedRoleListResult;
+            return paginatedResult;
         }
     }
 }
