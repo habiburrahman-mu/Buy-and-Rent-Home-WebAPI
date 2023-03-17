@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using BuyandRentHomeWebAPI.Dtos;
+using System.Linq.Expressions;
 
 namespace BuyandRentHomeWebAPI.Data.Repo
 {
@@ -16,6 +18,46 @@ namespace BuyandRentHomeWebAPI.Data.Repo
         public UserRepository(BuyRentHomeDbContext dataContext) : base(dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public async Task<PageResult<User>> GetUserPaginateList(
+            int pageNo = 1, int pageSize = 10,
+            Expression<Func<User, bool>> filter = null,
+            Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null
+            )
+        {
+            IQueryable<User> query = _dataContext.Users;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            query = query.Include(x => x.UserPrivileges).ThenInclude(x => x.Role);
+
+            int count = await query.CountAsync();
+
+            int totalPages = (int)(count > 0 ? Math.Ceiling((double)count / pageSize) : 0);
+            var skip = pageSize * (pageNo - 1);
+            query = query.Skip(skip).Take(pageSize);
+
+            var resultList = await query.ToListAsync();
+
+            var pageResult = new PageResult<User>
+            {
+                PageNo = pageNo,
+                PageSize = pageSize,
+                TotalRecords = count,
+                TotalPages = totalPages,
+                ResultList = resultList
+            };
+
+            return pageResult;
         }
 
         public async Task<User> GetUserByUserName(string userName)

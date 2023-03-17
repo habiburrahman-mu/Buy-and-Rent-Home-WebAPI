@@ -14,6 +14,9 @@ using BuyandRentHomeWebAPI.Data.Entities;
 using System.Collections.Generic;
 using AutoMapper;
 using BuyandRentHomeWebAPI.Specification.Constants;
+using BuyandRentHomeWebAPI.Data;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace BuyandRentHomeWebAPI.Services
 {
@@ -30,6 +33,24 @@ namespace BuyandRentHomeWebAPI.Services
             this._unitOfWork = unitOfWork;
             this._configuration = configuration;
             this.mapper = mapper;
+        }
+
+        public async Task<PageResult<UserDto>> GetUserPaginatedList(PaginationParameter paginationParameter)
+        {
+            var paginatedList = await _unitOfWork.UserRepository.GetUserPaginateList(
+                paginationParameter.CurrentPageNo, paginationParameter.PageSize);
+
+            var userList = mapper.Map<List<UserDto>>(paginatedList.ResultList);
+
+            var paginatedResult = new PageResult<UserDto>
+            {
+                PageNo = paginatedList.PageNo,
+                PageSize = paginatedList.PageSize,
+                TotalPages = paginatedList.TotalPages,
+                TotalRecords = paginatedList.TotalRecords,
+                ResultList = userList
+            };
+            return paginatedResult;
         }
 
         public async Task<User> Authenticate(LoginRequestDto loginRequest)
