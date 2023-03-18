@@ -18,12 +18,12 @@ namespace BuyandRentHomeWebAPI.Controllers
         {
             this.roleService = roleService;
         }
-        // GET: role/RolePaginatedList
-        [HttpGet("RolePaginatedList")]
-        public async Task<IActionResult> GetRolePaginatedList([FromQuery] PaginationParameter paginationParameter)
+        // GET: role/List
+        [HttpGet("List")]
+        public async Task<IActionResult> GetRoleList()
         {
-            var paginatedList = await roleService.GetRolePaginatedList(paginationParameter);
-            return Ok(paginatedList);
+            var list = await roleService.GetRoleList();
+            return Ok(list);
         }
 
         // GET api/<RoleController>/5

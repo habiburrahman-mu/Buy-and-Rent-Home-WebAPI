@@ -20,22 +20,13 @@ namespace BuyandRentHomeWebAPI.Services
             this.mapper = mapper;
         }
 
-        public async Task<PageResult<RoleDto>> GetRolePaginatedList(PaginationParameter paginationParameter)
+        public async Task<List<RoleDto>> GetRoleList()
         {
-            var paginatedRoleListResult = await unitOfWork.RoleRepository.GetPaginateList(
-                paginationParameter.CurrentPageNo, paginationParameter.PageSize);
+            var roleList = await unitOfWork.RoleRepository.GetAll();
 
-            var roleList = mapper.Map<List<RoleDto>>(paginatedRoleListResult.ResultList);
+            var roleDtoList = mapper.Map<List<RoleDto>>(roleList);
 
-            var paginatedResult = new PageResult<RoleDto>
-            {
-                PageNo = paginatedRoleListResult.PageNo,
-                PageSize = paginatedRoleListResult.PageSize,
-                TotalPages = paginatedRoleListResult.TotalPages,
-                TotalRecords = paginatedRoleListResult.TotalRecords,
-                ResultList = roleList
-            };
-            return paginatedResult;
+            return roleDtoList;
         }
     }
 }
