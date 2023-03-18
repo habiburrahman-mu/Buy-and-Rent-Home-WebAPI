@@ -19,7 +19,7 @@ namespace BuyandRentHomeWebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet("PaginatedList")]
-        public async Task<IActionResult> GetRolePaginatedList([FromQuery] PaginationParameter paginationParameter)
+        public async Task<IActionResult> GetUserPaginatedList([FromQuery] PaginationParameter paginationParameter)
         {
             var paginatedList = await userService.GetUserPaginatedList(paginationParameter);
             return Ok(paginatedList);
