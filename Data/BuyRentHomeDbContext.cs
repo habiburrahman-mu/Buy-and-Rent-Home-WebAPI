@@ -130,8 +130,6 @@ namespace BuyandRentHomeWebAPI.Data
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
                 entity.Property(e => e.Description).HasMaxLength(200);
@@ -142,11 +140,10 @@ namespace BuyandRentHomeWebAPI.Data
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.RoleIdNavigation)
-                    .HasForeignKey<Role>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Roles_Users_CreatedBy");
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.RoleCreatedByNavigations)
+                    .HasForeignKey(d => d.CreatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.UpdatedByNavigation)
                     .WithMany(p => p.RoleUpdatedByNavigations)
