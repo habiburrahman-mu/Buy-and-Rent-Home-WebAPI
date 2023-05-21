@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace BuyandRentHomeWebAPI.Middlewares
     public class WebSocketMiddleware
     {
         private readonly RequestDelegate next;
+        private static readonly ConcurrentDictionary<string, WebSocket> _connectedClients = new();
 
         public WebSocketMiddleware(RequestDelegate _next)
         {
@@ -21,6 +23,7 @@ namespace BuyandRentHomeWebAPI.Middlewares
             if (context.WebSockets.IsWebSocketRequest)
             {
                 WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                _connectedClients.TryAdd(webSocket.GetHashCode().ToString(), webSocket);
                 await HandleWebSocketConnection(webSocket);
             }
             else
@@ -47,11 +50,12 @@ namespace BuyandRentHomeWebAPI.Middlewares
             }
             finally
             {
-                if (webSocket.State == WebSocketState.CloseReceived)
+                _connectedClients.TryRemove(webSocket.GetHashCode().ToString(), out _);
+                if (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived)
                 {
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Clpsing", CancellationToken.None);
-                    webSocket.Dispose();
                 }
+                webSocket.Dispose();
             }
         }
 
@@ -59,7 +63,20 @@ namespace BuyandRentHomeWebAPI.Middlewares
         {
             string message = System.Text.Encoding.UTF8.GetString(buffer, 0, count);
             Console.WriteLine(message);
-            await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, count), WebSocketMessageType.Text, true, CancellationToken.None);
+            await BroadCastMessageToAll(webSocket, message);
+            //await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, count), WebSocketMessageType.Text, true, CancellationToken.None);
+        }
+
+        private async Task BroadCastMessageToAll(WebSocket sender, string message)
+        {
+            foreach (var client in _connectedClients.Values)
+            {
+                if (client != sender)
+                {
+                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(message);
+                    await client.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+            }
         }
     }
 
