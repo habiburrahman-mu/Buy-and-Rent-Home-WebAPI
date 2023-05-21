@@ -40,7 +40,13 @@ namespace BuyandRentHomeWebAPI.Middlewares
                 while (webSocket.State == WebSocketState.Open)
                 {
                     WebSocketReceiveResult result = await webSocket.ReceiveAsync(buffer, CancellationToken.None);
-                    await ProcessWebSocketMessage(webSocket, buffer, result.Count);
+                    string message = ProcessWebSocketMessage(buffer, result.Count);
+                    while (!result.EndOfMessage)
+                    {
+                        result = await webSocket.ReceiveAsync(buffer, CancellationToken.None);
+                        message += ProcessWebSocketMessage(buffer, result.Count);
+                    }
+                    await BroadCastMessageToAll(webSocket, message);
                 }
 
             }
@@ -59,11 +65,11 @@ namespace BuyandRentHomeWebAPI.Middlewares
             }
         }
 
-        private async Task ProcessWebSocketMessage(WebSocket webSocket, byte[] buffer, int count)
+        private string ProcessWebSocketMessage(byte[] buffer, int count)
         {
             string message = System.Text.Encoding.UTF8.GetString(buffer, 0, count);
-            Console.WriteLine(message);
-            await BroadCastMessageToAll(webSocket, message);
+            return message;
+            //await BroadCastMessageToAll(webSocket, message);
             //await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, count), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
