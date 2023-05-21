@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;
+using System.Net;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,9 +24,17 @@ namespace BuyandRentHomeWebAPI.Middlewares
         {
             if (context.WebSockets.IsWebSocketRequest)
             {
-                WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                _connectedClients.TryAdd(webSocket.GetHashCode().ToString(), webSocket);
-                await HandleWebSocketConnection(webSocket);
+                if (context.Request.Path == "/chat")
+                {
+                    WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                    _connectedClients.TryAdd(webSocket.GetHashCode().ToString(), webSocket);
+                    await HandleWebSocketConnection(webSocket);
+                }
+                else
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    return;
+                }
             }
             else
             {
