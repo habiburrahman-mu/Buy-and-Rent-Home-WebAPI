@@ -85,6 +85,9 @@ namespace BuyandRentHomeWebAPI
             app.UseSwagger();
             //app.UseSwaggerUI();
 
+            app.UseWebSockets();
+            app.UseWebSocketMiddleware();
+
             app.UseRouting();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
