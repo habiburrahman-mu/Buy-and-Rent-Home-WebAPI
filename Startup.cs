@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using BuyandRentHomeWebAPI.WebSocketHandlers;
 
 namespace BuyandRentHomeWebAPI
 {
@@ -51,6 +52,7 @@ namespace BuyandRentHomeWebAPI
             services.AddScoped<IPropertyService, PropertyService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserPrivilegeService, UserPrivilegeService>();
+            services.AddSingleton<IChatWebSocketHandler, ChatWebSocketHandler>();
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -85,9 +87,6 @@ namespace BuyandRentHomeWebAPI
             app.UseSwagger();
             //app.UseSwaggerUI();
 
-            app.UseWebSockets();
-            app.UseWebSocketMiddleware();
-
             app.UseRouting();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
@@ -96,6 +95,9 @@ namespace BuyandRentHomeWebAPI
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseWebSockets();
+            app.UseWebSocketMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
