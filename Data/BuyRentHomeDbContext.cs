@@ -18,6 +18,8 @@ public partial class BuyRentHomeDbContext : DbContext
 
     public virtual DbSet<ChatMessage> ChatMessages { get; set; }
 
+    public virtual DbSet<CitiesAreaManager> CitiesAreaManagers { get; set; }
+
     public virtual DbSet<City> Cities { get; set; }
 
     public virtual DbSet<Country> Countries { get; set; }
@@ -56,6 +58,27 @@ public partial class BuyRentHomeDbContext : DbContext
                 .HasForeignKey(d => d.SenderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ChatMessages_SenderId_Users_Id");
+        });
+
+        modelBuilder.Entity<CitiesAreaManager>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.LastUpdatedOn).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.City).WithMany(p => p.CitiesAreaManagers)
+                .HasForeignKey(d => d.CityId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CitiesAreaManagersCityId_CitiesId");
+
+            entity.HasOne(d => d.LastUpdatedByNavigation).WithMany(p => p.CitiesAreaManagerLastUpdatedByNavigations)
+                .HasForeignKey(d => d.LastUpdatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CitiesAreaManagersLastUpdatedBy_UsersId");
+
+            entity.HasOne(d => d.Manager).WithMany(p => p.CitiesAreaManagerManagers)
+                .HasForeignKey(d => d.ManagerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CitiesAreaManagersManagerId_UsersId");
         });
 
         modelBuilder.Entity<City>(entity =>

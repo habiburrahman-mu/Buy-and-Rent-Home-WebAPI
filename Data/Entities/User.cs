@@ -25,6 +25,10 @@ public partial class User
 
     public virtual ICollection<ChatMessage> ChatMessageSenders { get; set; } = new List<ChatMessage>();
 
+    public virtual ICollection<CitiesAreaManager> CitiesAreaManagerLastUpdatedByNavigations { get; set; } = new List<CitiesAreaManager>();
+
+    public virtual ICollection<CitiesAreaManager> CitiesAreaManagerManagers { get; set; } = new List<CitiesAreaManager>();
+
     public virtual ICollection<Country> Countries { get; set; } = new List<Country>();
 
     public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();

@@ -19,6 +19,8 @@ public partial class City
 
     public DateTime? LastUpdatedOn { get; set; }
 
+    public virtual ICollection<CitiesAreaManager> CitiesAreaManagers { get; set; } = new List<CitiesAreaManager>();
+
     public virtual Country Country { get; set; }
 
     public virtual ICollection<Property> Properties { get; set; } = new List<Property>();

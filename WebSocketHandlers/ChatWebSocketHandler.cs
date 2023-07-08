@@ -1,5 +1,6 @@
 ﻿using BuyandRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -14,16 +15,26 @@ namespace BuyandRentHomeWebAPI.WebSocketHandlers
     public class ChatWebSocketHandler : IChatWebSocketHandler
     {
         private static readonly ConcurrentDictionary<int, List<WebSocket>> _connectedClients = new();
+        private readonly IServiceProvider serviceProvider;
 
-
-        public ChatWebSocketHandler()
+        public ChatWebSocketHandler(IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
         }
 
         public async Task HandleWebSocketConnection(WebSocket webSocket, HttpContext context)
         {
-            var currentUserIdString = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            Int32.TryParse(currentUserIdString, out int currentUserId);
+
+            //var currentUserIdString = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            //Int32.TryParse(currentUserIdString, out int currentUserId);
+
+            int currentUserId = 0;
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var sharedService = scope.ServiceProvider.GetService<ISharedService>();
+                currentUserId = sharedService.GetUserId();
+            }
 
             var socketListForCurrentUser = _connectedClients.GetOrAdd(currentUserId, new List<WebSocket>());
             socketListForCurrentUser.Add(webSocket);
