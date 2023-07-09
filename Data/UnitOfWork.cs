@@ -38,6 +38,9 @@ namespace BuyandRentHomeWebAPI.Data
         public IRoleRepository RoleRepository =>
             new RoleRepository(_dbContext);
 
+        public ICitiesAreaManagerRepository CitiesAreaManagerRepository =>
+            new CitiesAreaManagerRepository(_dbContext);
+
         public void Dispose()
         {
             _dbContext.Dispose();

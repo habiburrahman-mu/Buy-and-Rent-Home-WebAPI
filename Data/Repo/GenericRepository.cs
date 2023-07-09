@@ -45,6 +45,28 @@ namespace BuyandRentHomeWebAPI.Data.Repo
             return await query.AsNoTracking().ToListAsync();
         }
 
+        public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _tableRef;
+
+            if (expression != null)
+            {
+                query = query.Where(expression);
+            }
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            return await query.AsNoTracking().ToListAsync();
+        }
+
         public async Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null)
         {
             IQueryable<T> query = _tableRef;
@@ -55,6 +77,20 @@ namespace BuyandRentHomeWebAPI.Data.Repo
                 {
                     query = query.Include(includeProperty);
                 }
+            }
+
+            return await query.AsNoTracking().FirstOrDefaultAsync(expression);
+        }
+
+        public async Task<T> Get(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _tableRef;
+
+            query = query.Where(expression);
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
             }
 
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
