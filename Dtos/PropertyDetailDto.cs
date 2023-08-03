@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BuyandRentHomeWebAPI.Dtos
 {
@@ -20,6 +21,9 @@ namespace BuyandRentHomeWebAPI.Dtos
         public bool Parking { get; set; }
         public bool SwimmingPool { get; set; }
         public string Description { get; set; }
+        public string AvailableDays { get; set; }
+        public TimeSpan AvailableStartTime { get; set; }
+        public TimeSpan AvailableEndTime { get; set; }
         public int PostedBy { get; set; }
         public ICollection<PhotoDto> Photos { get; set; }
     }
