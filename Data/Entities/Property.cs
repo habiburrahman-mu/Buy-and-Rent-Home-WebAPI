@@ -47,6 +47,12 @@ public partial class Property
 
     public string Description { get; set; }
 
+    public string AvailableDays { get; set; }
+
+    public TimeSpan AvailableStartTime { get; set; }
+
+    public TimeSpan AvailableEndTime { get; set; }
+
     public DateTime PostedOn { get; set; }
 
     public int PostedBy { get; set; }

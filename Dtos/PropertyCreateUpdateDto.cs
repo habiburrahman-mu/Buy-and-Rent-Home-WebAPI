@@ -1,4 +1,6 @@
-﻿namespace BuyandRentHomeWebAPI.Dtos
+﻿using System;
+
+namespace BuyandRentHomeWebAPI.Dtos
 {
     public class PropertyCreateUpdateDto
     {
@@ -23,5 +25,8 @@
         public bool Parking { get; set; }
         public bool SwimmingPool { get; set; }
         public string Description { get; set; }
+        public string AvailableDays { get; set; }
+        public TimeSpan AvailableStartTime { get; set; }
+        public TimeSpan AvailableEndTime { get; set; }
     }
 }

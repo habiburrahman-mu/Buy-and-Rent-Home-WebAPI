@@ -139,6 +139,10 @@ public partial class BuyRentHomeDbContext : DbContext
 
             entity.HasIndex(e => e.PropertyTypeId, "IX_Properties_PropertyTypeId");
 
+            entity.Property(e => e.AvailableDays)
+                .IsRequired()
+                .HasMaxLength(30)
+                .IsUnicode(false);
             entity.Property(e => e.Landmark).HasMaxLength(50);
             entity.Property(e => e.Name).IsRequired();
             entity.Property(e => e.StreetAddress).IsRequired();
