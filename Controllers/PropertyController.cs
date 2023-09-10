@@ -66,5 +66,15 @@ namespace BuyandRentHomeWebAPI.Controllers
             var result = await _propertyService.DeleteProperty(id);
             return Ok(result);
         }
+
+        [HttpGet("getAvailableSlotsForNext10Days/{propertyId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAvailableSlotsForNext10Days(int propertyId)
+        {
+            var result = await _propertyService.GetAvailableSlotsForNext10Days(propertyId);
+            return Ok(result);
+        }
+
+
     }
 }

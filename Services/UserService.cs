@@ -143,7 +143,7 @@ namespace BuyandRentHomeWebAPI.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(60),
+                Expires = DateTime.UtcNow.AddDays(60),
                 //Expires = DateTime.UtcNow.AddSeconds(20),
                 SigningCredentials = signingCredentials
             };

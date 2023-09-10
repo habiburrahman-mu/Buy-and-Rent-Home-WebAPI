@@ -141,7 +141,7 @@ public partial class BuyRentHomeDbContext : DbContext
 
             entity.Property(e => e.AvailableDays)
                 .IsRequired()
-                .HasMaxLength(30)
+                .HasMaxLength(60)
                 .IsUnicode(false);
             entity.Property(e => e.Landmark).HasMaxLength(50);
             entity.Property(e => e.Name).IsRequired();

@@ -150,8 +150,8 @@ namespace BuyandRentHomeWebAPI.Services
         {
             var photoList = await _unitOfWork.PhotoRepository.GetAll(x => x.PropertyId == id);
             await _unitOfWork.PropertyRepository.Delete(id);
-            var result =  await _unitOfWork.SaveAsync();
-            if(result && photoList != null && photoList.Any())
+            var result = await _unitOfWork.SaveAsync();
+            if (result && photoList != null && photoList.Any())
             {
                 foreach (var photo in photoList)
                 {
@@ -159,6 +159,45 @@ namespace BuyandRentHomeWebAPI.Services
                 }
             }
             return result;
+        }
+
+        public async Task<dynamic> GetAvailableSlotsForNext10Days(int propertyId)
+        {
+            var property = await _unitOfWork.PropertyRepository.Get(x => x.Id == propertyId);
+            var availableDays = property.AvailableDays.Split(',').Select(x => x).ToList();
+
+            var availableTimeSlots = new List<dynamic>();
+
+            var tomorrow = DateTime.UtcNow.AddDays(1);
+            var endDate = tomorrow.AddDays(7);
+
+            for (var currentDate = tomorrow; currentDate < endDate; currentDate = currentDate.AddDays(1))
+            {
+                if (availableDays.Contains(currentDate.DayOfWeek.ToString()))
+                {
+                    var hoursList = new List<dynamic>();
+
+                    for (var startTime = property.AvailableStartTime; startTime < property.AvailableEndTime; startTime = startTime.Add(TimeSpan.FromMinutes(30)))
+                    {
+                        var tes = new
+                        {
+                            Start = startTime,
+                            End = startTime.Add(TimeSpan.FromMinutes(30))
+                        };
+
+                        hoursList.Add(tes);
+                    }
+                    var tesT = new
+                    {
+                        date = currentDate,
+                        day = currentDate.DayOfWeek.ToString(),
+                        availableHours = hoursList
+                    };
+                    availableTimeSlots.Add(tesT);
+                }
+            }
+
+            return availableTimeSlots;
         }
     }
 }
