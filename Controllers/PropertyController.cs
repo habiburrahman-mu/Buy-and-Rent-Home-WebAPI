@@ -67,11 +67,11 @@ namespace BuyandRentHomeWebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("getAvailableSlotsForNext10Days/{propertyId}")]
+        [HttpGet("getAvailableSlotsForNext7Days/{propertyId}")]
         [Authorize]
-        public async Task<IActionResult> GetAvailableSlotsForNext10Days(int propertyId)
+        public async Task<IActionResult> GetAvailableSlotsForNext7Days(int propertyId)
         {
-            var result = await _propertyService.GetAvailableSlotsForNext10Days(propertyId);
+            var result = await _propertyService.GetAvailableSlotsForNext7Days(propertyId);
             return Ok(result);
         }
 

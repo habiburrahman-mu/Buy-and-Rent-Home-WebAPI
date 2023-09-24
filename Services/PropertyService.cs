@@ -161,12 +161,12 @@ namespace BuyandRentHomeWebAPI.Services
             return result;
         }
 
-        public async Task<dynamic> GetAvailableSlotsForNext10Days(int propertyId)
+        public async Task<dynamic> GetAvailableSlotsForNext7Days(int propertyId)
         {
             var property = await _unitOfWork.PropertyRepository.Get(x => x.Id == propertyId);
             var availableDays = property.AvailableDays.Split(',').Select(x => x).ToList();
 
-            var availableTimeSlots = new List<dynamic>();
+            var dayAvailabilityList = new List<dynamic>();
 
             var tomorrow = DateTime.UtcNow.AddDays(1);
             var endDate = tomorrow.AddDays(7);
@@ -175,29 +175,29 @@ namespace BuyandRentHomeWebAPI.Services
             {
                 if (availableDays.Contains(currentDate.DayOfWeek.ToString()))
                 {
-                    var hoursList = new List<dynamic>();
+                    var timeSlotList = new List<TimeSlot>();
 
                     for (var startTime = property.AvailableStartTime; startTime < property.AvailableEndTime; startTime = startTime.Add(TimeSpan.FromMinutes(30)))
                     {
-                        var tes = new
+                        var timeSlot = new TimeSlot
                         {
                             Start = startTime,
                             End = startTime.Add(TimeSpan.FromMinutes(30))
                         };
 
-                        hoursList.Add(tes);
+                        timeSlotList.Add(timeSlot);
                     }
-                    var tesT = new
+                    var dayAvailability = new DayAvailability
                     {
-                        date = currentDate,
-                        day = currentDate.DayOfWeek.ToString(),
-                        availableHours = hoursList
+                        Date = currentDate,
+                        Day = currentDate.DayOfWeek.ToString(),
+                        AvailableTimeSlots = timeSlotList
                     };
-                    availableTimeSlots.Add(tesT);
+                    dayAvailabilityList.Add(dayAvailability);
                 }
             }
 
-            return availableTimeSlots;
+            return dayAvailabilityList;
         }
     }
 }
