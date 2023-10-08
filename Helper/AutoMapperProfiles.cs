@@ -38,6 +38,7 @@ namespace BuyandRentHomeWebAPI.Helper
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<UserPrivilege, UserPrivilegeDto>()
                 .ForMember(d => d.RoleName, opt => opt.MapFrom(src => src.Role.Name));
+            CreateMap<VisitingRequestCreateDto, VisitingRequest>();
         }
     }
 }

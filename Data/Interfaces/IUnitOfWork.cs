@@ -15,6 +15,7 @@ namespace BuyandRentHomeWebAPI.Data.Interfaces
         IUserPrivilegeRepository UserPrivilegeRepository { get; }
         IRoleRepository RoleRepository { get; }
         ICitiesAreaManagerRepository CitiesAreaManagerRepository { get; }
+        IVisitingRequestRepository VisitingRequestRepository { get; }
         Task<bool> SaveAsync();
     }
 }

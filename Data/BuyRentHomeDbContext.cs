@@ -38,6 +38,8 @@ public partial class BuyRentHomeDbContext : DbContext
 
     public virtual DbSet<UserPrivilege> UserPrivileges { get; set; }
 
+    public virtual DbSet<VisitingRequest> VisitingRequests { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=Default");
 
@@ -214,6 +216,40 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.UserPrivileges)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<VisitingRequest>(entity =>
+        {
+            entity.Property(e => e.ContactNumber)
+                .IsRequired()
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.DateOn).HasColumnType("date");
+            entity.Property(e => e.EndTime).HasColumnType("datetime");
+            entity.Property(e => e.Notes)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.StartTime)
+                .HasColumnType("datetime")
+                .HasColumnName("StartTIme");
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasDefaultValueSql("('N')")
+                .IsFixedLength()
+                .HasComment("P: Pending; A: Approved; N: Not Approved");
+
+            entity.HasOne(d => d.Property).WithMany(p => p.VisitingRequests)
+                .HasForeignKey(d => d.PropertyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_VisitingRequests_Properties");
+
+            entity.HasOne(d => d.TakenByNavigation).WithMany(p => p.VisitingRequests)
+                .HasForeignKey(d => d.TakenBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_VisitingRequests_Users");
         });
 
         OnModelCreatingPartial(modelBuilder);

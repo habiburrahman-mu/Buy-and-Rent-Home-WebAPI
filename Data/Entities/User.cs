@@ -40,4 +40,6 @@ public partial class User
     public virtual ICollection<Role> RoleUpdatedByNavigations { get; set; } = new List<Role>();
 
     public virtual ICollection<UserPrivilege> UserPrivileges { get; set; } = new List<UserPrivilege>();
+
+    public virtual ICollection<VisitingRequest> VisitingRequests { get; set; } = new List<VisitingRequest>();
 }

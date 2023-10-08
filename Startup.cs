@@ -51,6 +51,9 @@ namespace BuyandRentHomeWebAPI
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserPrivilegeService, UserPrivilegeService>();
             services.AddScoped<ICitiesAreaManagerService, CitiesAreaManagerService>();
+            services.AddScoped<IVisitingRequestService, VisitingRequestService>();
+
+
             services.AddSingleton<IChatWebSocketHandler, ChatWebSocketHandler>();
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;

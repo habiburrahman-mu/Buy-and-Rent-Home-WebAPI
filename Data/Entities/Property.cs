@@ -72,4 +72,6 @@ public partial class Property
     public virtual User PostedByNavigation { get; set; }
 
     public virtual PropertyType PropertyType { get; set; }
+
+    public virtual ICollection<VisitingRequest> VisitingRequests { get; set; } = new List<VisitingRequest>();
 }

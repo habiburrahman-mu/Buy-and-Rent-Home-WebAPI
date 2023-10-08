@@ -14,4 +14,11 @@
     //    AreaManager = "Area Manager",
     //    User = 18
     //}
+
+    public enum VisitingRequestStatus
+    {
+        Pending = 'P',
+        Approved = 'A',
+        NotApproved = 'N'
+    }
 }
