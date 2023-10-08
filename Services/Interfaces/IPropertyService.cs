@@ -13,6 +13,6 @@ namespace BuyandRentHomeWebAPI.Services.Interfaces
         Task<PropertyDetailDto> GetPropertyDetail(int id);
         Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto);
         Task<bool> DeleteProperty(int id);
-        Task<dynamic> GetAvailableSlotsForNext7Days(int propertyId);
+        Task<List<DayAvailability>> GetAvailableSlotsForNext7Days(int propertyId);
     }
 }

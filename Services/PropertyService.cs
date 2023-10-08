@@ -161,12 +161,12 @@ namespace BuyandRentHomeWebAPI.Services
             return result;
         }
 
-        public async Task<dynamic> GetAvailableSlotsForNext7Days(int propertyId)
+        public async Task<List<DayAvailability>> GetAvailableSlotsForNext7Days(int propertyId)
         {
             var property = await _unitOfWork.PropertyRepository.Get(x => x.Id == propertyId);
             var availableDays = property.AvailableDays.Split(',').Select(x => x).ToList();
 
-            var dayAvailabilityList = new List<dynamic>();
+            var dayAvailabilityList = new List<DayAvailability>();
 
             var tomorrow = DateTime.UtcNow.AddDays(1);
             var endDate = tomorrow.AddDays(7);
