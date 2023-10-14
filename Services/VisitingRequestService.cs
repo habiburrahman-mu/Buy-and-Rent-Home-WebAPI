@@ -29,5 +29,13 @@ namespace BuyandRentHomeWebAPI.Services
             await unitOfWork.SaveAsync();
             return visitingRequest.Id;
         }
+
+        public async Task<VisitingRequestDetailDto> GetVisitingRequestDetailForCurrentUserByPropertyId(int propertyId)
+        {
+            var currentUser = sharedService.GetUserId();
+            var result = await unitOfWork.VisitingRequestRepository.Get(x => x.TakenBy == currentUser && x.PropertyId == propertyId);
+            var visitingRequestDetailDto = mapper.Map<VisitingRequestDetailDto>(result);
+            return visitingRequestDetailDto;
+        }
     }
 }

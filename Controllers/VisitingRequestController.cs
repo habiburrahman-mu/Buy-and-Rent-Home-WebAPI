@@ -18,6 +18,14 @@ namespace BuyandRentHomeWebAPI.Controllers
         }
 
         [Authorize(Roles = "User")]
+        [HttpGet("GetVisitingRequestDetailForCurrentUser/{propertyId}")]
+        public async Task<IActionResult> GetVisitingRequestDetailForCurrentUser(int propertyId)
+        {
+            var result = await visitingRequestService.GetVisitingRequestDetailForCurrentUserByPropertyId(propertyId);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "User")]
         [HttpPost("Create")]
         public async Task<IActionResult> Create(VisitingRequestCreateDto visitingRequestCreateDto)
         {

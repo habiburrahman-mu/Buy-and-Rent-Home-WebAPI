@@ -223,8 +223,7 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.Property(e => e.ContactNumber)
                 .IsRequired()
                 .HasMaxLength(15)
-                .IsUnicode(false)
-                .IsFixedLength();
+                .IsUnicode(false);
             entity.Property(e => e.DateOn).HasColumnType("date");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.Notes)
