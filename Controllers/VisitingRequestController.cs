@@ -29,8 +29,8 @@ namespace BuyandRentHomeWebAPI.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Create(VisitingRequestCreateDto visitingRequestCreateDto)
         {
-            var visitingRequestId = await visitingRequestService.CreateVisitingRequest(visitingRequestCreateDto);
-            return Ok(visitingRequestId);
+            var visitingRequest = await visitingRequestService.CreateVisitingRequest(visitingRequestCreateDto);
+            return Ok(visitingRequest);
         }
     }
 }

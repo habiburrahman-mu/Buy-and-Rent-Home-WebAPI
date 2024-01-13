@@ -20,14 +20,17 @@ namespace BuyandRentHomeWebAPI.Services
             this.mapper = mapper;
             this.sharedService = sharedService;
         }
-        public async Task<int> CreateVisitingRequest(VisitingRequestCreateDto visitingRequestCreateDto)
+        public async Task<VisitingRequestDetailDto> CreateVisitingRequest(VisitingRequestCreateDto visitingRequestCreateDto)
         {
             var visitingRequest = mapper.Map<VisitingRequest>(visitingRequestCreateDto);
             visitingRequest.TakenBy = sharedService.GetUserId();
             visitingRequest.Status = ((char)VisitingRequestStatus.Pending).ToString();
             await unitOfWork.VisitingRequestRepository.Insert(visitingRequest);
             await unitOfWork.SaveAsync();
-            return visitingRequest.Id;
+
+            var visitingRequestDetailDto = mapper.Map<VisitingRequestDetailDto>(visitingRequest);
+
+            return visitingRequestDetailDto;
         }
 
         public async Task<VisitingRequestDetailDto> GetVisitingRequestDetailForCurrentUserByPropertyId(int propertyId)
