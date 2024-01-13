@@ -165,28 +165,28 @@ namespace BuyandRentHomeWebAPI.Services
         {
             var property = await _unitOfWork.PropertyRepository.Get(x => x.Id == propertyId);
             var availableDays = property.AvailableDays.Split(',').Select(x => x).ToList();
+            List<DayAvailability> dayAvailabilityList = await CreateDayAvailabilityList(propertyId, property, availableDays);
 
+            return dayAvailabilityList;
+        }
+
+        private async Task<List<DayAvailability>> CreateDayAvailabilityList(int propertyId, Property property, List<string> availableDays)
+        {
             var dayAvailabilityList = new List<DayAvailability>();
 
             var tomorrow = DateTime.UtcNow.AddDays(1);
             var endDate = tomorrow.AddDays(7);
 
+            var takenTimeSlotList = await _unitOfWork.VisitingRequestRepository.GetAll(x => x.PropertyId == propertyId && tomorrow <= x.DateOn && x.DateOn <= endDate);
+
             for (var currentDate = tomorrow; currentDate < endDate; currentDate = currentDate.AddDays(1))
             {
+                var existingSchedules = takenTimeSlotList.Where(x => x.DateOn.Date == currentDate.Date).ToList();
+                var takenStartTimeList = existingSchedules.Select(x => x.StartTime.TimeOfDay).ToList();
+
                 if (availableDays.Contains(currentDate.DayOfWeek.ToString()))
                 {
-                    var timeSlotList = new List<TimeSlot>();
-
-                    for (var startTime = property.AvailableStartTime; startTime < property.AvailableEndTime; startTime = startTime.Add(TimeSpan.FromMinutes(30)))
-                    {
-                        var timeSlot = new TimeSlot
-                        {
-                            Start = startTime,
-                            End = startTime.Add(TimeSpan.FromMinutes(30))
-                        };
-
-                        timeSlotList.Add(timeSlot);
-                    }
+                    List<TimeSlot> timeSlotList = CreateTimeSlotList(property, takenStartTimeList);
                     var dayAvailability = new DayAvailability
                     {
                         Date = currentDate,
@@ -198,6 +198,27 @@ namespace BuyandRentHomeWebAPI.Services
             }
 
             return dayAvailabilityList;
+        }
+
+        private static List<TimeSlot> CreateTimeSlotList(Property property, List<TimeSpan> takenStartTimeList)
+        {
+            var timeSlotList = new List<TimeSlot>();
+
+            for (var startTime = property.AvailableStartTime; startTime < property.AvailableEndTime; startTime = startTime.Add(TimeSpan.FromMinutes(30)))
+            {
+                if (!takenStartTimeList.Contains(startTime))
+                {
+                    var timeSlot = new TimeSlot
+                    {
+                        Start = startTime,
+                        End = startTime.Add(TimeSpan.FromMinutes(30))
+                    };
+                    timeSlotList.Add(timeSlot);
+                }
+
+            }
+
+            return timeSlotList;
         }
     }
 }
