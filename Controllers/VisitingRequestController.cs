@@ -35,9 +35,9 @@ namespace BuyAndRentHomeWebAPI.Controllers
 
         [Authorize(Roles = "User")]
         [HttpGet("GetVisitingRequestListForMyProperties")]
-        public async Task<IActionResult> GetVisitingRequestListForMyProperties()
+        public async Task<IActionResult> GetVisitingRequestListForMyProperties([FromQuery]string status = null, [FromQuery]int? propertyId = null)
         {
-            var list = await visitingRequestService.GetVisitingRequestListForMyProperties();
+            var list = await visitingRequestService.GetVisitingRequestListForMyProperties(status, propertyId);
             return Ok(list);
         }
     }

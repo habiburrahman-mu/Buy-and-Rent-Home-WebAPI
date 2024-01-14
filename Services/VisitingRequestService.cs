@@ -44,10 +44,10 @@ namespace BuyAndRentHomeWebAPI.Services
             return visitingRequestDetailDto;
         }
 
-        public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForMyProperties()
+        public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForMyProperties(string status = null, int? propertyId = null)
         {
             var ownerId = sharedService.GetUserId();
-            var visitingRequestList = await unitOfWork.VisitingRequestRepository.GetVisitingRequestListForOwner(ownerId);
+            var visitingRequestList = await unitOfWork.VisitingRequestRepository.GetVisitingRequestListForOwner(ownerId, status, propertyId);
             return visitingRequestList;
         }
     }

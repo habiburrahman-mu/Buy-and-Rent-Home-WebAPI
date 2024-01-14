@@ -47,7 +47,8 @@ namespace BuyAndRentHomeWebAPI.Data.Repo
                 Status = x.Status,
                 Notes = x.Notes
             })
-            .OrderBy(x => x.StartTime)
+            .OrderBy(x => x.DateOn)
+            .ThenBy(x => x.StartTime)
             .AsNoTracking()
             .ToListAsync();
             return list;
