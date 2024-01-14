@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.Errors;
+﻿using BuyAndRentHomeWebAPI.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -6,7 +6,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Middlewares
+namespace BuyAndRentHomeWebAPI.Middlewares
 {
     public class ExceptionMiddleware
     {

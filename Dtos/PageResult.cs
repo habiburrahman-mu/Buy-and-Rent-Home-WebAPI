@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BuyandRentHomeWebAPI.Dtos
+namespace BuyAndRentHomeWebAPI.Dtos
 {
     public class PageResult<T> where T : class
     {

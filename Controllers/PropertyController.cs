@@ -1,10 +1,10 @@
-﻿using BuyandRentHomeWebAPI.Dtos;
+﻿using BuyAndRentHomeWebAPI.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 
-namespace BuyandRentHomeWebAPI.Controllers
+namespace BuyAndRentHomeWebAPI.Controllers
 {
     public class PropertyController : BaseController
     {

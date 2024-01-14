@@ -1,8 +1,8 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Data.Interfaces
+namespace BuyAndRentHomeWebAPI.Data.Interfaces
 {
     public interface IPropertyTypeRepository
     {

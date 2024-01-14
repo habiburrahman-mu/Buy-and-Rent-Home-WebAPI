@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Data.Interfaces
+namespace BuyAndRentHomeWebAPI.Data.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -1,10 +1,10 @@
-﻿using BuyandRentHomeWebAPI.Dtos;
+﻿using BuyAndRentHomeWebAPI.Dtos;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Services.Interfaces
+namespace BuyAndRentHomeWebAPI.Services.Interfaces
 {
     public interface IPhotoService
     {

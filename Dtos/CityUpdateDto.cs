@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BuyandRentHomeWebAPI.Dtos
+namespace BuyAndRentHomeWebAPI.Dtos
 {
     public class CityUpdateDto
     {

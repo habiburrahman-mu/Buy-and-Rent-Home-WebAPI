@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BuyandRentHomeWebAPI.Dtos
+namespace BuyAndRentHomeWebAPI.Dtos
 {
     public class PropertyDetailDto : PropertyListDto
     {

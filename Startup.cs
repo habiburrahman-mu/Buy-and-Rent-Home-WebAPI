@@ -1,8 +1,8 @@
-using BuyandRentHomeWebAPI.Data;
-using BuyandRentHomeWebAPI.Extensions;
-using BuyandRentHomeWebAPI.Helper;
-using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Middlewares;
+using BuyAndRentHomeWebAPI.Data;
+using BuyAndRentHomeWebAPI.Extensions;
+using BuyAndRentHomeWebAPI.Helper;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,16 +11,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using BuyandRentHomeWebAPI.Services.Interfaces;
-using BuyandRentHomeWebAPI.Services;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using BuyandRentHomeWebAPI.WebSocketHandlers;
+using BuyAndRentHomeWebAPI.WebSocketHandlers;
 using System.Collections.Generic;
 
-namespace BuyandRentHomeWebAPI
+namespace BuyAndRentHomeWebAPI
 {
     public class Startup
     {

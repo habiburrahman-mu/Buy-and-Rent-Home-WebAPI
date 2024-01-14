@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
 using System;
 using Microsoft.AspNetCore.Http;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 
-namespace BuyandRentHomeWebAPI.Services
+namespace BuyAndRentHomeWebAPI.Services
 {
     public class SharedService : ISharedService
     {

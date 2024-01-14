@@ -1,8 +1,8 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace BuyandRentHomeWebAPI.Dtos
+namespace BuyAndRentHomeWebAPI.Dtos
 {
     public partial class UserPrivilegeDto
     {

@@ -1,8 +1,8 @@
-﻿using BuyandRentHomeWebAPI.Data.Repo;
-using BuyandRentHomeWebAPI.Data.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Data.Repo;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Data
+namespace BuyAndRentHomeWebAPI.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

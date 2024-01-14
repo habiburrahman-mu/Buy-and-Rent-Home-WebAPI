@@ -2,7 +2,7 @@
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.WebSocketHandlers
+namespace BuyAndRentHomeWebAPI.WebSocketHandlers
 {
     public interface IChatWebSocketHandler
     {

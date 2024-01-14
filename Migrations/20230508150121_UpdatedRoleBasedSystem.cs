@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace BuyandRentHomeWebAPI.Migrations
+namespace BuyAndRentHomeWebAPI.Migrations
 {
     /// <inheritdoc />
     public partial class UpdatedRoleBasedSystem : Migration

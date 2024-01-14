@@ -1,4 +1,4 @@
-﻿namespace BuyandRentHomeWebAPI.Specification.Constants
+﻿namespace BuyAndRentHomeWebAPI.Specification.Constants
 {
     public enum UserRoleIds
     {

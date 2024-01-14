@@ -1,8 +1,8 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Dtos;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Dtos;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Services.Interfaces
+namespace BuyAndRentHomeWebAPI.Services.Interfaces
 {
     public interface IUserService
     {

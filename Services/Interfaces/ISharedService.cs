@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BuyandRentHomeWebAPI.Services.Interfaces
+namespace BuyAndRentHomeWebAPI.Services.Interfaces
 {
     public interface ISharedService
     {

@@ -1,7 +1,7 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Data.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
 
-namespace BuyandRentHomeWebAPI.Data.Repo
+namespace BuyAndRentHomeWebAPI.Data.Repo
 {
     public class UserPrivilegeRepository : GenericRepository<UserPrivilege>, IUserPrivilegeRepository
     {

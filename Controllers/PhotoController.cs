@@ -1,11 +1,11 @@
-﻿using BuyandRentHomeWebAPI.Data.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 using System.Linq;
 
-namespace BuyandRentHomeWebAPI.Controllers
+namespace BuyAndRentHomeWebAPI.Controllers
 {
     public class PhotoController : BaseController
     {

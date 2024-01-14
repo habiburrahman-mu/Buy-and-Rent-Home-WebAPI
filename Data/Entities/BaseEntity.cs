@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BuyandRentHomeWebAPI.Data.Entities
+namespace BuyAndRentHomeWebAPI.Data.Entities
 {
     public class BaseEntity
     {

@@ -1,12 +1,14 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Dtos;
+﻿// Ignore Spelling: Buyand Repo
+
+using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Data.Repo
+namespace BuyAndRentHomeWebAPI.Data.Repo
 {
     public class VisitingRequestRepository : GenericRepository<VisitingRequest>, IVisitingRequestRepository
     {
@@ -17,26 +19,37 @@ namespace BuyandRentHomeWebAPI.Data.Repo
             this.dbContext = dbContext;
         }
 
-        public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForOwner(int postedBy)
+        public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForOwner(int ownerId, string status = null, int? propertyId = null)
         {
-            var list = await dbContext.VisitingRequests
+            var query = dbContext.VisitingRequests
                 .Include(x => x.Property)
-                .Where(x => x.Property.PostedBy == postedBy)
-                .Select(x => new VisitingRequestWithPropertyDetailDto
-                {
-                    VisitingRequestId = x.Id,
-                    PropertyId = x.PropertyId,
-                    Name = x.Property.Name,
-                    DateOn = x.DateOn,
-                    StartTime = x.StartTime,
-                    EndTime = x.EndTime,
-                    ContactNumber = x.ContactNumber,
-                    Status = x.Status,
-                    Notes = x.Notes
-                })
-                .OrderBy(x => x.StartTime)
-                .AsNoTracking()
-                .ToListAsync();
+                .Where(x => x.Property.PostedBy == ownerId);
+
+            if (status != null)
+            {
+                query = query.Where(x => x.Status == status);
+            }
+
+            if (propertyId.HasValue)
+            {
+                query = query.Where(x => x.Property.Id == propertyId.Value);
+            }
+
+            var list = await query.Select(x => new VisitingRequestWithPropertyDetailDto
+            {
+                VisitingRequestId = x.Id,
+                PropertyId = x.PropertyId,
+                Name = x.Property.Name,
+                DateOn = x.DateOn,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                ContactNumber = x.ContactNumber,
+                Status = x.Status,
+                Notes = x.Notes
+            })
+            .OrderBy(x => x.StartTime)
+            .AsNoTracking()
+            .ToListAsync();
             return list;
         }
     }

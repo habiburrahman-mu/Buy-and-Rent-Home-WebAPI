@@ -1,11 +1,11 @@
-﻿using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Controllers
+namespace BuyAndRentHomeWebAPI.Controllers
 {
     // add authorize
     [Authorize]

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Controllers
+namespace BuyAndRentHomeWebAPI.Controllers
 {
     public class WeatherForecastController : BaseController
     {

@@ -1,6 +1,6 @@
-﻿using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -10,15 +10,15 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using BuyandRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Data.Entities;
 using System.Collections.Generic;
 using AutoMapper;
-using BuyandRentHomeWebAPI.Specification.Constants;
-using BuyandRentHomeWebAPI.Data;
+using BuyAndRentHomeWebAPI.Specification.Constants;
+using BuyAndRentHomeWebAPI.Data;
 using System.Linq.Expressions;
 using System.Linq;
 
-namespace BuyandRentHomeWebAPI.Services
+namespace BuyAndRentHomeWebAPI.Services
 {
     public class UserService : IUserService
     {

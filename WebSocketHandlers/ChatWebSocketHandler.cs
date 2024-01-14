@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.Services.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.WebSocketHandlers
+namespace BuyAndRentHomeWebAPI.WebSocketHandlers
 {
     public class ChatWebSocketHandler : IChatWebSocketHandler
     {

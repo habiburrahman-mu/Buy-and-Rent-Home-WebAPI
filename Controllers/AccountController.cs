@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Errors;
-using BuyandRentHomeWebAPI.Extensions;
+using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Errors;
+using BuyAndRentHomeWebAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 
-namespace BuyandRentHomeWebAPI.Controllers
+namespace BuyAndRentHomeWebAPI.Controllers
 {
     public class AccountController : BaseController
     {

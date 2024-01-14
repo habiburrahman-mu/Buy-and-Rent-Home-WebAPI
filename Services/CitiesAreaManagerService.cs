@@ -1,13 +1,13 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Services
+namespace BuyAndRentHomeWebAPI.Services
 {
     public class CitiesAreaManagerService : ICitiesAreaManagerService
     {

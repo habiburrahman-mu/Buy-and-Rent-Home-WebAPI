@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Controllers
+namespace BuyAndRentHomeWebAPI.Controllers
 {
     public class FurnishingTypeController : BaseController
     {

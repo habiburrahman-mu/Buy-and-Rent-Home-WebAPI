@@ -1,4 +1,4 @@
-﻿namespace BuyandRentHomeWebAPI.Extensions
+﻿namespace BuyAndRentHomeWebAPI.Extensions
 {
     public static class StringExtensions
     {

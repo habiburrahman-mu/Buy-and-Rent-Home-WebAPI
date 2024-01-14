@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Services
+namespace BuyAndRentHomeWebAPI.Services
 {
     public class PropertyService : IPropertyService
     {

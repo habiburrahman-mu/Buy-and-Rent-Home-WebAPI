@@ -1,7 +1,7 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
 using System;
 
-namespace BuyandRentHomeWebAPI.Dtos
+namespace BuyAndRentHomeWebAPI.Dtos
 {
     public class VisitingRequestCreateDto
     {

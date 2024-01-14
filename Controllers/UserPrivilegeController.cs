@@ -1,9 +1,9 @@
-﻿using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Services.Interfaces;
+﻿using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Controllers
+namespace BuyAndRentHomeWebAPI.Controllers
 {
     public class UserPrivilegeController : BaseController
     {

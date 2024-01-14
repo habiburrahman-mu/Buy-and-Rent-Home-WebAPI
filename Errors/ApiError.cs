@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace BuyandRentHomeWebAPI.Errors
+namespace BuyAndRentHomeWebAPI.Errors
 {
     public class ApiError
     {

@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.WebSocketHandlers;
+﻿using BuyAndRentHomeWebAPI.WebSocketHandlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Middlewares
+namespace BuyAndRentHomeWebAPI.Middlewares
 {
     public class WebSocketMiddleware
     {

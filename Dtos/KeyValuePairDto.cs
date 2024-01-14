@@ -1,4 +1,4 @@
-﻿namespace BuyandRentHomeWebAPI.Dtos
+﻿namespace BuyAndRentHomeWebAPI.Dtos
 {
     public class KeyValuePairDto
     {

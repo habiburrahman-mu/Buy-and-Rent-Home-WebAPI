@@ -1,4 +1,4 @@
-﻿using BuyandRentHomeWebAPI.Dtos;
+﻿using BuyAndRentHomeWebAPI.Dtos;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Data.Interfaces
+namespace BuyAndRentHomeWebAPI.Data.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {

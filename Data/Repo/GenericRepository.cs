@@ -1,5 +1,5 @@
-﻿using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Dtos;
+﻿using BuyAndRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Data.Repo
+namespace BuyAndRentHomeWebAPI.Data.Repo
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {

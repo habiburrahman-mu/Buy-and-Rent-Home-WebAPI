@@ -1,13 +1,15 @@
-﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Data.Interfaces;
-using BuyandRentHomeWebAPI.Dtos;
-using BuyandRentHomeWebAPI.Services.Interfaces;
-using BuyandRentHomeWebAPI.Specification.Constants;
+﻿// Ignore Spelling: Buyand
+
+using AutoMapper;
+using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Data.Interfaces;
+using BuyAndRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Specification.Constants;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Services
+namespace BuyAndRentHomeWebAPI.Services
 {
     public class VisitingRequestService : IVisitingRequestService
     {
@@ -44,8 +46,9 @@ namespace BuyandRentHomeWebAPI.Services
 
         public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForMyProperties()
         {
-            var visitngRequestList = await unitOfWork.VisitingRequestRepository.GetVisitingRequestListForOwner(2);
-            return visitngRequestList;
+            var ownerId = sharedService.GetUserId();
+            var visitingRequestList = await unitOfWork.VisitingRequestRepository.GetVisitingRequestListForOwner(ownerId);
+            return visitingRequestList;
         }
     }
 }

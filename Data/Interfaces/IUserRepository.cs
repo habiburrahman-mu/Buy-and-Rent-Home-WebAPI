@@ -1,11 +1,11 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Dtos;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Dtos;
 using System.Linq.Expressions;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
 
-namespace BuyandRentHomeWebAPI.Data.Interfaces
+namespace BuyAndRentHomeWebAPI.Data.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {

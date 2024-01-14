@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using BuyandRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BuyandRentHomeWebAPI.Data;
+namespace BuyAndRentHomeWebAPI.Data;
 
 public partial class BuyRentHomeDbContext : DbContext
 {

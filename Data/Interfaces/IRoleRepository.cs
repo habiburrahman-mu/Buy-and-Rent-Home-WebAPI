@@ -1,7 +1,7 @@
-﻿using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Data.Repo;
+﻿using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Data.Repo;
 
-namespace BuyandRentHomeWebAPI.Data.Interfaces
+namespace BuyAndRentHomeWebAPI.Data.Interfaces
 {
     public interface IRoleRepository : IGenericRepository<Role>
     {

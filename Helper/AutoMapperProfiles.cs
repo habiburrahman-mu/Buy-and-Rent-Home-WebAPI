@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BuyandRentHomeWebAPI.Data.Entities;
-using BuyandRentHomeWebAPI.Dtos;
+using BuyAndRentHomeWebAPI.Data.Entities;
+using BuyAndRentHomeWebAPI.Dtos;
 using System.Linq;
 
-namespace BuyandRentHomeWebAPI.Helper
+namespace BuyAndRentHomeWebAPI.Helper
 {
     public class AutoMapperProfiles : Profile
     {

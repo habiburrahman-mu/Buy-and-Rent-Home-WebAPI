@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>BuyandRentHomeWebAPI</RootNamespace>
+    <RootNamespace>BuyAndRentHomeWebAPI</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
