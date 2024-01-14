@@ -4,6 +4,7 @@ using BuyandRentHomeWebAPI.Data.Interfaces;
 using BuyandRentHomeWebAPI.Dtos;
 using BuyandRentHomeWebAPI.Services.Interfaces;
 using BuyandRentHomeWebAPI.Specification.Constants;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BuyandRentHomeWebAPI.Services
@@ -39,6 +40,12 @@ namespace BuyandRentHomeWebAPI.Services
             var result = await unitOfWork.VisitingRequestRepository.Get(x => x.TakenBy == currentUser && x.PropertyId == propertyId);
             var visitingRequestDetailDto = mapper.Map<VisitingRequestDetailDto>(result);
             return visitingRequestDetailDto;
+        }
+
+        public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForMyProperties()
+        {
+            var visitngRequestList = await unitOfWork.VisitingRequestRepository.GetVisitingRequestListForOwner(2);
+            return visitngRequestList;
         }
     }
 }
