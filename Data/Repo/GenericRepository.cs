@@ -126,7 +126,7 @@ namespace BuyandRentHomeWebAPI.Data.Repo
             var skip = pageSize * (pageNo - 1);
             query = query.Skip(skip).Take(pageSize);
 
-            var resultList = await query.ToListAsync();
+            var resultList = await query.AsNoTracking().ToListAsync();
 
             var pageResult = new PageResult<T>
             {
