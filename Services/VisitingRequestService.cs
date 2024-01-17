@@ -48,7 +48,7 @@ namespace BuyAndRentHomeWebAPI.Services
         {
             var ownerId = sharedService.GetUserId();
             var visitingRequestList = await unitOfWork.VisitingRequestRepository.GetVisitingRequestListForOwner(ownerId, status, propertyId);
-            return visitingRequestList;
+            return visitingRequestList; 
         }
     }
 }

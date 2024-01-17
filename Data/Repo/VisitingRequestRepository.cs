@@ -45,7 +45,8 @@ namespace BuyAndRentHomeWebAPI.Data.Repo
                 EndTime = x.EndTime,
                 ContactNumber = x.ContactNumber,
                 Status = x.Status,
-                Notes = x.Notes
+                Notes = x.Notes,
+                TakenByName = x.TakenByNavigation.Username
             })
             .OrderBy(x => x.DateOn)
             .ThenBy(x => x.StartTime)
