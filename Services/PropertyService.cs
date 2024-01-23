@@ -40,10 +40,20 @@ namespace BuyAndRentHomeWebAPI.Services
         public async Task<List<PropertyListDto>> GetMyPropertyList()
         {
             var myUserId = _sharedService.GetUserId();
+
+            var includeList = new Expression<Func<Property, object>>[]
+            {
+                x => x.PropertyType,
+                x => x.FurnishingType,
+                x => x.City,
+                x => x.Country,
+                x => x.Photos
+            };
+
             var properties = await _unitOfWork.PropertyRepository.GetAll(
                 expression: q => q.PostedBy == myUserId,
                 orderBy: x => x.OrderByDescending(q => q.PostedOn),
-                includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country", "Photo" });
+                includes: includeList);
             var propertyListDto = _mapper.Map<List<PropertyListDto>>(properties);
             return propertyListDto;
         }

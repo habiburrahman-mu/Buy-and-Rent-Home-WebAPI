@@ -33,7 +33,7 @@ namespace BuyAndRentHomeWebAPI.Controllers
         }
 
         // property/myProperty
-        [HttpGet("myProperty")]
+        [HttpGet("myPropertyList")]
         [Authorize]
         public async Task<IActionResult> GetMyProperty()
         {
