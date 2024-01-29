@@ -54,5 +54,14 @@ namespace BuyAndRentHomeWebAPI.Data.Repo
             .ToListAsync();
             return list;
         }
+
+        public async Task<bool> IsUserPropertyOwnerOfVisitingRequest(int visitingRequestId, int userId)
+        {
+            var ownerId = await dbContext.VisitingRequests
+                .Where(x => x.Id == visitingRequestId)
+                //.Include(x => x.Property)
+                .Select(x => x.Property.PostedBy).FirstOrDefaultAsync();
+            return ownerId == userId;
+        }
     }
 }

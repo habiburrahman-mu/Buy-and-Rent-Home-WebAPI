@@ -42,10 +42,15 @@ namespace BuyAndRentHomeWebAPI.Middlewares
                     statusCode = HttpStatusCode.Forbidden;
                     message = "You are not authorized";
                 }
+                else if(exceptionType == typeof(BadHttpRequestException))
+                {
+                    statusCode = HttpStatusCode.BadRequest;
+                    message = ex.Message;
+                }
                 else
                 {
                     statusCode = HttpStatusCode.InternalServerError;
-                    message = "Some unknown error occured";
+                    message = "Some unknown error occurred";
                 }
 
                 if (_env.IsDevelopment())
