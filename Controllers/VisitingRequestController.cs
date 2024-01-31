@@ -42,7 +42,7 @@ namespace BuyAndRentHomeWebAPI.Controllers
         }
 
         [Authorize(Roles = "User")]
-        [HttpPut("AcceptVistingRequest")]
+        [HttpPut("AcceptVisitingRequest")]
         public async Task<IActionResult> AcceptVisitingRequest([FromBody] int visitingRequestId)
         {
             var response = await visitingRequestService.AcceptVisitingRequest(visitingRequestId);

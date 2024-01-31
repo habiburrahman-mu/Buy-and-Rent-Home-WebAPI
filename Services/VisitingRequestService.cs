@@ -67,7 +67,6 @@ namespace BuyAndRentHomeWebAPI.Services
 
             if (!await unitOfWork.VisitingRequestRepository.IsUserPropertyOwnerOfVisitingRequest(visitingRequestId, ownerId))
             {
-                
                 throw new BadHttpRequestException("Not authorized.");
             }
 
