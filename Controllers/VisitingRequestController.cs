@@ -1,5 +1,6 @@
 ﻿using BuyAndRentHomeWebAPI.Dtos;
 using BuyAndRentHomeWebAPI.Services.Interfaces;
+using BuyAndRentHomeWebAPI.Specification.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -42,10 +43,18 @@ namespace BuyAndRentHomeWebAPI.Controllers
         }
 
         [Authorize(Roles = "User")]
-        [HttpPut("AcceptVisitingRequest")]
-        public async Task<IActionResult> AcceptVisitingRequest([FromBody] int visitingRequestId)
+        [HttpPut("ApproveVisitingRequest")]
+        public async Task<IActionResult> ApproveVisitingRequest([FromBody] int visitingRequestId)
         {
-            var response = await visitingRequestService.AcceptVisitingRequest(visitingRequestId);
+            var response = await visitingRequestService.UpdateVisitingRequestStatus(visitingRequestId, ((char)VisitingRequestStatus.Approved));
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "User")]
+        [HttpPut("RejectVisitingRequest")]
+        public async Task<IActionResult> RejectVisitingRequest([FromBody] int visitingRequestId)
+        {
+            var response = await visitingRequestService.UpdateVisitingRequestStatus(visitingRequestId, ((char)VisitingRequestStatus.NotApproved));
             return Ok(response);
         }
     }

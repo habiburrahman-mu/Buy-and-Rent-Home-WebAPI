@@ -20,14 +20,12 @@ namespace BuyAndRentHomeWebAPI.Services
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly ISharedService sharedService;
-        private HttpResponseMessage httpResponseMessage;
 
         public VisitingRequestService(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.sharedService = sharedService;
-            httpResponseMessage = new HttpResponseMessage();
         }
         public async Task<VisitingRequestDetailDto> CreateVisitingRequest(VisitingRequestCreateDto visitingRequestCreateDto)
         {
@@ -57,11 +55,28 @@ namespace BuyAndRentHomeWebAPI.Services
             return visitingRequestList;
         }
 
-        public async Task<bool> AcceptVisitingRequest(int visitingRequestId)
+        public async Task<bool> UpdateVisitingRequestStatus(int visitingRequestId, char status)
         {
             var ownerId = sharedService.GetUserId();
             var visitingRequest = await unitOfWork.VisitingRequestRepository.Get(x => x.Id == visitingRequestId);
+            await ValidateVisitingRequest(visitingRequestId, ownerId, visitingRequest);
 
+            visitingRequest.Status = status switch
+            {
+                ((char)VisitingRequestStatus.Approved) => ((char)VisitingRequestStatus.Approved).ToString(),
+                ((char)VisitingRequestStatus.NotApproved) => ((char)VisitingRequestStatus.NotApproved).ToString(),
+                _ => throw new BadHttpRequestException("Visiting request not valid.")
+            };
+
+            //visitingRequest.Status = ((char)VisitingRequestStatus.Approved).ToString();
+
+            unitOfWork.VisitingRequestRepository.Update(visitingRequest);
+
+            return await unitOfWork.SaveAsync();
+        }
+
+        private async Task ValidateVisitingRequest(int visitingRequestId, int ownerId, VisitingRequest visitingRequest)
+        {
             if (visitingRequest == null)
                 throw new BadHttpRequestException("Visiting request not found.");
 
@@ -72,12 +87,6 @@ namespace BuyAndRentHomeWebAPI.Services
 
             if (visitingRequest.Status == ((char)VisitingRequestStatus.Approved).ToString() || visitingRequest.Status == ((char)VisitingRequestStatus.NotApproved).ToString())
                 throw new BadHttpRequestException("Not allowed to change visiting request.");
-
-            visitingRequest.Status = ((char)VisitingRequestStatus.Approved).ToString();
-
-            unitOfWork.VisitingRequestRepository.Update(visitingRequest);
-
-            return await unitOfWork.SaveAsync();
         }
     }
 }
