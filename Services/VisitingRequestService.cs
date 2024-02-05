@@ -38,6 +38,9 @@ namespace BuyAndRentHomeWebAPI.Services
             await unitOfWork.SaveAsync();
 
             var visitingRequestDetailDto = mapper.Map<VisitingRequestDetailDto>(visitingRequest);
+            visitingRequestDetailDto.StartTime = new DateTime(visitingRequestDetailDto.StartTime.Ticks);
+            visitingRequestDetailDto.EndTime = new DateTime(visitingRequestDetailDto.EndTime.Ticks);
+            visitingRequestDetailDto.DateOn = new DateTime(visitingRequestDetailDto.DateOn.Ticks);
 
             return visitingRequestDetailDto;
         }

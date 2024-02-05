@@ -3,9 +3,9 @@
     public enum UserRoleIds
     {
         // id from db
-        Admin = 3,
-        AreaManager = 4,
-        User = 18
+        Admin = 5,
+        AreaManager = 8,
+        User = 10
     }
 
     //public enum UserRoleNames
