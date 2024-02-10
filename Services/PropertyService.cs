@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using BuyAndRentHomeWebAPI.Specification.Constants;
 
 namespace BuyAndRentHomeWebAPI.Services
 {
@@ -187,7 +188,7 @@ namespace BuyAndRentHomeWebAPI.Services
             var tomorrow = DateTime.UtcNow.AddDays(1);
             var endDate = tomorrow.AddDays(7);
 
-            var takenTimeSlotList = await _unitOfWork.VisitingRequestRepository.GetAll(x => x.PropertyId == propertyId && tomorrow <= x.DateOn && x.DateOn <= endDate);
+            var takenTimeSlotList = await _unitOfWork.VisitingRequestRepository.GetAll(x => x.PropertyId == propertyId && x.Status != ((char)VisitingRequestStatus.NotApproved).ToString() && tomorrow <= x.DateOn && x.DateOn <= endDate);
 
             for (var currentDate = tomorrow; currentDate < endDate; currentDate = currentDate.AddDays(1))
             {
