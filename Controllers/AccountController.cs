@@ -62,8 +62,8 @@ namespace BuyAndRentHomeWebAPI.Controllers
             if (await _userService.UserAlreadyExists(register.UserName))
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
-                apiError.ErrorMessage = "User already exists, please try something else";
-                apiError.ErrorDetails = "This error appears when username already exist in record.";
+                apiError.ErrorMessage = "User name already exists, please try something else";
+                apiError.ErrorDetails = "This error appears when user name already exist in record.";
                 return BadRequest(apiError);
             }
 

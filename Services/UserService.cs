@@ -68,6 +68,7 @@ namespace BuyAndRentHomeWebAPI.Services
         public LoginResponseDto CreateLoginCredintials(User user)
         {
             var loginResponse = new LoginResponseDto();
+            loginResponse.Name = user.Name;
             loginResponse.UserName = user.Username;
             loginResponse.Token = createJWT(user);
             return loginResponse;
@@ -89,12 +90,12 @@ namespace BuyAndRentHomeWebAPI.Services
             }
 
             User user = new();
+            user.Name = register.Name;
             user.Username = register.UserName.Trim();
             user.Email = register.Email;
+            user.Mobile = register.Mobile;
             user.Password = passwordHash;
             user.PasswordKey = passwordKey;
-            user.Mobile = register.Mobile;
-            user.LastUpdatedOn = DateTime.UtcNow;
 
             UserPrivilege userPrivilege = new();
             userPrivilege.User = user;

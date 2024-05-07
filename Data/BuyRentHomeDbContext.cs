@@ -193,14 +193,18 @@ public partial class BuyRentHomeDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
+            entity.HasIndex(e => e.Username, "UK_Users_Username").IsUnique();
+
             entity.Property(e => e.Email)
                 .IsRequired()
-                .HasDefaultValueSql("(N'abc@test.com')");
-            entity.Property(e => e.LastUpdatedOn).HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
-            entity.Property(e => e.Password)
+                .HasMaxLength(255);
+            entity.Property(e => e.Mobile).IsRequired();
+            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Password).IsRequired();
+            entity.Property(e => e.PasswordKey).IsRequired();
+            entity.Property(e => e.Username)
                 .IsRequired()
-                .HasDefaultValueSql("(0x5061737340313233)");
-            entity.Property(e => e.Username).IsRequired();
+                .HasMaxLength(255);
         });
 
         modelBuilder.Entity<UserPrivilege>(entity =>

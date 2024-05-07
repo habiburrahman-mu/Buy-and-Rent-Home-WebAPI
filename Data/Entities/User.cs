@@ -13,13 +13,11 @@ public partial class User
 
     public byte[] PasswordKey { get; set; }
 
+    public string Name { get; set; }
+
     public string Email { get; set; }
 
     public string Mobile { get; set; }
-
-    public int LastUpdatedBy { get; set; }
-
-    public DateTime LastUpdatedOn { get; set; }
 
     public virtual ICollection<ChatMessage> ChatMessageReceivers { get; set; } = new List<ChatMessage>();
 
