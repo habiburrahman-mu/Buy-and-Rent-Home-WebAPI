@@ -70,9 +70,20 @@ namespace BuyAndRentHomeWebAPI.Services
                 x => x.Photos
             };
 
+            Expression<Func<Property, bool>> filter;
+
+            if (!String.IsNullOrEmpty(paginationParameter.SearchingText))
+            {
+                filter = q => q.SellRent == sellRent && q.Name.ToLower().Contains(paginationParameter.SearchingText.ToLower());
+            }
+            else
+            {
+                filter = q => q.SellRent == sellRent;
+            }
+
             var paginatedPropertyResult = await _unitOfWork.PropertyRepository.GetPaginateList(
                 paginationParameter.CurrentPageNo, paginationParameter.PageSize,
-                filter: q => q.SellRent == sellRent,
+                filter: filter,
                 orderBy: x => x.OrderByDescending(q => q.PostedOn),
                 includes: includeList
                 );
