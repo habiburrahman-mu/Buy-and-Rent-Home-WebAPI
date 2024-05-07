@@ -13,6 +13,7 @@ namespace BuyAndRentHomeWebAPI.Dtos
         public int? CommonSpace { get; set; }
         public int Area { get; set; }
         public int RentPrice { get; set; }
+        public int? OtherCost { get; set; }
         public string FurnishingType { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
