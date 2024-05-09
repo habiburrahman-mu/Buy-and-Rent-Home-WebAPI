@@ -88,6 +88,7 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.HasIndex(e => e.CountryId, "IX_Cities_CountryId");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.AreaInKm).HasColumnName("AreaInKM");
             entity.Property(e => e.LastUpdatedBy).HasDefaultValueSql("((0))");
             entity.Property(e => e.LastUpdatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Name).IsRequired();
@@ -145,7 +146,6 @@ public partial class BuyRentHomeDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(60)
                 .IsUnicode(false);
-            entity.Property(e => e.Landmark).HasMaxLength(50);
             entity.Property(e => e.Name).IsRequired();
             entity.Property(e => e.StreetAddress).IsRequired();
 

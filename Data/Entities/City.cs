@@ -9,9 +9,11 @@ public partial class City
 
     public string Name { get; set; }
 
-    public double Lattitude { get; set; }
+    public double Latitude { get; set; }
 
     public double Longitude { get; set; }
+
+    public double? AreaInKm { get; set; }
 
     public int CountryId { get; set; }
 

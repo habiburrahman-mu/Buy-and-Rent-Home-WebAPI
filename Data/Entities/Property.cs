@@ -31,8 +31,6 @@ public partial class Property
 
     public int Floor { get; set; }
 
-    public string Landmark { get; set; }
-
     public int Area { get; set; }
 
     public int RentPrice { get; set; }
@@ -44,6 +42,10 @@ public partial class Property
     public bool Parking { get; set; }
 
     public bool SwimmingPool { get; set; }
+
+    public double? Latitude { get; set; }
+
+    public double? Longitude { get; set; }
 
     public string Description { get; set; }
 

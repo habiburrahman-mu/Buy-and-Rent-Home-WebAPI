@@ -14,7 +14,7 @@ namespace BuyAndRentHomeWebAPI.Dtos
         public int TotalFloor { get; set; }
         public int Floor { get; set; }
         public string Landmark { get; set; }
-        public double CityLattitude { get; set; }
+        public double CityLatitude { get; set; }
         public double CityLongitude { get; set; }
         public int? OtherCost { get; set; }
         public bool Gym { get; set; }
