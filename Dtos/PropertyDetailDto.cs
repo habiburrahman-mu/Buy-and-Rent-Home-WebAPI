@@ -13,7 +13,8 @@ namespace BuyAndRentHomeWebAPI.Dtos
         public string StreetAddress { get; set; }
         public int TotalFloor { get; set; }
         public int Floor { get; set; }
-        public string Landmark { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
         public double CityLatitude { get; set; }
         public double CityLongitude { get; set; }
         public int? OtherCost { get; set; }
