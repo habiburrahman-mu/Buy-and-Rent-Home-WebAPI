@@ -1,8 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 
-namespace Infrastructure.Data.Repositories;
+namespace Infrastructure.Persistence.Repositories;
 
 public class RoleRepository : GenericRepository<Role>, IRoleRepository
 {

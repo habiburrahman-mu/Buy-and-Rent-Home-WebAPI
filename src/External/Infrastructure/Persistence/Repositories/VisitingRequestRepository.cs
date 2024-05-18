@@ -3,10 +3,10 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.ProjectionModels;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class VisitingRequestRepository : GenericRepository<VisitingRequest>, IVisitingRequestRepository
     {

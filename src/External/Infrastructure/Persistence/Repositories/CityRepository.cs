@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 using Domain.Entities;
 
-namespace Infrastructure.Data.Repositories;
+namespace Infrastructure.Persistence.Repositories;
 
 public class CityRepository : ICityRepository
 {

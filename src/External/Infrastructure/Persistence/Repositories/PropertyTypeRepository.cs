@@ -3,9 +3,9 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 
-namespace Infrastructure.Data.Repositories;
+namespace Infrastructure.Persistence.Repositories;
 
 public class PropertyTypeRepository : IPropertyTypeRepository
 {

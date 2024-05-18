@@ -1,9 +1,9 @@
 ﻿using Domain.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 
-namespace Infrastructure.Data.Repositories;
+namespace Infrastructure.Persistence.Repositories;
 
 public class FurnishingTypeRepository : IFurnishingTypeRepository
 {

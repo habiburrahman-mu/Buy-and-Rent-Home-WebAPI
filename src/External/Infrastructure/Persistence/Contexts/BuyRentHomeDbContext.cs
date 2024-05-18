@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data.Contexts;
+namespace Infrastructure.Persistence.Contexts;
 
 public partial class BuyRentHomeDbContext : DbContext
 {

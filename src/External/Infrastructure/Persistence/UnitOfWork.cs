@@ -1,8 +1,8 @@
-﻿using Infrastructure.Data.Repositories;
+﻿using Infrastructure.Persistence.Repositories;
 using Domain.Interfaces;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 
-namespace Infrastructure.Data;
+namespace Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {

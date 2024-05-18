@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using System.Linq.Expressions;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 using Domain.Common;
 
-namespace Infrastructure.Data.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {

@@ -1,8 +1,8 @@
 ﻿using Domain.Interfaces;
 using Domain.Entities;
-using Infrastructure.Data.Contexts;
+using Infrastructure.Persistence.Contexts;
 
-namespace Infrastructure.Data.Repositories;
+namespace Infrastructure.Persistence.Repositories;
 
 public class PhotoRepository : GenericRepository<Photo>, IPhotoRepository
 {
