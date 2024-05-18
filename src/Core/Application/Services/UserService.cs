@@ -1,5 +1,5 @@
 ﻿using BuyAndRentHomeWebAPI.Data.Interfaces;
-using BuyAndRentHomeWebAPI.Dtos;
+using Application.DTOs;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
