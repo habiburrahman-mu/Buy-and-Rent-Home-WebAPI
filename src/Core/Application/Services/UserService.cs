@@ -17,6 +17,9 @@ using BuyAndRentHomeWebAPI.Specification.Constants;
 using BuyAndRentHomeWebAPI.Data;
 using System.Linq.Expressions;
 using System.Linq;
+using Domain.Interfaces;
+using Domain.Entities;
+using Domain.Specification.Constants;
 
 namespace Application.Services
 {

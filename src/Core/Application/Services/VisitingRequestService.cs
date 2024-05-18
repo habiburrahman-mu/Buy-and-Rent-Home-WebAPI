@@ -2,6 +2,8 @@
 using Domain.ProjectionModels;
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Specification.Constants;
+using Application.DTOs;
 
 namespace Application.Services
 {

@@ -1,4 +1,4 @@
-﻿namespace Domain.Specification.Constants;
+﻿namespace Common.Constants;
 
 public enum UserRoleIds
 {
