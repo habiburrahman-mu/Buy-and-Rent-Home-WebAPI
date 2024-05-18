@@ -15,18 +15,20 @@ namespace Infrastructure
             var connectionString = configuration.GetConnectionString("Default");
             serviceCollection.AddDbContext<BuyRentHomeDbContext>(options => options.UseSqlServer(connectionString));
 
-            var currentAssembly = typeof(BuyRentHomeDbContext).Assembly;
-            var respositoryTypes = currentAssembly
-                .GetTypes()
-                .Where(x => x.IsInterface && x.Name.EndsWith("Repository") && x != typeof(GenericRepository<>));
+            //var currentAssembly = typeof(BuyRentHomeDbContext).Assembly;
+            //var respositoryTypes = currentAssembly
+            //    .GetTypes()
+            //    .Where(x => x.IsInterface && x.Name.EndsWith("Repository") && x != typeof(GenericRepository<>));
             
-            foreach (var respositoryType in respositoryTypes)
-            {
-                foreach(var interfaceItem in respositoryType.GetInterfaces())
-                {
-                    serviceCollection.AddScoped(interfaceItem, respositoryType);
-                }
-            }
+            //foreach (var respositoryType in respositoryTypes)
+            //{
+            //    foreach(var interfaceItem in respositoryType.GetInterfaces())
+            //    {
+            //        serviceCollection.AddScoped(interfaceItem, respositoryType);
+            //    }
+            //}
+
+
 
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 
