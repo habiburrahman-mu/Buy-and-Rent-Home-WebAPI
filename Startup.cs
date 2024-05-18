@@ -38,7 +38,7 @@ namespace BuyAndRentHomeWebAPI
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
-            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

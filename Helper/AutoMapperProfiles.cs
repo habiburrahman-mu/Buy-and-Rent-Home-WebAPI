@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace BuyAndRentHomeWebAPI.Helper
 {
-    public class AutoMapperProfiles : Profile
+    public class AutoMapperProfile : Profile
     {
-        public AutoMapperProfiles()
+        public AutoMapperProfile()
         {
             CreateMap<City, CityDto>().ReverseMap();
 
