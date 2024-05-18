@@ -1,4 +1,7 @@
-﻿namespace Application.Interfaces;
+﻿using Application.DTOs;
+using Domain.Common;
+
+namespace Application.Interfaces;
 
 public interface IPropertyService
 {

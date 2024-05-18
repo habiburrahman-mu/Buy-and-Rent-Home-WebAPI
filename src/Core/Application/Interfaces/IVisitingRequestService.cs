@@ -1,4 +1,7 @@
-﻿namespace Application.Interfaces;
+﻿using Application.DTOs;
+using Domain.ProjectionModels;
+
+namespace Application.Interfaces;
 
 public interface IVisitingRequestService
 {
