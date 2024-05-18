@@ -1,0 +1,6 @@
+﻿namespace Application.Interfaces;
+
+public interface ICitiesAreaManagerService
+{
+    Task<bool> SaveCitiesAreaManager(CitiesAreaManagerDto citiesAreaManagerDto);
+}

@@ -1,4 +1,4 @@
-﻿using Domain.DTOs;
+﻿using Domain.ProjectionModels;
 using Domain.Entities;
 
 namespace Domain.Interfaces
