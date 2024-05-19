@@ -1,7 +1,9 @@
 ﻿using Domain.Interfaces.Data;
+using Domain.Interfaces.Services;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Contexts;
 using Infrastructure.Persistence.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,7 @@ public static class ServiceCollectionExtensions
 
 
         serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
+        serviceCollection.AddScoped<IFileService, FileService>();
 
         return serviceCollection;
     }

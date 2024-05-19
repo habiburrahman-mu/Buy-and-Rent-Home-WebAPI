@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using Presentation.Services;
+using Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Presentation.Controllers;
 
 public class PhotoController : BaseController
 {
-    private readonly ISharedService _sharedService;
     private readonly IPhotoService _photoService;
     private readonly IUserContextService userContextService;
 
-    public PhotoController(ISharedService sharedService, IPhotoService photoService, IUserContextService userContextService)
+    public PhotoController(IPhotoService photoService, IUserContextService userContextService)
     {
-        _sharedService = sharedService;
         _photoService = photoService;
         this.userContextService = userContextService;
     }
@@ -27,7 +27,7 @@ public class PhotoController : BaseController
     [HttpPost("Save/{propertyId}")]
     public async Task<IActionResult> SavePhotos(int propertyId)
     {
-        var files = Request.Form.Files;
+        var photoFiles = FormFilesToPhotoFileDtoCollection(Request.Form.Files);
 
         var isPrimaryPhotoFromExistingImages =
             Convert.ToBoolean(Request.Form["IsPrimaryPhotoFromExistingImages"].FirstOrDefault());
@@ -35,12 +35,25 @@ public class PhotoController : BaseController
             Convert.ToInt32(Request.Form["PrimaryPhotoIdOrIndex"].FirstOrDefault());
         var deletedPhotosIdString = Request.Form["DeletedPhotosId"].FirstOrDefault();
 
-        var result = await _photoService.SavePhotos(propertyId, files, isPrimaryPhotoFromExistingImages, primaryPhotoIdOrIndex, deletedPhotosIdString, userContextService.GetUserId());
+        var result = await _photoService.SavePhotos(propertyId, photoFiles, isPrimaryPhotoFromExistingImages, primaryPhotoIdOrIndex, deletedPhotosIdString, userContextService.GetUserId());
 
         
         return Ok(result);
     }
 
-    
+    private IEnumerable<PhotoFileDto> FormFilesToPhotoFileDtoCollection(IFormFileCollection formFileCollection)
+    {
+        var photoFileDtos = formFileCollection.Select(file =>
+        {
+            using var memoryStream = new MemoryStream();
+            file.CopyTo(memoryStream);
+            return new PhotoFileDto
+            {
+                FileName = file.FileName,
+                Content = memoryStream.ToArray()
+            };
+        });
+        return photoFileDtos;
+    }
 
 }
