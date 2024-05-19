@@ -23,8 +23,8 @@ public class PropertyCreateUpdateDto
     public bool Gym { get; set; }
     public bool Parking { get; set; }
     public bool SwimmingPool { get; set; }
-    public string Description { get; set; }
-    public string AvailableDays { get; set; }
+    public string? Description { get; set; }
+    public string AvailableDays { get; set; } = null!;
     public TimeSpan AvailableStartTime { get; set; }
     public TimeSpan AvailableEndTime { get; set; }
 }

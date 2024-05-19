@@ -1,10 +1,13 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Entities;
 
 public partial class City
 {
     public int Id { get; set; }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public double Latitude { get; set; }
 
@@ -20,7 +23,7 @@ public partial class City
 
     public virtual ICollection<CitiesAreaManager> CitiesAreaManagers { get; set; } = new List<CitiesAreaManager>();
 
-    public virtual Country Country { get; set; }
+    public virtual Country Country { get; set; } = null!;
 
     public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
 }

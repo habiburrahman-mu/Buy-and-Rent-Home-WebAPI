@@ -28,7 +28,10 @@ public class AutoMapperProfile : Profile
             .ForMember(d => d.PropertyType, opt => opt.MapFrom(src => src.PropertyType.Name))
             .ForMember(d => d.FurnishingType, opt => opt.MapFrom(src => src.FurnishingType.Name));
 
-        CreateMap<PropertyCreateUpdateDto, Property>().ReverseMap();
+        CreateMap<PropertyCreateUpdateDto, Property>()
+            .ForMember(d => d.AvailableStartTime, opt => opt.MapFrom(src => TimeOnly.FromTimeSpan(src.AvailableStartTime)))
+            .ForMember(d => d.AvailableEndTime, opt => opt.MapFrom(src => TimeOnly.FromTimeSpan(src.AvailableEndTime)))
+            .ReverseMap();
 
         CreateMap<PropertyType, KeyValuePairDto>().ReverseMap();
         CreateMap<FurnishingType, KeyValuePairDto>().ReverseMap();

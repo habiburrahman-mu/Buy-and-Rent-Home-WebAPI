@@ -20,8 +20,8 @@ public class PropertyDetailDto : PropertyListDto
     public bool SwimmingPool { get; set; }
     public string Description { get; set; }
     public string AvailableDays { get; set; }
-    public TimeSpan AvailableStartTime { get; set; }
-    public TimeSpan AvailableEndTime { get; set; }
+    public TimeOnly AvailableStartTime { get; set; }
+    public TimeOnly AvailableEndTime { get; set; }
     public int PostedBy { get; set; }
     public ICollection<PhotoDto> Photos { get; set; }
 }

@@ -1,4 +1,7 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Entities;
 
 public partial class CitiesAreaManager
 {
@@ -12,9 +15,9 @@ public partial class CitiesAreaManager
 
     public DateTime? LastUpdatedOn { get; set; }
 
-    public virtual City City { get; set; }
+    public virtual City City { get; set; } = null!;
 
-    public virtual User LastUpdatedByNavigation { get; set; }
+    public virtual User LastUpdatedByNavigation { get; set; } = null!;
 
-    public virtual User Manager { get; set; }
+    public virtual User Manager { get; set; } = null!;
 }

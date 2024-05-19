@@ -1,10 +1,13 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Entities;
 
 public partial class Country
 {
     public int Id { get; set; }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public int? LastUpdatedBy { get; set; }
 
@@ -12,7 +15,7 @@ public partial class Country
 
     public virtual ICollection<City> Cities { get; set; } = new List<City>();
 
-    public virtual User LastUpdatedByNavigation { get; set; }
+    public virtual User? LastUpdatedByNavigation { get; set; }
 
     public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
 }

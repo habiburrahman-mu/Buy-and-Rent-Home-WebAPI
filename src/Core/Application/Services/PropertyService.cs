@@ -190,15 +190,15 @@ public class PropertyService : IPropertyService
     {
         var dayAvailabilityList = new List<DayAvailability>();
 
-        var tomorrow = DateTime.UtcNow.AddDays(1);
+        var tomorrow = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1));
         var endDate = tomorrow.AddDays(7);
 
         var takenTimeSlotList = await _unitOfWork.VisitingRequestRepository.GetAll(x => x.PropertyId == propertyId && x.Status != ((char)VisitingRequestStatus.NotApproved).ToString() && tomorrow <= x.DateOn && x.DateOn <= endDate);
 
         for (var currentDate = tomorrow; currentDate < endDate; currentDate = currentDate.AddDays(1))
         {
-            var existingSchedules = takenTimeSlotList.Where(x => x.DateOn.Date == currentDate.Date).ToList();
-            var takenStartTimeList = existingSchedules.Select(x => x.StartTime.TimeOfDay).ToList();
+            var existingSchedules = takenTimeSlotList.Where(x => x.DateOn == currentDate).ToList();
+            var takenStartTimeList = existingSchedules.Select(x => TimeOnly.FromDateTime(x.StartTime)).ToList();
 
             if (availableDays.Contains(currentDate.DayOfWeek.ToString()))
             {
@@ -216,7 +216,7 @@ public class PropertyService : IPropertyService
         return dayAvailabilityList;
     }
 
-    private static List<TimeSlot> CreateTimeSlotList(Property property, List<TimeSpan> takenStartTimeList)
+    private static List<TimeSlot> CreateTimeSlotList(Property property, List<TimeOnly> takenStartTimeList)
     {
         var timeSlotList = new List<TimeSlot>();
 

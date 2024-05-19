@@ -30,7 +30,7 @@ public class VisitingRequestService : IVisitingRequestService
         var visitingRequestDetailDto = mapper.Map<VisitingRequestDetailDto>(visitingRequest);
         visitingRequestDetailDto.StartTime = new DateTime(visitingRequestDetailDto.StartTime.Ticks);
         visitingRequestDetailDto.EndTime = new DateTime(visitingRequestDetailDto.EndTime.Ticks);
-        visitingRequestDetailDto.DateOn = new DateTime(visitingRequestDetailDto.DateOn.Ticks);
+        //visitingRequestDetailDto.DateOn = visitingRequestDetailDto.DateOn;
 
         return visitingRequestDetailDto;
     }

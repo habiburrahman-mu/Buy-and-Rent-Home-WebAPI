@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Contexts;
@@ -45,9 +47,7 @@ public partial class BuyRentHomeDbContext : DbContext
     {
         modelBuilder.Entity<ChatMessage>(entity =>
         {
-            entity.Property(e => e.Message)
-                .IsRequired()
-                .IsUnicode(false);
+            entity.Property(e => e.Message).IsUnicode(false);
 
             entity.HasOne(d => d.Receiver).WithMany(p => p.ChatMessageReceivers)
                 .HasForeignKey(d => d.ReceiverId)
@@ -87,9 +87,8 @@ public partial class BuyRentHomeDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.AreaInKm).HasColumnName("AreaInKM");
-            entity.Property(e => e.LastUpdatedBy).HasDefaultValueSql("((0))");
+            entity.Property(e => e.LastUpdatedBy).HasDefaultValue(0);
             entity.Property(e => e.LastUpdatedOn).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.Name).IsRequired();
 
             entity.HasOne(d => d.Country).WithMany(p => p.Cities)
                 .HasForeignKey(d => d.CountryId)
@@ -101,16 +100,10 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.HasIndex(e => e.LastUpdatedBy, "IX_Countries_LastUpdatedBy");
 
             entity.Property(e => e.LastUpdatedOn).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.Name).IsRequired();
 
             entity.HasOne(d => d.LastUpdatedByNavigation).WithMany(p => p.Countries)
                 .HasForeignKey(d => d.LastUpdatedBy)
                 .HasConstraintName("FK_Countries_Users");
-        });
-
-        modelBuilder.Entity<FurnishingType>(entity =>
-        {
-            entity.Property(e => e.Name).IsRequired();
         });
 
         modelBuilder.Entity<Photo>(entity =>
@@ -118,8 +111,6 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.HasIndex(e => e.LastUpdatedBy, "IX_Photos_LastUpdatedBy");
 
             entity.HasIndex(e => e.PropertyId, "IX_Photos_PropertyId");
-
-            entity.Property(e => e.ImageUrl).IsRequired();
 
             entity.HasOne(d => d.LastUpdatedByNavigation).WithMany(p => p.Photos)
                 .HasForeignKey(d => d.LastUpdatedBy)
@@ -141,11 +132,8 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.HasIndex(e => e.PropertyTypeId, "IX_Properties_PropertyTypeId");
 
             entity.Property(e => e.AvailableDays)
-                .IsRequired()
                 .HasMaxLength(60)
                 .IsUnicode(false);
-            entity.Property(e => e.Name).IsRequired();
-            entity.Property(e => e.StreetAddress).IsRequired();
 
             entity.HasOne(d => d.City).WithMany(p => p.Properties)
                 .HasForeignKey(d => d.CityId)
@@ -162,11 +150,6 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.HasOne(d => d.PropertyType).WithMany(p => p.Properties).HasForeignKey(d => d.PropertyTypeId);
         });
 
-        modelBuilder.Entity<PropertyType>(entity =>
-        {
-            entity.Property(e => e.Name).IsRequired();
-        });
-
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasIndex(e => e.CreatedBy, "IX_Roles_CreatedBy");
@@ -175,9 +158,7 @@ public partial class BuyRentHomeDbContext : DbContext
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(200);
-            entity.Property(e => e.Name)
-                .IsRequired()
-                .HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.RoleCreatedByNavigations)
@@ -193,16 +174,8 @@ public partial class BuyRentHomeDbContext : DbContext
         {
             entity.HasIndex(e => e.Username, "UK_Users_Username").IsUnique();
 
-            entity.Property(e => e.Email)
-                .IsRequired()
-                .HasMaxLength(255);
-            entity.Property(e => e.Mobile).IsRequired();
-            entity.Property(e => e.Name).IsRequired();
-            entity.Property(e => e.Password).IsRequired();
-            entity.Property(e => e.PasswordKey).IsRequired();
-            entity.Property(e => e.Username)
-                .IsRequired()
-                .HasMaxLength(255);
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.Username).HasMaxLength(255);
         });
 
         modelBuilder.Entity<UserPrivilege>(entity =>
@@ -223,10 +196,8 @@ public partial class BuyRentHomeDbContext : DbContext
         modelBuilder.Entity<VisitingRequest>(entity =>
         {
             entity.Property(e => e.ContactNumber)
-                .IsRequired()
                 .HasMaxLength(15)
                 .IsUnicode(false);
-            entity.Property(e => e.DateOn).HasColumnType("date");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.Notes)
                 .HasMaxLength(255)
@@ -235,10 +206,9 @@ public partial class BuyRentHomeDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("StartTIme");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .IsUnicode(false)
-                .HasDefaultValueSql("('N')")
+                .HasDefaultValue("N")
                 .IsFixedLength()
                 .HasComment("P: Pending; A: Approved; N: Not Approved");
 

@@ -1,20 +1,23 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Entities;
 
 public partial class User
 {
     public int Id { get; set; }
 
-    public string Username { get; set; }
+    public string Username { get; set; } = null!;
 
-    public byte[] Password { get; set; }
+    public byte[] Password { get; set; } = null!;
 
-    public byte[] PasswordKey { get; set; }
+    public byte[] PasswordKey { get; set; } = null!;
 
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    public string Mobile { get; set; }
+    public string Mobile { get; set; } = null!;
 
     public virtual ICollection<ChatMessage> ChatMessageReceivers { get; set; } = new List<ChatMessage>();
 

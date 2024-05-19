@@ -1,4 +1,7 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Entities;
 
 public partial class VisitingRequest
 {
@@ -8,22 +11,22 @@ public partial class VisitingRequest
 
     public int TakenBy { get; set; }
 
-    public DateTime DateOn { get; set; }
+    public DateOnly DateOn { get; set; }
 
     public DateTime StartTime { get; set; }
 
     public DateTime EndTime { get; set; }
 
-    public string ContactNumber { get; set; }
+    public string ContactNumber { get; set; } = null!;
 
     /// <summary>
     /// P: Pending; A: Approved; N: Not Approved
     /// </summary>
-    public string Status { get; set; }
+    public string Status { get; set; } = null!;
 
-    public string Notes { get; set; }
+    public string? Notes { get; set; }
 
-    public virtual Property Property { get; set; }
+    public virtual Property Property { get; set; } = null!;
 
-    public virtual User TakenByNavigation { get; set; }
+    public virtual User TakenByNavigation { get; set; } = null!;
 }

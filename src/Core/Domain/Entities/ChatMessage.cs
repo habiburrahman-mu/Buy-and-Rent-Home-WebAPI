@@ -1,4 +1,7 @@
-﻿namespace Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Entities;
 
 public partial class ChatMessage
 {
@@ -8,11 +11,11 @@ public partial class ChatMessage
 
     public int ReceiverId { get; set; }
 
-    public string Message { get; set; }
+    public string Message { get; set; } = null!;
 
     public DateTime Timestamp { get; set; }
 
-    public virtual User Receiver { get; set; }
+    public virtual User Receiver { get; set; } = null!;
 
-    public virtual User Sender { get; set; }
+    public virtual User Sender { get; set; } = null!;
 }
