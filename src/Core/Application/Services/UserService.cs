@@ -1,40 +1,23 @@
-﻿using BuyAndRentHomeWebAPI.Data.Interfaces;
-using Application.DTOs;
+﻿using Application.DTOs;
 using Application.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
-using BuyAndRentHomeWebAPI.Data.Entities;
-using System.Collections.Generic;
 using AutoMapper;
-using BuyAndRentHomeWebAPI.Specification.Constants;
-using BuyAndRentHomeWebAPI.Data;
-using System.Linq.Expressions;
-using System.Linq;
-using Domain.Interfaces.Data;
+using Common.Constants;
+using Domain.Common;
 using Domain.Entities;
-using Domain.Specification.Constants;
+using Domain.Interfaces.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IConfiguration _configuration;
         private readonly IMapper mapper;
 
-        public UserService(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._httpContextAccessor = httpContextAccessor;
             this._unitOfWork = unitOfWork;
-            this._configuration = configuration;
             this.mapper = mapper;
         }
 
@@ -56,7 +39,7 @@ namespace Application.Services
             return paginatedResult;
         }
 
-        public async Task<User> Authenticate(LoginRequestDto loginRequest)
+        public async Task<User?> GetUserDetail(LoginRequestDto loginRequest)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUserName(loginRequest.UserName);
             if (user == null || user.PasswordKey == null)
@@ -68,16 +51,7 @@ namespace Application.Services
             return user;
         }
 
-        public LoginResponseDto CreateLoginCredintials(User user)
-        {
-            var loginResponse = new LoginResponseDto();
-            loginResponse.Name = user.Name;
-            loginResponse.UserName = user.Username;
-            loginResponse.Token = createJWT(user);
-            return loginResponse;
-        }
-
-        public async Task<bool> UserAlreadyExists(string userName)
+        public async Task<bool> IsUserAlreadyExists(string userName)
         {
             return await _unitOfWork.UserRepository.UserAlreadyExists(userName);
         }
@@ -106,11 +80,8 @@ namespace Application.Services
 
             await _unitOfWork.UserPrivilegeRepository.Insert(userPrivilege);
 
-            //_unitOfWork.UserRepository.Register(register.UserName, register.Email, register.Password, register.Mobile);
             return await _unitOfWork.SaveAsync();
         }
-
-        
 
         private bool MatchPasswordHash(string passwordText, byte[] password, byte[] passwordKey)
         {
@@ -124,37 +95,6 @@ namespace Application.Services
                 }
                 return true;
             }
-        }
-
-        private string createJWT(User user)
-        {
-            var secretKey = _configuration.GetSection("AppSettings:Key").Value;
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
-
-            foreach (var userPrivilege in user.UserPrivileges)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, userPrivilege.Role.Name));
-            }
-
-            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(60),
-                //Expires = DateTime.UtcNow.AddSeconds(20),
-                SigningCredentials = signingCredentials
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
         }
     }
 }

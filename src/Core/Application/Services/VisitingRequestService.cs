@@ -5,6 +5,7 @@ using Domain.Interfaces.Data;
 using Application.DTOs;
 using AutoMapper;
 using Common.Constants;
+using Domain.Exceptions;
 
 namespace Application.Services;
 
@@ -12,15 +13,11 @@ public class VisitingRequestService : IVisitingRequestService
 {
     private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
-    private readonly ISharedService sharedService;
-    private HttpResponseMessage httpResponseMessage;
 
-    public VisitingRequestService(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
+    public VisitingRequestService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
-        this.sharedService = sharedService;
-        httpResponseMessage = new HttpResponseMessage();
     }
     public async Task<VisitingRequestDetailDto> CreateVisitingRequest(VisitingRequestCreateDto visitingRequestCreateDto, int currentUserId)
     {
@@ -83,14 +80,14 @@ public class VisitingRequestService : IVisitingRequestService
     private async Task ValidateVisitingRequest(int visitingRequestId, int ownerId, VisitingRequest? visitingRequest)
     {
         if (visitingRequest == null)
-            throw new BadHttpRequestException("Visiting request not found.");
+            throw new InvalidDomainRequestException("Visiting request not found.");
 
         if (!await unitOfWork.VisitingRequestRepository.IsUserPropertyOwnerOfVisitingRequest(visitingRequestId, ownerId))
         {
-            throw new BadHttpRequestException("Not authorized.");
+            throw new UnauthorizedAccessException("Not authorized.");
         }
 
         if (visitingRequest.Status == ((char)VisitingRequestStatus.Approved).ToString() || visitingRequest.Status == ((char)VisitingRequestStatus.NotApproved).ToString())
-            throw new BadHttpRequestException("Not allowed to change visiting request.");
+            throw new UnauthorizedAccessException("Not allowed to change visiting request.");
     }
 }

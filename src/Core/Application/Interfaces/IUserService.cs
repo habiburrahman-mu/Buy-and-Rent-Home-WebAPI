@@ -7,8 +7,7 @@ namespace Application.Interfaces;
 public interface IUserService
 {
     Task<PageResult<UserDto>> GetUserPaginatedList(PaginationParameter paginationParameter);
-    Task<User> Authenticate(LoginRequestDto loginRequest);
-    LoginResponseDto CreateLoginCredintials(User user);
-    Task<bool> UserAlreadyExists(string userName);
+    Task<User?> GetUserDetail(LoginRequestDto loginRequest);
+    Task<bool> IsUserAlreadyExists(string userName);
     Task<bool> Register(RegisterDto register);
 }

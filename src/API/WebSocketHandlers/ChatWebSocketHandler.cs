@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Presentation.Services;
+using System.Collections.Concurrent;
 using System.Net.WebSockets;
 
 namespace API.WebSocketHandlers;
@@ -15,16 +16,12 @@ public class ChatWebSocketHandler : IChatWebSocketHandler
 
     public async Task HandleWebSocketConnection(WebSocket webSocket, HttpContext context)
     {
-
-        //var currentUserIdString = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-        //Int32.TryParse(currentUserIdString, out int currentUserId);
-
         int currentUserId = 0;
 
         using (var scope = serviceProvider.CreateScope())
         {
-            var sharedService = scope.ServiceProvider.GetService<ISharedService>();
-            currentUserId = sharedService.GetUserId();
+            var userContextService = scope.ServiceProvider.GetRequiredService<IUserContextService>();
+            currentUserId = userContextService.GetUserId();
         }
 
         var socketListForCurrentUser = _connectedClients.GetOrAdd(currentUserId, new List<WebSocket>());

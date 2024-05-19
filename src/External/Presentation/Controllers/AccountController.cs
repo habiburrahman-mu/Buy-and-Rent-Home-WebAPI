@@ -3,16 +3,20 @@ using Application.DTOs;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Common.Extensions;
+using Domain.Entities;
+using Presentation.Services;
 
 namespace Presentation.Controllers;
 
 public class AccountController : BaseController
 {
     private readonly IUserService _userService;
+    private readonly ITokenService tokenService;
 
-    public AccountController(IUserService userService)
+    public AccountController(IUserService userService, ITokenService tokenService)
     {
         _userService = userService;
+        this.tokenService = tokenService;
     }
 
     //api/account/login
@@ -28,16 +32,16 @@ public class AccountController : BaseController
             return BadRequest(apiError);
         }
 
-        var user = await _userService.Authenticate(loginRequest);
+        var user = await _userService.GetUserDetail(loginRequest);
         if (user == null)
         {
             apiError.ErrorCode = Unauthorized().StatusCode;
             apiError.ErrorMessage = "Invalid User ID or Password";
-            apiError.ErrorDetails = "This error appears when provided user id or password doesnot exist.";
+            apiError.ErrorDetails = "This error appears when provided user id or password does not exist.";
             return Unauthorized(apiError);
         }
 
-        var loginResponse = _userService.CreateLoginCredintials(user);
+        var loginResponse = CreateLoginCredintials(user);
         return Ok(loginResponse);
     }
 
@@ -55,7 +59,7 @@ public class AccountController : BaseController
             return BadRequest(apiError);
         }
 
-        if (await _userService.UserAlreadyExists(register.UserName))
+        if (await _userService.IsUserAlreadyExists(register.UserName))
         {
             apiError.ErrorCode = BadRequest().StatusCode;
             apiError.ErrorMessage = "User name already exists, please try something else";
@@ -64,13 +68,23 @@ public class AccountController : BaseController
         }
 
         var isRegistered = await _userService.Register(register);
-        if (isRegistered)
-        {
-            return StatusCode(201);
-        }
-        else
-        {
-            return StatusCode(500);
-        }
+        return Ok(isRegistered);
+        //if (isRegistered)
+        //{
+        //    return StatusCode(201);
+        //}
+        //else
+        //{
+        //    return StatusCode(500);
+        //}
+    }
+
+    private LoginResponseDto CreateLoginCredintials(User user)
+    {
+        var loginResponse = new LoginResponseDto();
+        loginResponse.Name = user.Name;
+        loginResponse.UserName = user.Username;
+        loginResponse.Token = tokenService.CreateJWT(user);
+        return loginResponse;
     }
 }

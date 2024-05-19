@@ -1,4 +1,6 @@
-﻿using Presentation.Errors;
+﻿using Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Presentation.Errors;
 using System.Net;
 
 namespace API.Middlewares;
@@ -38,6 +40,11 @@ public class ExceptionMiddleware
                 message = "You are not authorized";
             }
             else if(exceptionType == typeof(BadHttpRequestException))
+            {
+                statusCode = HttpStatusCode.BadRequest;
+                message = ex.Message;
+            }
+            else if(exceptionType == typeof(InvalidDomainRequestException))
             {
                 statusCode = HttpStatusCode.BadRequest;
                 message = ex.Message;

@@ -8,6 +8,7 @@ namespace Presentation
     {
         public static IServiceCollection AddPresentationServices(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
+            serviceCollection.AddSingleton<TokenService, TokenService>();
             serviceCollection.AddScoped<IUserContextService, UserContextService>();
             return serviceCollection;
         }

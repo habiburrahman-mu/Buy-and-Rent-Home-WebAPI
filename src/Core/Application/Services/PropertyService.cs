@@ -1,9 +1,11 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
 using AutoMapper;
+using Common.Constants;
 using Domain.Common;
 using Domain.Entities;
 using Domain.Interfaces.Data;
+using Domain.Interfaces.Services;
 using System.Linq.Expressions;
 
 namespace Application.Services;
@@ -12,15 +14,15 @@ public class PropertyService : IPropertyService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ISharedService _sharedService;
     private readonly IPhotoService _photoService;
+    private readonly IFileService fileService;
 
-    public PropertyService(IMapper mapper, IUnitOfWork unitOfWork, ISharedService sharedService, IPhotoService photoService)
+    public PropertyService(IMapper mapper, IUnitOfWork unitOfWork, IPhotoService photoService, IFileService fileService)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;
-        _sharedService = sharedService;
         _photoService = photoService;
+        this.fileService = fileService;
     }
 
     public async Task<List<PropertyListDto>> GetPropertyList(int sellRent)
@@ -169,7 +171,7 @@ public class PropertyService : IPropertyService
         {
             foreach (var photo in photoList)
             {
-                _photoService.DeleteFileFromPath(photo.ImageUrl);
+                fileService.DeleteFile(photo.ImageUrl); //TODO
             }
         }
         return result;
