@@ -84,7 +84,7 @@ public class PhotoService : IPhotoService
                 result = await _unitOfWork.SaveAsync();
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             result = false;
 
@@ -92,6 +92,8 @@ public class PhotoService : IPhotoService
             {
                 fileService.DeleteFile(item);
             }
+
+            throw;
         }
 
         return result;

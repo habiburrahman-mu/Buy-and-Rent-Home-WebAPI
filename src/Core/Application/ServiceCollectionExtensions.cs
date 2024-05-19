@@ -24,6 +24,10 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddScoped<IUserPrivilegeService, UserPrivilegeService>();
         serviceCollection.AddScoped<ICitiesAreaManagerService, CitiesAreaManagerService>();
         serviceCollection.AddScoped<IVisitingRequestService, VisitingRequestService>();
+        serviceCollection.AddScoped<ICityService, CityService>();
+        serviceCollection.AddScoped<ICountryService, CountryService>();
+        serviceCollection.AddScoped<IFurnishingTypeService, FurnishingTypeService>();
+        serviceCollection.AddScoped<IPropertyTypeService, PropertyTypeService>();
 
         return serviceCollection;
     }
