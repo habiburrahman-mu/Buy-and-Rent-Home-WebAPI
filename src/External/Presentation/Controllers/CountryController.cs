@@ -1,31 +1,18 @@
-﻿//using AutoMapper;
-//using Application.DTOs;
-//using BuyAndRentHomeWebAPI.Data.Interfaces;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using System.Collections.Generic;
-//using System.Threading.Tasks;
+﻿using Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace Presentation.Controllers
-//{
-//    public class CountryController : BaseController
-//    {
-//        private readonly IUnitOfWork unitOfWork;
-//        private readonly IMapper mapper;
+namespace Presentation.Controllers
+{
+    public class CountryController(ICountryService countryService) : BaseController
+    {
+        private readonly ICountryService countryService = countryService;
 
-//        public CountryController(IUnitOfWork unitOfWork, IMapper mapper)
-//        {
-//            this.unitOfWork = unitOfWork;
-//            this.mapper = mapper;
-//        }
-
-//        [HttpGet("list")]
-//        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
-//        public async Task<IActionResult> GetCountries()
-//        {
-//            var countryList = await unitOfWork.CountryRepository.GetCountriesAsync();
-//            var countryDtoList = mapper.Map<IEnumerable<CountryDto>>(countryList);
-//            return Ok(countryDtoList);
-//        }
-//    }
-//}
+        [HttpGet("list")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
+        public async Task<IActionResult> GetCountryList()
+        {
+            var countryList = await countryService.GetCountryList();
+            return Ok(countryList);
+        }
+    }
+}
