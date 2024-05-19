@@ -23,6 +23,8 @@ builder.Services.AddCors();
 builder.Services.AddSingleton<IChatWebSocketHandler, ChatWebSocketHandler>();
 
 var secretKey = builder.Configuration.GetSection("AppSettings:Key").Value;
+if (secretKey is null)
+    throw new ArgumentNullException("Secret key not found.");
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -74,9 +76,12 @@ string fileDirectory = "../Upload\\files";
 
 app.ConfigureExceptionHandler(app.Environment);
 
+string providerPath = Path.Combine(Directory.GetCurrentDirectory(), fileDirectory);
+Directory.CreateDirectory(providerPath); // if exists it will ignore
+
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), fileDirectory)),
+    FileProvider = new PhysicalFileProvider(providerPath),
     RequestPath = "/StaticFiles"
 });
 
@@ -103,7 +108,7 @@ app.UseWebSocketMiddleware();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
+    _ = endpoints.MapControllers();
 });
 
 app.Run();
