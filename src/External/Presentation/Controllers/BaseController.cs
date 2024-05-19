@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
 
@@ -6,5 +7,8 @@ namespace Presentation.Controllers;
 [ApiController]
 public class BaseController : ControllerBase
 {
-
+    public BaseController(IHttpContextAccessor httpContextAccessor)
+    {
+        
+    }
 }

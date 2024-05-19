@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Presentation.Services;
 
 namespace Presentation
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddPresentationServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddPresentationServices(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            
-
-            return services;
+            serviceCollection.AddScoped<IUserContextService, UserContextService>();
+            return serviceCollection;
         }
     }
 }

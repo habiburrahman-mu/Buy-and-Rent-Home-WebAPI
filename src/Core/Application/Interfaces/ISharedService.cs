@@ -2,5 +2,5 @@
 
 public interface ISharedService
 {
-    int GetUserId();
+
 }
