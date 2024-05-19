@@ -10,10 +10,10 @@ public class CountryService(IUnitOfWork unitOfWork, IMapper mapper) : ICountrySe
     private readonly IUnitOfWork unitOfWork = unitOfWork;
     private readonly IMapper mapper = mapper;
 
-    public async Task<List<CountryDto>> GetCountryList()
+    public async Task<IEnumerable<CountryDto>> GetCountryList()
     {
         var countryList = await unitOfWork.CountryRepository.GetCountriesAsync();
-        var countryDtoList = mapper.Map<List<CountryDto>>(countryList);
+        var countryDtoList = mapper.Map<IEnumerable<CountryDto>>(countryList);
         return countryDtoList;
     }
 }

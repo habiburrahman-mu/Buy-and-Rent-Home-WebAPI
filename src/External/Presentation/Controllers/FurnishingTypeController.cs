@@ -1,30 +1,17 @@
-﻿//using AutoMapper;
-//using Application.DTOs;
-//using BuyAndRentHomeWebAPI.Data.Interfaces;
-//using Microsoft.AspNetCore.Mvc;
-//using System.Collections.Generic;
-//using System.Threading.Tasks;
+﻿using Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace Presentation.Controllers
-//{
-//    public class FurnishingTypeController : BaseController
-//    {
-//        private readonly IUnitOfWork _unitOfWork;
-//        private readonly IMapper _mapper;
+namespace Presentation.Controllers;
 
-//        public FurnishingTypeController(IUnitOfWork unitOfWork, IMapper mapper)
-//        {
-//            _unitOfWork = unitOfWork;
-//            _mapper = mapper;
-//        }
+public class FurnishingTypeController(IFurnishingTypeService furnishingTypeService) : BaseController
+{
+    private readonly IFurnishingTypeService furnishingTypeService = furnishingTypeService;
 
-//        [HttpGet("list")]
-//        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client)]
-//        public async Task<IActionResult> GetFurnishingType()
-//        {
-//            var furnishiningType = await _unitOfWork.FurnishingTypeRepository.GetFurnishingTypesAsync();
-//            var furnishiningTypeDto = _mapper.Map<IEnumerable<KeyValuePairDto>>(furnishiningType);
-//            return Ok(furnishiningTypeDto);
-//        }
-//    }
-//}
+    [HttpGet("list")]
+    [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client)]
+    public async Task<IActionResult> GetFurnishingTypeList()
+    {
+        var furnishiningType = await furnishingTypeService.GetFurnishingTypeList();
+        return Ok(furnishiningType);
+    }
+}

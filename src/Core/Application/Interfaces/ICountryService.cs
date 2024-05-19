@@ -4,5 +4,5 @@ namespace Application.Interfaces;
 
 public interface ICountryService
 {
-    Task<List<CountryDto>> GetCountryList();
+    Task<IEnumerable<CountryDto>> GetCountryList();
 }
