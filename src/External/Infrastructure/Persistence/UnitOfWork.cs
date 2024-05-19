@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Persistence.Repositories;
-using Domain.Interfaces;
+using Domain.Interfaces.Data;
 using Infrastructure.Persistence.Contexts;
 
 namespace Infrastructure.Persistence;

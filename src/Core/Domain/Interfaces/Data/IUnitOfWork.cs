@@ -1,4 +1,4 @@
-﻿namespace Domain.Interfaces;
+﻿namespace Domain.Interfaces.Data;
 
 public interface IUnitOfWork : IDisposable
 {

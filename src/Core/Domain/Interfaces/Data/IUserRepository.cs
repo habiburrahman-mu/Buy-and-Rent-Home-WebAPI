@@ -2,7 +2,7 @@
 using Domain.Entities;
 using System.Linq.Expressions;
 
-namespace Domain.Interfaces;
+namespace Domain.Interfaces.Data;
 
 public interface IUserRepository : IGenericRepository<User>
 {

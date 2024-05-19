@@ -2,7 +2,8 @@
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Interfaces.Data;
+using Common.Extensions;
 
 namespace Application.Services;
 
@@ -11,8 +12,6 @@ public class PhotoService : IPhotoService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ISharedService _sharedService;
-
-    private string fileUploadDirectory = "../Upload\\files";
 
     public PhotoService(IUnitOfWork unitOfWork, IMapper mapper, ISharedService sharedService)
     {

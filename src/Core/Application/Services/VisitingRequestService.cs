@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
-using Domain.ProjectionModels;
+using Domain.Models;
 using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Interfaces.Data;
 using Application.DTOs;
 using AutoMapper;
 using Common.Constants;

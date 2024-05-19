@@ -1,7 +1,7 @@
 ﻿using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
-using Domain.ProjectionModels;
+using Domain.Models;
 
 namespace Application.MappingProfiles;
 

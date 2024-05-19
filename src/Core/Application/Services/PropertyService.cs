@@ -3,7 +3,7 @@ using Application.Interfaces;
 using AutoMapper;
 using Domain.Common;
 using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Interfaces.Data;
 using System.Linq.Expressions;
 
 namespace Application.Services;

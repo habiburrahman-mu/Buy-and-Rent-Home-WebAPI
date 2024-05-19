@@ -1,4 +1,4 @@
-﻿namespace Domain.ProjectionModels;
+﻿namespace Domain.Models;
 
 public class VisitingRequestWithPropertyDetailDto : VisitingRequestDetailDto
 {

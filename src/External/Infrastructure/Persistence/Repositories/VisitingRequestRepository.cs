@@ -1,8 +1,8 @@
 ﻿// Ignore Spelling: Buyand Repo
 
 using Domain.Entities;
-using Domain.Interfaces;
-using Domain.ProjectionModels;
+using Domain.Interfaces.Data;
+using Domain.Models;
 using Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 

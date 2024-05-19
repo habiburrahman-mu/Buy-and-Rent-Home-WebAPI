@@ -1,5 +1,5 @@
 ﻿using Application.DTOs;
-using Domain.ProjectionModels;
+using Domain.Models;
 
 namespace Application.Interfaces;
 

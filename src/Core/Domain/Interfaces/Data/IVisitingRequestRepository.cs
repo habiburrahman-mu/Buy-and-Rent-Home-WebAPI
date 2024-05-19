@@ -1,7 +1,7 @@
-﻿using Domain.ProjectionModels;
+﻿using Domain.Models;
 using Domain.Entities;
 
-namespace Domain.Interfaces
+namespace Domain.Interfaces.Data
 {
     public interface IVisitingRequestRepository : IGenericRepository<VisitingRequest>
     {

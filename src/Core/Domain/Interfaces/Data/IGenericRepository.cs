@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using System.Linq.Expressions;
 
-namespace Domain.Interfaces;
+namespace Domain.Interfaces.Data;
 
 public interface IGenericRepository<T> where T : class
 {
