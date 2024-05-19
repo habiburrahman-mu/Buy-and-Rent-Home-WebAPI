@@ -2,23 +2,26 @@
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Services;
 
 namespace Presentation.Controllers;
 
 public class VisitingRequestController : BaseController
 {
     private readonly IVisitingRequestService visitingRequestService;
+    private readonly IUserContextService userContextService;
 
-    public VisitingRequestController(IVisitingRequestService visitingRequestService)
+    public VisitingRequestController(IVisitingRequestService visitingRequestService, IUserContextService userContextService)
     {
         this.visitingRequestService = visitingRequestService;
+        this.userContextService = userContextService;
     }
 
     [Authorize(Roles = "User")]
     [HttpGet("GetVisitingRequestDetailForCurrentUser/{propertyId}")]
     public async Task<IActionResult> GetVisitingRequestDetailForCurrentUser(int propertyId)
     {
-        var result = await visitingRequestService.GetVisitingRequestDetailForCurrentUserByPropertyId(propertyId);
+        var result = await visitingRequestService.GetVisitingRequestDetailForCurrentUserByPropertyId(propertyId, userContextService.GetUserId());
         return Ok(result);
     }
 
@@ -26,7 +29,7 @@ public class VisitingRequestController : BaseController
     [HttpPost("Create")]
     public async Task<IActionResult> Create(VisitingRequestCreateDto visitingRequestCreateDto)
     {
-        var visitingRequest = await visitingRequestService.CreateVisitingRequest(visitingRequestCreateDto);
+        var visitingRequest = await visitingRequestService.CreateVisitingRequest(visitingRequestCreateDto, userContextService.GetUserId());
         return Ok(visitingRequest);
     }
 
@@ -34,7 +37,7 @@ public class VisitingRequestController : BaseController
     [HttpGet("GetVisitingRequestListForMyProperties")]
     public async Task<IActionResult> GetVisitingRequestListForMyProperties([FromQuery] string? status = null, [FromQuery] int? propertyId = null)
     {
-        var list = await visitingRequestService.GetVisitingRequestListForMyProperties(status, propertyId);
+        var list = await visitingRequestService.GetVisitingRequestListForMyProperties(userContextService.GetUserId(), status, propertyId);
         return Ok(list);
     }
 
@@ -42,7 +45,7 @@ public class VisitingRequestController : BaseController
     [HttpPut("ApproveVisitingRequest")]
     public async Task<IActionResult> ApproveVisitingRequest([FromBody] int visitingRequestId)
     {
-        var response = await visitingRequestService.ApproveVisitingRequest(visitingRequestId);
+        var response = await visitingRequestService.ApproveVisitingRequest(visitingRequestId, userContextService.GetUserId());
         return Ok(response);
     }
 
@@ -50,7 +53,7 @@ public class VisitingRequestController : BaseController
     [HttpPut("CancelVisitingRequest")]
     public async Task<IActionResult> CancelVisitingRequest([FromBody] CancelVisitingRequestDto cancelVisitingRequestDto)
     {
-        var response = await visitingRequestService.CancelVisitingRequest(cancelVisitingRequestDto);
+        var response = await visitingRequestService.CancelVisitingRequest(cancelVisitingRequestDto, userContextService.GetUserId());
         return Ok(response);
     }
 }

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Presentation.Services
 {
-    internal interface IUserContextService
+    public interface IUserContextService
     {
         int GetUserId();
     }
 
-    internal class UserContextService : IUserContextService
+    public class UserContextService : IUserContextService
     {
         private readonly IHttpContextAccessor httpContextAccessor;
 

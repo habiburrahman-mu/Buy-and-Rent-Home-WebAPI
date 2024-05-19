@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
+using Presentation.Services;
 
 namespace Presentation.Controllers;
 
@@ -7,11 +8,13 @@ public class PhotoController : BaseController
 {
     private readonly ISharedService _sharedService;
     private readonly IPhotoService _photoService;
+    private readonly IUserContextService userContextService;
 
-    public PhotoController(ISharedService sharedService, IPhotoService photoService)
+    public PhotoController(ISharedService sharedService, IPhotoService photoService, IUserContextService userContextService)
     {
         _sharedService = sharedService;
         _photoService = photoService;
+        this.userContextService = userContextService;
     }
 
     [HttpGet("Get/{propertyId}")]
@@ -32,7 +35,7 @@ public class PhotoController : BaseController
             Convert.ToInt32(Request.Form["PrimaryPhotoIdOrIndex"].FirstOrDefault());
         var deletedPhotosIdString = Request.Form["DeletedPhotosId"].FirstOrDefault();
 
-        var result = await _photoService.SavePhotos(propertyId, files, isPrimaryPhotoFromExistingImages, primaryPhotoIdOrIndex, deletedPhotosIdString);
+        var result = await _photoService.SavePhotos(propertyId, files, isPrimaryPhotoFromExistingImages, primaryPhotoIdOrIndex, deletedPhotosIdString, userContextService.GetUserId());
 
         
         return Ok(result);

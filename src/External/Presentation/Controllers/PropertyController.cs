@@ -3,16 +3,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using Presentation.Services;
 
 namespace Presentation.Controllers;
 
 public class PropertyController : BaseController
 {
     private readonly IPropertyService _propertyService;
+    private readonly IUserContextService userContextService;
 
-    public PropertyController(IPropertyService propertyService)
+    public PropertyController(IPropertyService propertyService, IUserContextService userContextService)
     {
         _propertyService = propertyService;
+        this.userContextService = userContextService;
     }
 
     // property/list/2
@@ -37,7 +40,7 @@ public class PropertyController : BaseController
     [Authorize]
     public async Task<IActionResult> GetMyProperty()
     {
-        var propertyListDto = await _propertyService.GetMyPropertyList();
+        var propertyListDto = await _propertyService.GetMyPropertyList(userContextService.GetUserId());
         return Ok(propertyListDto);
     }
     
@@ -45,7 +48,7 @@ public class PropertyController : BaseController
     [Authorize]
     public async Task<IActionResult> GetMyPropertyPaginatedList([FromQuery] PaginationParameter paginationParameter)
     {
-        var paginatedPropertyList = await _propertyService.GetMyPropertyPaginatedList(paginationParameter);
+        var paginatedPropertyList = await _propertyService.GetMyPropertyPaginatedList(paginationParameter, userContextService.GetUserId());
         return Ok(paginatedPropertyList);
     }
 
@@ -54,7 +57,7 @@ public class PropertyController : BaseController
     [Authorize]
     public async Task<IActionResult> AddNewProperty([FromBody] PropertyCreateUpdateDto propertyCreateUpdateDto)
     {
-        var propertyId = await _propertyService.AddNewProperty(propertyCreateUpdateDto);
+        var propertyId = await _propertyService.AddNewProperty(propertyCreateUpdateDto, userContextService.GetUserId());
         return Ok(propertyId);
     }
 

@@ -22,10 +22,10 @@ public class VisitingRequestService : IVisitingRequestService
         this.sharedService = sharedService;
         httpResponseMessage = new HttpResponseMessage();
     }
-    public async Task<VisitingRequestDetailDto> CreateVisitingRequest(VisitingRequestCreateDto visitingRequestCreateDto)
+    public async Task<VisitingRequestDetailDto> CreateVisitingRequest(VisitingRequestCreateDto visitingRequestCreateDto, int currentUserId)
     {
         var visitingRequest = mapper.Map<VisitingRequest>(visitingRequestCreateDto);
-        visitingRequest.TakenBy = sharedService.GetUserId();
+        visitingRequest.TakenBy = currentUserId;
         visitingRequest.Status = ((char)VisitingRequestStatus.Pending).ToString();
         await unitOfWork.VisitingRequestRepository.Insert(visitingRequest);
         await unitOfWork.SaveAsync();
@@ -38,24 +38,24 @@ public class VisitingRequestService : IVisitingRequestService
         return visitingRequestDetailDto;
     }
 
-    public async Task<VisitingRequestDetailDto> GetVisitingRequestDetailForCurrentUserByPropertyId(int propertyId)
+    public async Task<VisitingRequestDetailDto> GetVisitingRequestDetailForCurrentUserByPropertyId(int propertyId, int currentUserId)
     {
-        var currentUser = sharedService.GetUserId();
+        var currentUser = currentUserId;
         var result = await unitOfWork.VisitingRequestRepository.Get(x => x.TakenBy == currentUser && x.PropertyId == propertyId);
         var visitingRequestDetailDto = mapper.Map<VisitingRequestDetailDto>(result);
         return visitingRequestDetailDto;
     }
 
-    public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForMyProperties(string? status = null, int? propertyId = null)
+    public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForMyProperties(int currentUserId, string? status = null, int? propertyId = null)
     {
-        var ownerId = sharedService.GetUserId();
+        var ownerId = currentUserId;
         var visitingRequestList = await unitOfWork.VisitingRequestRepository.GetVisitingRequestListForOwner(ownerId, status, propertyId);
         return visitingRequestList;
     }
 
-    public async Task<bool> ApproveVisitingRequest(int visitingRequestId)
+    public async Task<bool> ApproveVisitingRequest(int visitingRequestId, int currentUserId)
     {
-        var ownerId = sharedService.GetUserId();
+        var ownerId = currentUserId;
         var visitingRequest = await unitOfWork.VisitingRequestRepository.Get(x => x.Id == visitingRequestId);
         await ValidateVisitingRequest(visitingRequestId, ownerId, visitingRequest);
 
@@ -66,9 +66,9 @@ public class VisitingRequestService : IVisitingRequestService
         return await unitOfWork.SaveAsync();
     }
 
-    public async Task<bool> CancelVisitingRequest(CancelVisitingRequestDto cancelVisitingRequestDto)
+    public async Task<bool> CancelVisitingRequest(CancelVisitingRequestDto cancelVisitingRequestDto, int currentUserId)
     {
-        var ownerId = sharedService.GetUserId();
+        var ownerId = currentUserId;
         var visitingRequest = await unitOfWork.VisitingRequestRepository.Get(x => x.Id == cancelVisitingRequestDto.VisitingRequestId);
         await ValidateVisitingRequest(cancelVisitingRequestDto.VisitingRequestId, ownerId, visitingRequest);
 

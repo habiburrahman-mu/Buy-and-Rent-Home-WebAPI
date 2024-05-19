@@ -7,7 +7,7 @@ namespace Presentation.Controllers;
 [ApiController]
 public class BaseController : ControllerBase
 {
-    public BaseController(IHttpContextAccessor httpContextAccessor)
+    public BaseController()
     {
         
     }

@@ -4,7 +4,6 @@ using AutoMapper;
 using Domain.Common;
 using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Specification.Constants;
 using System.Linq.Expressions;
 
 namespace Application.Services;
@@ -34,9 +33,8 @@ public class PropertyService : IPropertyService
         return propertyListDto;
     }
 
-    public async Task<List<PropertyListDto>> GetMyPropertyList()
+    public async Task<List<PropertyListDto>> GetMyPropertyList(int currentUserId)
     {
-        var myUserId = _sharedService.GetUserId();
 
         var includeList = new Expression<Func<Property, object>>[]
         {
@@ -48,7 +46,7 @@ public class PropertyService : IPropertyService
         };
 
         var properties = await _unitOfWork.PropertyRepository.GetAll(
-            expression: q => q.PostedBy == myUserId,
+            expression: q => q.PostedBy == currentUserId,
             orderBy: x => x.OrderByDescending(q => q.PostedOn),
             includes: includeList);
         var propertyListDto = _mapper.Map<List<PropertyListDto>>(properties);
@@ -96,10 +94,8 @@ public class PropertyService : IPropertyService
         return paginatedResult;
     }
 
-    public async Task<PageResult<PropertyListDto>> GetMyPropertyPaginatedList(PaginationParameter paginationParameter)
+    public async Task<PageResult<PropertyListDto>> GetMyPropertyPaginatedList(PaginationParameter paginationParameter, int currentUserId)
     {
-        var myUserId = _sharedService.GetUserId();
-
         var includeList = new Expression<Func<Property, object>>[]
         {
             x => x.PropertyType,
@@ -111,7 +107,7 @@ public class PropertyService : IPropertyService
 
         var paginatedPropertyResult = await _unitOfWork.PropertyRepository.GetPaginateList(
             paginationParameter.CurrentPageNo, paginationParameter.PageSize,
-            filter: q => q.PostedBy == myUserId,
+            filter: q => q.PostedBy == currentUserId,
             orderBy: x => x.OrderByDescending(q => q.PostedOn),
             includes: includeList
             );
@@ -137,7 +133,7 @@ public class PropertyService : IPropertyService
         return propertyDto;
     }
 
-    public async Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto)
+    public async Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto, int currentUserId)
     {
         var property = _mapper.Map<Property>(propertyCreateUpdateDto);
 
@@ -146,15 +142,15 @@ public class PropertyService : IPropertyService
             property = await _unitOfWork.PropertyRepository.Get(x => x.Id == propertyCreateUpdateDto.Id);
             _mapper.Map(propertyCreateUpdateDto, property);
             property.LastUpdatedOn = DateTime.UtcNow;
-            property.LastUpdatedBy = _sharedService.GetUserId();
+            property.LastUpdatedBy = currentUserId;
             _unitOfWork.PropertyRepository.Update(property);
         }
         else
         {
             property.PostedOn = DateTime.UtcNow;
-            property.PostedBy = _sharedService.GetUserId();
+            property.PostedBy = currentUserId;
             property.LastUpdatedOn = DateTime.UtcNow;
-            property.LastUpdatedBy = _sharedService.GetUserId();
+            property.LastUpdatedBy = currentUserId;
 
             await _unitOfWork.PropertyRepository.Insert(property);
         }

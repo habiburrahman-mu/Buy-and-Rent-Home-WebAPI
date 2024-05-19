@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForOwner(int ownerId, string status = null, int? propertyId = null)
+        public async Task<List<VisitingRequestWithPropertyDetailDto>> GetVisitingRequestListForOwner(int ownerId, string? status = null, int? propertyId = null)
         {
             var query = dbContext.VisitingRequests
                 .Include(x => x.Property)

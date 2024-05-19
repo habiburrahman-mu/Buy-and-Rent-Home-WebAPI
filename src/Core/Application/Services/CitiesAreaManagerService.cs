@@ -17,7 +17,7 @@ public class CitiesAreaManagerService : ICitiesAreaManagerService
         this.sharedService = sharedService;
     }
 
-    public async Task<bool> SaveCitiesAreaManager(CitiesAreaManagerDto citiesAreaManagerDto)
+    public async Task<bool> SaveCitiesAreaManager(CitiesAreaManagerDto citiesAreaManagerDto, int currentUserId)
     {
         var userRole = await unitOfWork.UserPrivilegeRepository.GetAll(expression: x => x.UserId == citiesAreaManagerDto.ManagerId, includes: x => x.Role);
 
@@ -46,7 +46,7 @@ public class CitiesAreaManagerService : ICitiesAreaManagerService
                 {
                     ManagerId = citiesAreaManagerDto.ManagerId,
                     CityId = city.Id,
-                    LastUpdatedBy = sharedService.GetUserId(),
+                    LastUpdatedBy = currentUserId,
                     LastUpdatedOn = DateTime.UtcNow
                 };
                 createList.Add(citiesAreaManagerNewEntity);

@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Interfaces;
 
 namespace Application.Services;
@@ -29,7 +30,7 @@ public class PhotoService : IPhotoService
     }
 
     public async Task<bool> SavePhotos(int propertyId, IFormFileCollection files, bool isPrimaryPhotoFromExistingImages, int primaryPhotoIdOrIndex,
-        string deletedPhotosIdString)
+        string deletedPhotosIdString, int currentUserId)
     {
         bool result = false;
         var listOfsavedFile = new List<string>();
@@ -69,7 +70,7 @@ public class PhotoService : IPhotoService
                         IsPrimary = !isPrimaryPhotoFromExistingImages && primaryPhotoIdOrIndex == item.index,
                         PropertyId = propertyId,
                         LastUpdatedOn = DateTime.UtcNow,
-                        LastUpdatedBy = _sharedService.GetUserId()
+                        LastUpdatedBy = currentUserId
                     };
 
                     photos.Add(photo);

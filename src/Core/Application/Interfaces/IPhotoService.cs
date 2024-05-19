@@ -6,6 +6,6 @@ public interface IPhotoService
 {
     Task<IEnumerable<PhotoDto>> GetPhotoListByPropertyId(int propertyId);
     Task<bool> SavePhotos(int propertyId, IFormFileCollection files, bool isPrimaryPhotoFromExistingImages, int primaryPhotoIdOrIndex,
-        string deletedPhotosIdString);
+        string deletedPhotosIdString, int currentUserId);
     void DeleteFileFromPath(String fileName);
 }
