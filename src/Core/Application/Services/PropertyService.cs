@@ -171,7 +171,7 @@ public class PropertyService : IPropertyService
         {
             foreach (var photo in photoList)
             {
-                fileService.DeleteFile(photo.ImageUrl); //TODO
+                fileService.DeleteFile(photo.ImageUrl);
             }
         }
         return result;
