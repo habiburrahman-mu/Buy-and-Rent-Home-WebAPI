@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /Upload/
 /Properties/PublishProfiles/FolderProfile.pubxml
+
+# Updload Folder
+src/Upload
