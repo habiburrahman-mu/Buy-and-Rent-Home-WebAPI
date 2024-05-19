@@ -41,6 +41,7 @@ public class AutoMapperProfile : Profile
         CreateMap<User, UserDto>().ReverseMap();
         CreateMap<UserPrivilege, UserPrivilegeDto>()
             .ForMember(d => d.RoleName, opt => opt.MapFrom(src => src.Role.Name));
+        CreateMap<UserPrivilegeDto, UserPrivilege>();
         CreateMap<VisitingRequestCreateDto, VisitingRequest>();
         CreateMap<VisitingRequest, VisitingRequestDetailDto>();
     }
