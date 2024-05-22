@@ -24,6 +24,10 @@ public partial class VisitingRequest
     /// </summary>
     public string Status { get; set; } = null!;
 
+    public bool IsBlocked { get; set; }
+
+    public bool IsActive { get; set; }
+
     public string? Notes { get; set; }
 
     public virtual Property Property { get; set; } = null!;
