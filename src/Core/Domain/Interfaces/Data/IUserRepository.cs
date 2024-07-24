@@ -8,7 +8,7 @@ public interface IUserRepository : IGenericRepository<User>
 {
     Task<PageResult<User>> GetUserPaginateList(
         int pageNo = 1, int pageSize = 10,
-        Expression<Func<User, bool>> filter = null,
+        Expression<Func<User, bool>>? filter = null,
         Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null
         );
     Task<User> GetUserByUserName(string userName);

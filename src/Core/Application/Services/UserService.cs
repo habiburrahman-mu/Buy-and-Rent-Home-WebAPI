@@ -5,6 +5,7 @@ using Common.Constants;
 using Domain.Common;
 using Domain.Entities;
 using Domain.Interfaces.Data;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -23,8 +24,15 @@ namespace Application.Services
 
         public async Task<PageResult<UserDto>> GetUserPaginatedList(PaginationParameter paginationParameter)
         {
+            Expression<Func<User, bool>>? filter = null;
+
+            if(!String.IsNullOrEmpty(paginationParameter.SearchingText))
+            {
+                filter = u => u.Username.ToLower().Contains(paginationParameter.SearchingText.ToLower());
+            }
+
             var paginatedList = await _unitOfWork.UserRepository.GetUserPaginateList(
-                paginationParameter.CurrentPageNo, paginationParameter.PageSize);
+                paginationParameter.CurrentPageNo, paginationParameter.PageSize, filter);
 
             var userList = mapper.Map<List<UserDto>>(paginatedList.ResultList);
 
