@@ -164,16 +164,15 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         {
             _tableRef.Remove(entity);
         }
-
-        await Task.FromResult(0);
     }
 
-    public async void DeleteRange(IEnumerable<T> entities)
+    public async Task DeleteRange(IEnumerable<T> entities)
     {
         if(entities != null && entities.Any())
         {
             _tableRef.RemoveRange(entities);
         }
-        await Task.FromResult(0);
+
+        await Task.CompletedTask;
     }
 }

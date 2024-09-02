@@ -23,5 +23,5 @@ public interface IGenericRepository<T> where T : class
     void Update(T entity);
     void UpdateRange(IEnumerable<T> entities);
     Task Delete(int id);
-    void DeleteRange(IEnumerable<T> entities);
+    Task DeleteRange(IEnumerable<T> entities);
 }

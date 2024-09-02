@@ -170,17 +170,33 @@ public class PropertyService : IPropertyService
 
     public async Task<bool> DeleteProperty(int id)
     {
-        var photoList = await _unitOfWork.PhotoRepository.GetAll(x => x.PropertyId == id);
-        await _unitOfWork.PropertyRepository.Delete(id);
-        var result = await _unitOfWork.SaveAsync();
-        if (result && photoList != null && photoList.Any())
+        var property = await _unitOfWork.PropertyRepository.Get(x => x.Id == id);
+        if (property != null)
         {
-            foreach (var photo in photoList)
+            if (property.Status == ((char)PropertyStatus.Draft).ToString())
             {
-                fileService.DeleteFile(photo.ImageUrl);
+                var photoList = await _unitOfWork.PhotoRepository.GetAll(x => x.PropertyId == id);
+                await _unitOfWork.PropertyRepository.Delete(id);
+                var result = await _unitOfWork.SaveAsync();
+                if (result && photoList != null && photoList.Any())
+                {
+                    foreach (var photo in photoList)
+                    {
+                        fileService.DeleteFile(photo.ImageUrl);
+                    }
+                }
+                return result;
+            }
+            else
+            {
+                property.IsDeleted = true;
+                _unitOfWork.PropertyRepository.Update(property);
+                var result = await _unitOfWork.SaveAsync();
+                return result;
             }
         }
-        return result;
+
+        return false;
     }
 
     public async Task<List<DayAvailability>> GetAvailableSlotsForNext7Days(int propertyId)
