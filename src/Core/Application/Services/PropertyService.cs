@@ -48,7 +48,7 @@ public class PropertyService : IPropertyService
         };
 
         var properties = await _unitOfWork.PropertyRepository.GetAll(
-            expression: q => q.PostedBy == currentUserId,
+            expression: q => q.PostedBy == currentUserId && q.IsDeleted == false,
             orderBy: x => x.OrderByDescending(q => q.PostedOn),
             includes: includeList);
         var propertyListDto = _mapper.Map<List<PropertyListDto>>(properties);
