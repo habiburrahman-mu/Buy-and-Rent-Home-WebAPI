@@ -63,6 +63,14 @@ public partial class Property
 
     public int LastUpdatedBy { get; set; }
 
+    /// <summary>
+    /// A: Active,
+    /// D: Draft
+    /// </summary>
+    public string Status { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
+
     public virtual City City { get; set; } = null!;
 
     public virtual Country Country { get; set; } = null!;

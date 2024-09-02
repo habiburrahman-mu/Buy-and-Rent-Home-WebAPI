@@ -45,6 +45,8 @@ public partial class BuyRentHomeDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
         modelBuilder.Entity<ChatMessage>(entity =>
         {
             entity.Property(e => e.Message).IsUnicode(false);
@@ -134,6 +136,11 @@ public partial class BuyRentHomeDbContext : DbContext
             entity.Property(e => e.AvailableDays)
                 .HasMaxLength(60)
                 .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasComment("A: Active,\r\nD: Draft");
 
             entity.HasOne(d => d.City).WithMany(p => p.Properties)
                 .HasForeignKey(d => d.CityId)

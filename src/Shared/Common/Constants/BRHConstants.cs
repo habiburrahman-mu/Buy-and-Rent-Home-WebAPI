@@ -14,3 +14,9 @@ public enum VisitingRequestStatus
     Approved = 'A',
     NotApproved = 'N'
 }
+
+public enum PropertyStatus
+{
+    Active = 'A',
+    Draft = 'D'
+}
