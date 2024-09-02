@@ -140,7 +140,7 @@ public class PropertyService : IPropertyService
         return propertyDto;
     }
 
-    public async Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto, int currentUserId)
+    public async Task<int> SaveProperty(PropertyCreateUpdateDto propertyCreateUpdateDto, int currentUserId)
     {
         var property = _mapper.Map<Property>(propertyCreateUpdateDto);
 
@@ -158,6 +158,7 @@ public class PropertyService : IPropertyService
             property.PostedBy = currentUserId;
             property.LastUpdatedOn = DateTime.UtcNow;
             property.LastUpdatedBy = currentUserId;
+            property.Status = ((char)PropertyStatus.Draft).ToString();
 
             await _unitOfWork.PropertyRepository.Insert(property);
         }

@@ -54,11 +54,11 @@ public class PropertyController : BaseController
     }
 
     // property/addNew
-    [HttpPost("addNew")]
+    [HttpPost("save")]
     [Authorize]
-    public async Task<IActionResult> AddNewProperty([FromBody] PropertyCreateUpdateDto propertyCreateUpdateDto)
+    public async Task<IActionResult> SaveProperty([FromBody] PropertyCreateUpdateDto propertyCreateUpdateDto)
     {
-        var propertyId = await _propertyService.AddNewProperty(propertyCreateUpdateDto, userContextService.GetUserId());
+        var propertyId = await _propertyService.SaveProperty(propertyCreateUpdateDto, userContextService.GetUserId());
         return Ok(propertyId);
     }
 
