@@ -208,8 +208,10 @@ public class PropertyService : IPropertyService
         return dayAvailabilityList;
     }
 
-    public async Task<bool> UpdatePropertyStatus(int propertyId, string status) =>
-        await _unitOfWork.PropertyRepository.ChangePropertyStatus(propertyId, status);
+    public async Task<bool> UpdatePropertyStatus(int propertyId, string status)
+    {
+        return await _unitOfWork.PropertyRepository.ChangePropertyStatus(propertyId, status);
+    }
 
     private async Task<List<DayAvailability>> CreateDayAvailabilityList(int propertyId, Property property, List<string> availableDays)
     {
