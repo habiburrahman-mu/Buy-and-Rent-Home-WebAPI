@@ -24,4 +24,11 @@ public class PropertyRepository : GenericRepository<Property>, IPropertyReposito
             .FirstAsync();
         return propertyDetail;
     }
-}
+
+    public async Task<bool> ChangePropertyStatus(int id, string status)
+    {
+        return await _dataContext.Properties
+            .Where(x => x.Id == id)
+            .ExecuteUpdateAsync(p => p.SetProperty(cols => cols.Status, status)) > 0;
+    }
+} 

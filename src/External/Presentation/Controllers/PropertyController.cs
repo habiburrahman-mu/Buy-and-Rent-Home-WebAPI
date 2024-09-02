@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Presentation.Services;
+using Presentation.ViewModels;
 
 namespace Presentation.Controllers;
 
@@ -43,7 +44,7 @@ public class PropertyController : BaseController
         var propertyListDto = await _propertyService.GetMyPropertyList(userContextService.GetUserId());
         return Ok(propertyListDto);
     }
-    
+
     [HttpGet("myPropertyPaginatedList")]
     [Authorize]
     public async Task<IActionResult> GetMyPropertyPaginatedList([FromQuery] PaginationParameter paginationParameter)
@@ -78,5 +79,10 @@ public class PropertyController : BaseController
         return Ok(result);
     }
 
-
+    [HttpPut("updatePropertyStatus")]
+    public async Task<IActionResult> UpdatePropertyStatus([FromBody] PropertyUpdateStatusDto propertyUpdateStatusDto)
+    {
+        var result = await _propertyService.UpdatePropertyStatus(propertyUpdateStatusDto.Id, propertyUpdateStatusDto.Status);
+        return Ok(true);
+    }
 }

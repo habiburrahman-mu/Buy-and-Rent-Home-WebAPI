@@ -13,4 +13,5 @@ public interface IPropertyService
     Task<int> AddNewProperty(PropertyCreateUpdateDto propertyCreateUpdateDto, int currentUserId);
     Task<bool> DeleteProperty(int id);
     Task<List<DayAvailability>> GetAvailableSlotsForNext7Days(int propertyId);
+    Task<bool> UpdatePropertyStatus(int propertyId, string status);
 }

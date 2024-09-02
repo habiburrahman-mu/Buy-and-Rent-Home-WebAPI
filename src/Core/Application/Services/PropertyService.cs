@@ -70,9 +70,9 @@ public class PropertyService : IPropertyService
 
         if (!String.IsNullOrEmpty(paginationParameter.SearchingText))
         {
-            filter = q => !q.IsDeleted 
-                        && q.Status == ((char)PropertyStatus.Active).ToString() 
-                        && q.SellRent == sellRent 
+            filter = q => !q.IsDeleted
+                        && q.Status == ((char)PropertyStatus.Active).ToString()
+                        && q.SellRent == sellRent
                         && q.Name.ToLower().Contains(paginationParameter.SearchingText.ToLower());
         }
         else
@@ -190,6 +190,9 @@ public class PropertyService : IPropertyService
 
         return dayAvailabilityList;
     }
+
+    public async Task<bool> UpdatePropertyStatus(int propertyId, string status) =>
+        await _unitOfWork.PropertyRepository.ChangePropertyStatus(propertyId, status);
 
     private async Task<List<DayAvailability>> CreateDayAvailabilityList(int propertyId, Property property, List<string> availableDays)
     {
