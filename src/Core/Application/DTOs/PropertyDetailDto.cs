@@ -23,5 +23,11 @@ public class PropertyDetailDto : PropertyListDto
     public TimeOnly AvailableStartTime { get; set; }
     public TimeOnly AvailableEndTime { get; set; }
     public int PostedBy { get; set; }
+    /// <summary>
+    /// A: Active,
+    /// D: Draft,
+    /// C: Complete
+    /// </summary>
+    public string Status { get; set; } = null!;
     public ICollection<PhotoDto> Photos { get; set; }
 }
