@@ -70,11 +70,16 @@ public class PropertyService : IPropertyService
 
         if (!String.IsNullOrEmpty(paginationParameter.SearchingText))
         {
-            filter = q => q.SellRent == sellRent && q.Name.ToLower().Contains(paginationParameter.SearchingText.ToLower());
+            filter = q => !q.IsDeleted 
+                        && q.Status == ((char)PropertyStatus.Active).ToString() 
+                        && q.SellRent == sellRent 
+                        && q.Name.ToLower().Contains(paginationParameter.SearchingText.ToLower());
         }
         else
         {
-            filter = q => q.SellRent == sellRent;
+            filter = q => !q.IsDeleted
+                        && q.Status == ((char)PropertyStatus.Active).ToString()
+                        && q.SellRent == sellRent;
         }
 
         var paginatedPropertyResult = await _unitOfWork.PropertyRepository.GetPaginateList(
@@ -109,7 +114,7 @@ public class PropertyService : IPropertyService
 
         var paginatedPropertyResult = await _unitOfWork.PropertyRepository.GetPaginateList(
             paginationParameter.CurrentPageNo, paginationParameter.PageSize,
-            filter: q => q.PostedBy == currentUserId,
+            filter: q => q.PostedBy == currentUserId && !q.IsDeleted,
             orderBy: x => x.OrderByDescending(q => q.PostedOn),
             includes: includeList
             );
@@ -129,7 +134,7 @@ public class PropertyService : IPropertyService
     public async Task<PropertyDetailDto> GetPropertyDetail(int id)
     {
         var property = await _unitOfWork.PropertyRepository.Get(
-            expression: x => x.Id == id,
+            expression: x => x.Id == id && !x.IsDeleted,
             includes: new List<string> { "PropertyType", "FurnishingType", "City", "Country", "Photos" });
         var propertyDto = _mapper.Map<PropertyDetailDto>(property);
         return propertyDto;

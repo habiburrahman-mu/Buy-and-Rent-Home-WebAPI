@@ -140,7 +140,7 @@ public partial class BuyRentHomeDbContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength()
-                .HasComment("A: Active,\r\nD: Draft");
+                .HasComment("A: Active,\r\nD: Draft,\r\nC: Complete");
 
             entity.HasOne(d => d.City).WithMany(p => p.Properties)
                 .HasForeignKey(d => d.CityId)

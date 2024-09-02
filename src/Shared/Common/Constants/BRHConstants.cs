@@ -18,5 +18,6 @@ public enum VisitingRequestStatus
 public enum PropertyStatus
 {
     Active = 'A',
-    Draft = 'D'
+    Draft = 'D',
+    Complete = 'C'
 }

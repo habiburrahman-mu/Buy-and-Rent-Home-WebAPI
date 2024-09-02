@@ -65,7 +65,8 @@ public partial class Property
 
     /// <summary>
     /// A: Active,
-    /// D: Draft
+    /// D: Draft,
+    /// C: Complete
     /// </summary>
     public string Status { get; set; } = null!;
 

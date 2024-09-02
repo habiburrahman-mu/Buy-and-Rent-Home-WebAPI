@@ -19,4 +19,10 @@ public class PropertyListDto
     public bool ReadyToMove { get; set; }
     public DateTime PostedOn { get; set; }
     public string PrimaryPhoto { get; set; }
+    /// <summary>
+    /// A: Active,
+    /// D: Draft,
+    /// C: Complete
+    /// </summary>
+    public string Status { get; set; } = null!;
 }
