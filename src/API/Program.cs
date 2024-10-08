@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Infrastructure.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ var presentationAssembly = typeof(Presentation.AssemblyReference).Assembly;
 builder.Services.AddControllers().AddApplicationPart(presentationAssembly).AddNewtonsoftJson();
 builder.Services.AddCors();
 
-builder.Services.AddSingleton<IChatWebSocketHandler, ChatWebSocketHandler>();
+//builder.Services.AddSingleton<IChatWebSocketHandler, ChatWebSocketHandler>();
 
 var secretKey = builder.Configuration.GetSection("AppSettings:Key").Value;
 if (secretKey is null)
@@ -36,6 +37,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false,
             IssuerSigningKey = key,
+        };
+
+        opt.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                // If the request is for our hub...
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/notifications")))
+                {
+                    // Read the token out of the query string
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
         };
     });
 
@@ -103,12 +121,14 @@ app.UseResponseCaching();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseWebSockets();
-app.UseWebSocketMiddleware();
+//app.UseWebSockets();
+//app.UseWebSocketMiddleware();
 
 app.UseEndpoints(endpoints =>
 {
     _ = endpoints.MapControllers();
 });
+
+app.MapHub<NotificationsHub>("notifications");
 
 app.Run();

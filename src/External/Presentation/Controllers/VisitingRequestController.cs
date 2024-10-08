@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
+using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Services;
@@ -10,11 +11,13 @@ public class VisitingRequestController : BaseController
 {
     private readonly IVisitingRequestService visitingRequestService;
     private readonly IUserContextService userContextService;
+    private readonly INotificationService notificationService;
 
-    public VisitingRequestController(IVisitingRequestService visitingRequestService, IUserContextService userContextService)
+    public VisitingRequestController(IVisitingRequestService visitingRequestService, IUserContextService userContextService, INotificationService notificationService)
     {
         this.visitingRequestService = visitingRequestService;
         this.userContextService = userContextService;
+        this.notificationService = notificationService;
     }
 
     [Authorize(Roles = "User")]
@@ -38,6 +41,8 @@ public class VisitingRequestController : BaseController
     public async Task<IActionResult> GetVisitingRequestListForMyProperties([FromQuery] string? status = null, [FromQuery] int? propertyId = null)
     {
         var list = await visitingRequestService.GetVisitingRequestListForMyProperties(userContextService.GetUserId(), status, propertyId);
+        await notificationService.SendNotificationToAll("Test message for all");
+        await notificationService.SendNotification(userContextService.GetUserId(), $"Message for only {userContextService.GetUserId()}");
         return Ok(list);
     }
 

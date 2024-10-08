@@ -2,7 +2,6 @@
 using Domain.Interfaces.Services;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Contexts;
-using Infrastructure.Persistence.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +33,8 @@ public static class ServiceCollectionExtensions
 
         serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
         serviceCollection.AddScoped<IFileService, FileService>();
+        serviceCollection.AddScoped<INotificationService, NotificationService>();
+        serviceCollection.AddSignalR();
 
         return serviceCollection;
     }
